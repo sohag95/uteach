@@ -1,0 +1,99 @@
+<div id="accordion">
+  <div class="card">
+    <div class="card-header" id="batchCreateForm">
+      <h5 class="mb-0">
+        <button class="btn btn-link bolderFont" data-toggle="collapse" data-target="#collapseBatchCreateForm" aria-expanded="true" aria-controls="collapseBatchCreateForm">Create New Batch</button>
+      </h5>
+    </div>
+
+    <div id="collapseBatchCreateForm" class="collapse" aria-labelledby="batchCreateForm" data-parent="#accordion">
+      <div class="card-body">
+        <form action="/createBatch" method="POST" id="createBatch-form">
+          <div class="form-group">
+            <label for="stream" class="text-muted mb-1"><small>Select Stream</small></label>
+            <select id="stream" class="form-control" name="stream" form="createBatch-form">
+              <option value="science">Science</option>
+              <option value="arts">Arts</option>
+              <option value="commerce">Commerce</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="session" class="text-muted mb-1"><small>Batch Session</small></label>
+            <input name="session" id="session" class="form-control" type="text" placeholder="Enter the session of the batch-> example : 2019-2020" required autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label for="subjects" class="text-muted mb-1"><small>Subject name</small></label>
+            <input name="subjects" id="subjects" class="form-control" type="text" placeholder="Write your teaching subject name" required autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label for="class" class="text-muted mb-1"><small>Select class</small></label>
+            <select id="class" class="form-control" name="class" form="createBatch-form">
+              <option value="class-1">Class 1</option>
+              <option value="class-2">Class 2</option>
+              <option value="class-3">Class 3</option>
+              <option value="class-4">Class 4</option>
+              <option value="class-5">Class 5</option>
+              <option value="class-6">Class 6</option>
+              <option value="class-7">Class 7</option>
+              <option value="class-8">Class 8</option>
+              <option value="class-9">Class 9</option>
+              <option value="class-10">Class 10</option>
+              <option value="class-11">Class 11</option>
+              <option value="class-12">Class 12</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="days" class="text-muted mb-1"><small>Days/Day </small></label>
+            <input name="days" id="days" class="form-control" type="text" placeholder="Enter selected day names for the batch." required autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label for="classTime" class="text-muted mb-1"><small>Class Time</small></label>
+            <input name="classTime" id="classTime" class="form-control" type="text" placeholder="Enter the class time: Example: 07:30am - 09:30am " required autocomplete="off" />
+          </div>
+
+          <div class="form-group">
+            <label for="studentsQuentity" class="text-muted mb-1"><small>Total sits</small></label>
+            <input name="studentsQuentity" id="studentsQuentity" class="form-control" type="number" placeholder="Total available sits for the batch." required autocomplete="off" />
+          </div>
+
+          
+          <h5><strong>Give proper address of the batch</strong></h5>
+          <div class="form-group">
+            <label for="district" class="text-muted mb-1"><small>Select Your District</small></label>
+            <select id="district" class="form-control" name="district" form="createBatch-form">
+              <option value="darjeeling">Darjeeling</option>
+              <option value="jalpaiguri">Jalpaiguri</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="policeStation" class="text-muted mb-1"><small>Select Police Station</small></label>
+            <select id="policeStation" class="form-control" name="policeStation" form="createBatch-form">
+              <option value="siliguri">Siliguri</option>
+              <option value="pradhan nagar">Pradhan Nagar</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="postOffice" class="text-muted mb-1"><small>Select Post Office</small></label>
+            <select id="postOffice" class="form-control" name="postOffice" form="createBatch-form">
+              <option value="champasari">Champasari</option>
+              <option value="siliguri">Siliguri</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="address-register" class="text-muted mb-1"><small>Near By Place</small></label>
+            <input name="address" id="address-register" required class="form-control" type="text" placeholder="Enter proper location address." autocomplete="off" />
+          </div>
+
+          <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Batch</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

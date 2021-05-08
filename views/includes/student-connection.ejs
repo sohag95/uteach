@@ -1,0 +1,113 @@
+<!-- <h2 class="text-center">Guardian Details</h2>
+<hr />
+<h5>All guardians (<%=connections.guardianData.guardians.length%>)</h5>
+<%if(!connections.guardianData.guardians.length){%>
+<span class="pt-2">
+  <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no guardian connection till now.</p>
+</span>
+<%}%> <%connections.guardianData.guardians.forEach((friend)=>{%>
+<span class="list-group-item list-group-item-action">
+  <a href="/profile/<%=friend.username%>">
+    <img class="avatar-tiny" src="/images/<%=friend.username%>.jpg" />
+    <strong class="text-uppercase"><%=friend.name%> </strong>
+  </a>
+</span>
+<%})%> <% if (isVisitorsProfile) { %>
+<h5>All guardian requests (<%=connections.guardianData.guardianRequests.length%>)</h5>
+<%if(!connections.guardianData.guardianRequests.length){%>
+<span class="pt-2">
+  <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no guardian request panding.</p>
+</span>
+<%}%> <%connections.guardianData.guardianRequests.forEach((friend)=>{%>
+<span class="list-group-item list-group-item-action">
+  <a href="/profile/<%=friend.username%>">
+    <img class="avatar-tiny" src="/images/<%=friend.username%>.jpg" />
+    <strong class="text-uppercase"><%=friend.name%> </strong>
+  </a>
+  <div class="float-right">
+    <form class="d-inline-block" action="/rejectRelationRequest" method="POST">
+      <input type="hidden" name="username" value="<%=friend.username%>" />
+      <input type="hidden" name="name" value="<%=friend.name%>" />
+
+      <button type="submit" class="btn btn-danger">Reject Request</button>
+    </form>
+    <form class="d-inline-block" action="/acceptRelationRequest" method="POST">
+      <input type="hidden" name="username" value="<%=friend.username%>" />
+      <input type="hidden" name="name" value="<%=friend.name%>" />
+
+      <button type="submit" class="btn btn-primary">Accept Request</button>
+    </form>
+  </div>
+</span>
+<%})%> <%}%>
+<hr />
+<h2 class="text-center">All Batches Taken</h2>
+<h5>All Batches (<%=batches.studentBatches.length%>)</h5>
+<%if(!batches.studentBatches.length){%>
+<span class="pt-2">
+  <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no present batches.</p>
+</span>
+<%}%> <% batches.studentBatches.forEach(function(batch){ %>
+<a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= batch._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+  <img class="avatar-tiny" src="/images/<%=batch.username%>.jpg" />
+  <strong class="text-uppercase"><%= batch.teacherName %> </strong>
+  <div class="float-right"><strong>Subject : </strong><%= batch.subjects %></div>
+</a>
+<div class="collapse" id="collapse<%= batch._id %>">
+  <% let presentStudents=batch.admittedStudents.length %>
+  <div class="container row mt-4">
+    <div class="col-6">
+      <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
+      <p><strong>Stream : </strong><%= batch.stream %></p>
+      <p><strong>Subject : </strong><%= batch.subjects %></p>
+      <p><strong>Class : </strong><%= batch.class %></p>
+    </div>
+    <div class="col-6">
+      <p><strong>Batch Time : </strong><%= batch.classTime %></p>
+      <p><strong>Teaching Days : </strong><%= batch.days %></p>
+      <p><strong>Address : </strong><%= batch.address %></p>
+      <p><strong>Session : </strong><%= batch.session %></p>
+    </div>
+
+    <div>
+      <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
+      <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
+      <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
+    </div>
+  </div>
+  <a href="/viewSingleBatch/<%=batch._id%>"><button class="btn btn-lg btn-primary btn-block">Batch in Details</button> </a>
+  <hr />
+</div>
+
+<% }) %>
+<hr />
+<h2 class="text-center">Connections As Student</h2>
+<hr />
+<h5>All Friends (<%=connections.friends.length%>)</h5>
+<%if(!connections.friends.length){%>
+<span class="pt-2">
+  <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no friend till now.</p>
+</span>
+<%}%> <%connections.friends.forEach((friend)=>{%>
+<span class="list-group-item list-group-item-action">
+  <a href="/profile/<%=friend.username%>">
+    <img class="avatar-tiny" src="/images/<%=friend.username%>.jpg" />
+    <strong class="text-uppercase"><%=friend.name%> </strong>
+  </a>
+</span>
+<%})%>
+<h5>All Teachers (<%=connections.teachers.length%>)</h5>
+<%if(!connections.teachers.length){%>
+<span class="pt-2">
+  <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no teacher till now.</p>
+</span>
+<%}%> <%connections.teachers.forEach((teacher)=>{%>
+<span class="list-group-item list-group-item-action">
+  <a href="/profile/<%=teacher.username%>">
+    <img class="avatar-tiny" src="/images/<%=teacher.username%>.jpg" />
+    <strong class="text-uppercase"><%=teacher.teacherName%> </strong>
+  </a>
+</span>
+<%})%> -->
+<!-- <%if(profileUser.accountType=="student"){ %> <% let connected=false%> <% let sendRequest=false%> <%connections.guardianData.guardianRequests.forEach((friend)=>{%> <% if(friend.username==user.username){%> <% sendRequest=true%> <%}%> <%})%> <%connections.guardianData.guardians.forEach((friend)=>{%> <% if(friend.username==user.username){%> <% connected=true%> <%}%> <%})%>
+  -->

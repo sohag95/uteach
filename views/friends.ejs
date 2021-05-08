@@ -1,0 +1,20 @@
+<%- include('includes/header') %>
+<div class="container">
+  <h5>All Friends (<%=friends.length%>)</h5>
+  <%if(!friends.length){%>
+  <span class="pt-2">
+    <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no teacher till now.</p>
+  </span>
+  <%}%> <%friends.forEach((friend)=>{%>
+  <span class="list-group-item list-group-item-action">
+    <a href="/profile/<%=friend.username%>">
+      <img class="avatar-tiny" src="/images/profile/profile-<%=friend.username%>.jpg" />
+      <strong class="text-uppercase"><%=friend.name%> </strong>
+    </a>
+    <div class="float-right">
+      <a href="/single-chat/<%=friend.username%>"><i class="fas fa-comment"></i></a>
+    </div>
+  </span>
+  <%})%>
+</div>
+<%- include('includes/footer') %>

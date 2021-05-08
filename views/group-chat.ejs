@@ -1,0 +1,59 @@
+<%- include('includes/header') %>
+
+<%- include('includes/flash') %>
+<h5 class="text-center"><strong>Batch Group Chatting</strong></h5>
+<div class="container text-center">
+  <p><strong>Teacher Name : </strong><%= batchData.teacherName %></p>
+  <p><strong>Subject : </strong><%= batchData.subjects %></p>
+  <p><strong>Session : </strong><%= batchData.session %></p>
+</div>  
+<!-- chat feature begins -->
+  <div id="chat-wrapper" class="container py-md-5 container--narrow" style="height: 480px;">
+   
+    <div class="chat-title-bar" style="text-align: center;">    [N.B :Refresh to receive new messages.]   </div>
+    <div id="chat" class="chat-log">
+      <%messages.forEach(function(message){%>
+
+        <%if(message.username==user.username){%>
+          <div class="chat-self">
+            <div class="chat-message">
+              <div class="chat-message-inner">
+                <%=message.message%>&nbsp;
+                <p class="chatting-time btmMarginZero"><span style="font-size: .6rem; position: relative;top: 5px;"><%=message.createdDate%></span> </p>
+              </div>
+            </div>
+            <img class="chat-avatar avatar-tiny" src="/images/profile/profile-<%=message.username%>.jpg">
+          </div>
+          <%}else{%>
+          <div class="chat-other">
+            <a href="/profile/<%=message.username%>"><img class="avatar-tiny" src="/images/profile/profile-<%=message.username%>.jpg"></a>
+            <div class="chat-message"><div class="chat-message-inner">
+              <a href="/profile/<%=message.username%>"><strong><%=message.name%>
+              <%if(message.username==batchData.username){%>
+                (Teacher)
+              <%}%>:
+              </strong></a>
+              <p class="btmMarginZero"><%=message.message%></p> &nbsp;  
+              <p class="chatting-time btmMarginZero"><span style="font-size: .6rem; position: relative;top: 5px;"><%=message.createdDate%></span> </p>
+            </div></div>
+          </div>
+          <% }%>
+          <%})%>
+      <!-- template for your own message -->
+     
+      <!-- end template-->
+      
+      <!-- template for messages from others -->
+      
+      <!-- end template-->
+      
+    </div>
+    
+    <form action="/group-chat/<%=batchData._id%>" method="post" id="chatForm" class="chat-form border-top">
+      <input type="text" required class="chat-field" id="chatField" name="message" placeholder="Type a message…" autocomplete="off">
+      <button type="submit" class="btn btn-primary btn-color float-right">send <i class="fas fa-paper-plane"></i></button>
+    </form>
+  </div>
+  <!-- chat feature ends -->
+
+<%- include('includes/footer') %>

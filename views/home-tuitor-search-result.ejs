@@ -1,0 +1,54 @@
+<%- include('includes/header') %>
+<div class="container">
+<div class="list-group shadow-sm">
+  <div class="list-group-item active"><strong>Search Results (<%=tuitors.length%>)</strong> </div>
+  <%if(!tuitors.length){%>
+    <p class="text-center"><strong>No home-tuitor found in searched area!!</strong></p>
+  <%}%>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <% tuitors.forEach(function(tuition){ %>
+      <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= tuition._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <img class="avatar-tiny" src="/images/profile/profile-<%=tuition.username%>.jpg" />
+        By-<strong class=""> <%= tuition.teacherName %> </strong>
+        <div class="float-right"><strong>Class : </strong><%= tuition.class %></div>
+      </a>
+      <div class="collapse" id="collapse<%= tuition._id %>">
+        <div class="card card-body">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-1"></div>
+              <div class="col-md-10">
+                <div class="text-center">
+                  <img class="batchPictureAvatar" src="/images/profile/profile-<%=tuition.username%>.jpg" class="rounded" alt="...">
+                </div>
+                <div class="container mb-4">
+                  <p><strong>Teacher Name : </strong><%= tuition.teacherName %></p>
+                  <p><strong>Stream : </strong><%= tuition.stream %></p>
+                  <p><strong>Subject : </strong><%= tuition.subjectName %></p>
+                  <p><strong>Class : </strong><%= tuition.class %></p>
+                  <h3><strong>Address:</strong></h3>
+                  <p><strong>District : </strong><%= tuition.district %></p>
+                  <p><strong>Post Office : </strong><%= tuition.postOffice %></p>
+                  <p><strong>Police Station: </strong><%= tuition.policeStation %></p>
+                  <hr />
+                </div>
+                <span class="pt-2">
+                  <a href="/homeTuitionAnnouncement/<%=tuition._id%>/details" class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">Get Teacher's Details To Contact</a>
+                </span>
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+
+</div>
+<%- include('includes/footer') %>

@@ -1,0 +1,82 @@
+<%- include('includes/header') %> <%- include('includes/flash') %>
+<div>
+  <h2 class="text-center">Batch Details</h2>
+</div>
+
+ <% let presentStudents=batch.admittedStudents.length %>
+   
+<div class="container mb-4 shadow">
+  <div class="text-center">
+    <img class="batchPictureAvatar" src="/images/profile/profile-<%=batch.username%>.jpg" class="rounded" alt="...">
+  </div>
+  <div class="text-center">
+    <a class="text-center" href="/group-chat/<%=batch._id%>"><i class="fas fa-comment"></i></a>
+  </div>
+  <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
+  <p><strong>Stream : </strong><%= batch.stream %></p>
+  <p><strong>Subject : </strong><%= batch.subjects %></p>
+  <p><strong>Class : </strong><%= batch.class %></p>
+  <p><strong>Batch Time : </strong><%= batch.classTime %></p>
+  <p><strong>Teaching Days : </strong><%= batch.days %></p>
+  <p><strong>Address : </strong><%= batch.address %></p>
+  <p><strong>Session : </strong><%= batch.session %></p>
+
+  <hr />
+  <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
+  <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
+  <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
+  <hr />
+  <%if(batchOwner){%>
+    <h3 class="text-center"><strong>Batch Owner's Section</strong></h3>
+    <h2>Request Senders</h2>
+              <%if(!batch.appliedStudents.length){%>
+              <span class="pt-2">
+                <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no request panding</p>
+              </span>
+              <%}%> <%batch.appliedStudents.forEach((student)=>{%>
+              <span class="list-group-item list-group-item-action">
+                <a href="/profile/<%=student.username%>">
+                  <img class="avatar-tiny" src="/images/profile/profile-<%=student.username%>.jpg" />
+                  <strong class="text-uppercase"><%=student.name%> </strong>
+                </a>
+                <div class="float-right">
+                  <form class="d-inline-block" action="/deleteRequest/<%=batch._id%>/batch" method="POST">
+                    <input type="hidden" name="studentUsername" value="<%=student.username%>" />
+                    <input type="hidden" name="studentName" value="<%=student.name%>" />
+
+                    <button type="submit" class="btn btn-primary">Delete Request</button>
+                  </form>
+                  <form class="d-inline-block" action="/acceptRequest/<%=batch._id%>/batch" method="POST">
+                    <input type="hidden" name="studentUsername" value="<%=student.username%>" />
+                    <input type="hidden" name="studentName" value="<%=student.name%>" />
+
+                    <button type="submit" class="btn btn-primary">Accept Request</button>
+                  </form>
+                </div>
+              </span>
+              <%})%>
+              <hr />
+  <%}%>
+  <hr>
+  <h2>Batch Students</h2>
+  <%if(!batch.admittedStudents.length){%>
+  <span class="pt-2">
+    <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no student till now.</p>
+  </span>
+  <%}%> <%batch.admittedStudents.forEach((student)=>{%>
+  <span class="list-group-item list-group-item-action">
+    <a href="/profile/<%=student.username%>">
+      <img class="avatar-tiny" src="/images/profile/profile-<%=student.username%>.jpg"  />
+      <strong class="text-uppercase"><%=student.name%> </strong>
+    </a>
+    <%if(batchOwner){%>
+    <form class="float-right" action="/deleteStudent/<%=batch._id%>/batch" method="POST">
+      <input type="hidden" name="studentUsername" value="<%=student.username%>" />
+      <input type="hidden" name="studentName" value="<%=student.name%>" />
+      <button type="submit" class="btn btn-primary">Delete Student</button>
+    </form>
+    <%}%>
+  </span>
+  <%})%>
+</div>
+<%- include('includes/footer') %>

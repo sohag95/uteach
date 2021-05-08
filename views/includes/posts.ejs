@@ -1,0 +1,150 @@
+<%if(!allFeeds.length){%>
+  <button class="btn btn-lg btn-primary btn-block">No posts available!!</button>
+<%}%>
+<% allFeeds.forEach(function(post) { %>
+  <% liked=false %>
+  
+  <div class="list-group mb-3" >
+    <div class="post-item-box">
+        
+          <p  class="text-center bg-dark d-block text-center text-white mrgnbtm" >This Is A General Post</p>
+                                            
+      
+      <div class="side-padding">
+
+        <div class="text-muted small mb-2">
+            <a href="/profile/<%=post.username%>">
+              <img class="avatar-tiny" src="/images/profile/profile-<%=post.username%>.jpg">
+              <strong><a href="/profile/<%=post.username%>"><%=post.author %></a> </strong>
+            </a>        
+
+            <div>
+              <i><strong>Posted On  </strong> <%=post.createdDate %></i>
+            </div>
+          
+          
+          
+          <i class="float-right teacherStudentTag" >
+            <div class="btn-group">
+              <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <strong><i class="fas fa-ellipsis-h"></i></strong>
+              </p>
+              
+              <div class="dropdown-menu dropdown-menu-right">
+                <%if(user.username==post.username){%>
+                  <form onsubmit="return deletePost(this);" class="inlineContainer " action="/post/<%=post._id%>/delete" method="POST">
+                    <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
+                  </form>
+               <% }else{%>
+                  <p class="dropdown-item text-primary" >For Post Owner</p>
+                <%}%>
+              </div>
+            </div>
+          </i>
+
+        </div>
+
+        <div>
+          <p class="textJustifyAlign">
+            <%=post.body %>
+            
+          </p>
+          <%if(post.postType=="photo"){%>
+          <div class="photoPostContainer">
+            <img class="postedPhoto" src=<%=post.link%> alt="">
+          </div>
+          <%}%>
+        </div>
+
+      </div>
+
+      <% post.likedBy.forEach(function(likedBy) { %>
+        <%  if(likedBy.username==user.username){%>
+          <% liked=true %>
+      <%}})%>
+
+      <div class="flexContainer">
+        <div class="likeIconContainer">
+          <div class="d-block <%= liked ? 'text-primary' : '' %>" >
+            <p class="likeIcon">
+            <%= post.likedBy.length %> 
+              <i class="far fa-thumbs-up "></i>     
+          </p>
+          </div>
+        </div>
+        <div class="likeIconContainer">
+          <div class="d-block" >
+            <p class="commentCount" ><%= post.comments.length %> <%= post.comments.length>1  ? 'Comments' : 'Comment'%></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flexContainer">
+
+        <div class="likeCommentTagContainer">
+          
+              <%  if(liked){%> 
+                  <form class="inlineContainer" action="/disLike/<%=post._id%>" method="POST">
+                    <input type="hidden" name="postType" value="<%=post.postType%>">
+                    <button class="btn  btn-block" type="submit">
+                        <i class="far fa-thumbs-down"></i> Dislike
+                    </button>
+                  </form>
+            <%}else{%> 
+              <form class="inlineContainer" action="/like/<%=post._id%>" method="POST">
+                <input type="hidden" name="likeFrom" value="student">
+                <input type="hidden" name="postType" value="<%=post.postType%>">
+                <button class="btn  btn-block"  type="submit">
+                    <i class="far fa-thumbs-up"></i> Like 
+                </button>
+              </form>
+            <%}%>
+        </div>
+        
+               
+        <div class="likeCommentTagContainer">
+          <button class="btn  btn-block" type="button" data-toggle="collapse" data-target="#collapse<%= post._id %>" aria-expanded="false" aria-controls="collapseExample">
+            <i class="far fa-comment-alt"></i> <%= post.comments.length>1  ? 'Comments' : 'Comment'%>
+          </button>
+        </div>                                  
+      </div>
+
+      <div class="collapse" id="collapse<%= post._id %>">
+        <div class="card card-body">
+          <p class="inlineContainer">  
+            <%if( post.comments.length==0){%>
+              <div class="text-muted small list-group-item">
+                <p class="btmMarginZero bolderFont">No one comment on this post till now , be the first one.</p>
+              </div>
+            <%}%>                         
+              <% post.comments.forEach(function(comment) { %>
+                <div class="text-muted small list-group-item">
+                    <a href="/profile/<%=comment.username%>">
+                      <img class="avatar-tiny" src="/images/profile/profile-<%=comment.username%>.jpg">
+                      <strong>By<a href="/profile/<%=comment.username%>"> <%=comment.commentBy %></a> </strong>
+                    </a>
+                  <div >
+                    <i><strong>On </strong> <%= comment.createdDate %></i>
+                  </div>
+                    <p class="btmMarginZero textJustifyAlign" ><strong> Comment : </strong> <%= comment.comment %></p>                                           
+                </div>                                       
+              <% }) %>
+          </p>
+        </div>
+      </div>
+  
+      <form class="d-block" action="/comment/<%= post._id %>/post" method="POST" id="comment-form">
+        <div class="d-flex justify-content-center">
+          <input  type="text"  name="comment" class="body-content form-control"  placeholder="Write your comment here......" >
+        </div>
+        <button  class="btn btn-dark btn-block"  type="submit" >Submit</button>
+      </form>                  
+      
+    </div>
+  </div>
+  <script>
+    function deletePost() {
+    return confirm('Do you really want to delete the post.');
+    }
+  </script>
+<%})%> 

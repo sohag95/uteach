@@ -1,0 +1,49 @@
+<%- include('includes/header') %>
+<h2 class="text-center mb-4"><strong>Edit Your Profile</strong></h2>
+<div style="margin-bottom: 9px;">
+<div class="container py-md-5 container--narrow">
+  <%- include('includes/flash') %>
+  <a class="small font-weight-bold" href="/profile/<%= user.username %>">&laquo; Back to profile permalink</a>
+  <div class=" py-md-5 container--narrow">
+    <form action="/profile/<%= user.username %>/edit" method="POST" id="accountCreate-form">
+    
+      <div class="form-group">
+        <label for="name-register" class="text-muted mb-1"><small>Your full name</small></label>
+        <input name="name" value="<%=editableData.name%>" id="name-register" class="form-control" type="text" placeholder="Enter your full name.[ This name will be shown on your account.]" autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="gender-register" class="text-muted mb-1"><small>Select your gender</small></label>
+        <select id="gender-register" class="form-control" name="gender" form="accountCreate-form">
+          <option value="<%=editableData.gender%>"><%=editableData.gender%></option>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="dob-register" class="text-muted mb-1"><small>Date of birth</small></label>
+        <input name="dob" value="<%=editableData.dob%>" id="dob-register" class="form-control" type="date" placeholder="Enter date of birth" autocomplete="off" required />
+      </div>
+
+      <div class="form-group">
+        <label for="address-register" class="text-muted mb-1"><small>Your Address</small></label>
+        <input name="address" value="<%=editableData.address%>" id="address-register" class="form-control" type="text" placeholder="Enter your address" autocomplete="off" />
+      </div>
+
+      <div class="form-group">
+        <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
+        <input name="email" value="<%=editableData.email%>" id="email-register" class="form-control" type="text" placeholder="you@example.com" autocomplete="off" />
+      </div>
+      
+      <div class="form-group">
+        <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
+        <input name="phone" value="<%=editableData.phone%>" id="phone-register" class="form-control" type="text" placeholder="Enter your phone number" autocomplete="off" />
+      </div>
+            
+
+      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit</button>
+    </form>
+    </div>
+    </div>
+  </div>
+<%- include('includes/footer') %>

@@ -1,0 +1,98 @@
+<%- include('includes/header') %><%- include('includes/flash') %>
+<div>
+  
+  <div class="text-center">
+    <picture>
+      <img class="shadow coverPictureAvatar" src="/images/cover/cover-<%=profileUser.username%>.jpg" class="img-fluid" alt="Responsive image">
+      </picture> 
+  </div>
+      <div class="text-center">
+        <picture>
+          <img class="shadow profilePictureAvatar" src="/images/profile/profile-<%=profileUser.username%>.jpg"  alt="">    
+        </picture> 
+        <div>
+          <i class="fas fa-camera"> </i> 
+        </div>
+    </div> 
+  <%if(profileUser.accountType=="student"){ %> 
+    <h2 class="text-center">Students's Profile Data</h2>
+    
+  <%}else if(profileUser.accountType=="teacher"){ %>
+  <h2 class="text-center">Teacher's Profile Data</h2>
+  <%}else if(profileUser.accountType=="studentTeacher"){ %>
+  <h2 class="text-center">Student also Teacher's Profile Data</h2>
+  <%}%>
+  <div class="container mb-4" >
+    <% if (isVisitorsProfile) { %>
+      <span class="pt-2 flex-right">
+        <a href="/profile/<%= profileUser.username %>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
+      </span>
+    <% } %>
+    <p><strong>Name : </strong><%= profileUser.name %></p>
+    <p><strong>Date of birth : </strong><%= profileUser.dob %></p>
+    <p><strong>Gender : </strong><%= profileUser.gender %></p>
+    <p><strong>Address : </strong><%= profileUser.address %></p>
+    <p><strong>email : </strong><%= profileUser.email %></p>
+    <p><strong>Phone number : </strong><%= profileUser.phone %></p>
+    <p><strong>Account type : </strong><%= profileUser.accountType %></p>
+
+    <% if (isVisitorsProfile) { %>
+    <span class="pt-2">
+      <% if (profileUser.accountType=="student") { %>
+
+      <div><%- include('includes/upgrade-account-form') %></div>
+      <% }else{ %>
+      <button class="btn btn-lg btn-primary btn-block">Only owner can see this</button>
+      <div class="card">
+        <div class="card-body">
+          <form action="/coverPictureUpload" method="POST" id="fileUpload-form1" enctype="multipart/form-data">
+            <div class="custom-file form-group">
+              <label for="FormControlFile1">Choose cover picture</label>
+              <input type="file" name="coverPicture" class="form-control" id="FormControlFile1" />
+            </div>
+            <button type="submit" class=" btn btn-sm btn-success ">Submit</button>
+          </form>
+        </div>
+         <div class="card-body">
+            <form action="/profilePictureUpload" method="POST" id="fileUpload-form2" enctype="multipart/form-data">
+              <div class="custom-file form-group">
+                <label for="FormControlFile2">Choose profile picture</label>
+                <input type="file" name="profilePicture" class="form-control" id="FormControlFile2" />
+              </div>
+              <button type="submit" class=" btn btn-sm btn-success ">Submit</button>
+            </form>
+          </div>
+      </div>
+      <% } %>
+    </span>
+    <% } %>
+  </div>
+</div>
+
+<div class="text-center">
+  <%if(profileUser.accountType=="student" || profileUser.accountType=="studentTeacher"){ %>
+  <a href="/batchesTaken/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Batches Taken</button></a>
+  <a href="/teachers/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Teachers</button></a>
+  <a href="/friends/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Friends</button></a>
+  <% } %> <%if(profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher"){ %>
+  <a href="/batchesTeach/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Batches Teach</button></a>
+  <a href="/students/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Students</button></a>
+  <% } %> 
+</div>
+<hr>
+<h3 class="text-center"><strong>All Posts</strong></h3>
+<% if (isVisitorsProfile) { %>
+  <%- include('includes/post-forms') %>
+<%}%>
+<hr>
+<div class="container " >
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <%- include('includes/posts') %>
+      </div>
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+</div>
+<%- include('includes/footer') %>

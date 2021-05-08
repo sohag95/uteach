@@ -1,0 +1,64 @@
+<div id="accordion" class="col-md-10">
+  <p class="text-center">
+    <a id="newBatches" class="btn card-header d-block" data-toggle="collapse" data-target="#collapseNewBatches" aria-expanded="true" aria-controls="collapseNewBatches">New Batches </a>
+    <a id="oldBatches" class="btn card-header d-block collapsed" data-toggle="collapse" data-target="#collapseOldBatches" aria-expanded="false" aria-controls="collapseOldBatches"> Old Batches </a>
+  </p>
+  <div id="collapseNewBatches" class="collapse" aria-labelledby="newBatches" data-parent="#accordion">
+    <h2 class="text-center bold-font">All Running Batches</h2>
+    <%if(!teacherPresentBatches.length){%>
+    <span class="pt-2">
+      <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no present batches.</p>
+    </span>
+    <%}%> <% teacherPresentBatches.forEach(function(batch){ %>
+    <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= batch._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <img class="avatar-tiny" src="/images/profile/profile-<%=batch.username%>.jpg" />
+      <strong class="text-uppercase"><%= batch.teacherName %> </strong>
+      <span class="float-right">Going On </span>
+    </a>
+    <div class="collapse" id="collapse<%= batch._id %>">
+      <div class="card card-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+              <div class="text-center">
+                <img class="batchPictureAvatar" src="/images/profile/profile-<%=batch.username%>.jpg" class="rounded" alt="...">
+              </div>
+              <% let presentStudents=batch.admittedStudents.length %>
+              <div class="container mb-4">
+                <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
+                <p><strong>Stream : </strong><%= batch.stream %></p>
+                <p><strong>Subject : </strong><%= batch.subjects %></p>
+                <p><strong>Class : </strong><%= batch.class %></p>
+                <p><strong>Batch Time : </strong><%= batch.classTime %></p>
+                <p><strong>Teaching Days : </strong><%= batch.days %></p>
+                <p><strong>Address : </strong><%= batch.address %></p>
+                <hr />
+                <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
+                <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
+                <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
+
+                <hr />
+                <p><strong>Request panding : </strong><%= batch.appliedStudents.length%></p>
+              </div>
+              <a href="/viewSingleBatch/<%=batch._id%>"><button class="btn btn-lg btn-primary btn-block">Batch in Details</button> </a>
+    
+              
+            </div>
+
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <div id="collapseOldBatches" class="collapse" aria-labelledby="oldBatches" data-parent="#accordion">
+    <h2 class="text-center bold-font">All Old Batches</h2>
+    <%if(!teacherOldBatches.length){%>
+    <span class="pt-2">
+      <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no old batch till now.</p>
+    </span>
+    <%}%>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<%- include('includes/header') %>
+<div class="container">
+  <h5 class="text-center"><strong><%=user.name%>'s</strong> All Message Rooms(<%=rooms.length%>)</h5>
+  <%if(!rooms.length){%>
+  <span class="pt-2">
+    <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no rooms till now.</p>
+  </span>
+  <%}%> <%rooms.forEach((room)=>{%>
+  <span class="list-group-item list-group-item-action">
+    <%if(room.user1!=user.username){%>
+    <a href="/single-chat/<%=room.user1%>">
+      <img class="avatar-tiny" src="/images/profile/profile-<%=room.user1%>.jpg" />
+      <strong class="text-uppercase"><%=room.user1%> </strong>
+    </a>
+    <div class="float-right">
+      <span><strong> <%=room.messages[room.messages.length-1].from==room.user1?" He:" : "You:"%> </strong><%=room.messages[room.messages.length-1].message%></span> <span style="font-size: 8px"><%=room.messages[room.messages.length-1].sendDate%></span>
+    </div>
+    <%}%> <%if(room.user2!=user.username){%>
+    <a href="/single-chat/<%=room.user2%>">
+      <img class="avatar-tiny" src="/images/profile/profile-<%=room.user2%>.jpg" />
+      <strong class="text-uppercase"><%=room.user2%> </strong>
+    </a>
+    <div class="float-right">
+      <span><strong> <%=room.messages[room.messages.length-1].from==room.user2?" He:" : "You:"%> </strong><%=room.messages[room.messages.length-1].message%></span> <span style="font-size: 8px"><%=room.messages[room.messages.length-1].sendDate%></span>
+    </div>
+    <%}%>
+  </span>
+  <%})%>
+</div>
+<%- include('includes/footer') %>

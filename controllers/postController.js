@@ -1,0 +1,98 @@
+const Post = require("../models/Post")
+const Operations=require("../models/Operations")
+
+exports.createPost = function (req, res) {
+  console.log(req.body)
+  if(req.body.postType=="photo"){
+    let file = req.files.postFile
+    let id=Operations.makeid()
+    let filename=id+req.username
+    let filePath = "public/images/postPhoto/" + filename + ".jpg"
+    req.body.link="/images/postPhoto/" + filename + ".jpg"
+    req.body.filePath=filePath
+    req.body.file=file
+  }
+  console.log(req.body)
+  let post = new Post(req.body, req.username, undefined, req.name)
+  post
+    .createPost()
+    .then(function () {
+      req.flash("success", "New post successfully created.")
+        req.session.save(() => res.redirect("/user-home"))
+    })
+    .catch(function (errors) {
+      req.flash("errors", errors)
+        req.session.save(() => res.redirect("/user-home"))
+    })
+}
+
+exports.ifPostExists = function (req, res, next) {
+  Post.findById(req.params.postId)
+    .then(function (post) {
+      req.postId = post._id
+      next()
+    })
+    .catch(function () {
+      res.render("404")
+    })
+}
+exports.like = function (req, res) {
+  let post = new Post(req.body, req.username, req.postId,req.name)
+  console.log(req.body, req.postId, req.username)
+  post
+    .like()
+    .then(function () {
+        req.flash("success", "Like added...")
+        req.session.save(() => res.redirect("/user-home"))
+    })
+    .catch(function (errors) {
+      req.flash("errors", errors)
+        req.session.save(() => res.redirect("/user-home"))
+    })
+}
+
+exports.disLike = function (req, res) {
+  let post = new Post(req.body, req.username, req.postId,req.name)
+  console.log(req.body, req.postId, req.username)
+  post
+    .disLike()
+    .then(function () {
+        req.flash("success", "Like removed...")
+        req.session.save(() => res.redirect("/user-home"))
+    })
+    .catch(function (errors) {
+      req.flash("errors", errors)
+        req.session.save(() => res.redirect("/user-home"))
+    })
+}
+
+exports.commentOnPost = function (req, res) {
+  console.log(req.body)
+  let post = new Post(req.body, req.username, req.postId, req.name)
+  console.log(req.body, req.postId, req.username)
+  post
+    .commentOnPost()
+    .then(function () {
+      req.flash("success", "New comment successfully added.")
+      req.session.save(() => res.redirect("/user-home"))
+    })
+    .catch(function (errors) {
+      req.flash("errors", errors)
+      req.session.save(() => res.redirect("/user-home"))
+    })
+}
+
+exports.deletePost = function (req, res) {
+  console.log("Post id :", req.postId, req.username)
+  Post.deletePost(req.postId, req.username)
+    .then(() => {
+      req.flash("success", "Post successfully deleted.")
+        req.session.save(() => res.redirect(`/profile/${req.username}`))
+    })
+    .catch((err) => {
+      req.flash("errors", err)
+      
+        req.session.save(() => res.redirect("/user-home"))
+      
+    })
+}

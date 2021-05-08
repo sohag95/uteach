@@ -1,0 +1,60 @@
+<div id="accordion" class="col-md-10">
+  <p class="text-center">
+    <a id="homeTuition" class="btn card-header d-block" data-toggle="collapse" data-target="#collapsehomeTuition" aria-expanded="true" aria-controls="collapsehomeTuition">Home Tuition Announcements </a>
+  </p>
+  <div id="collapsehomeTuition" class="collapse" aria-labelledby="homeTuition" data-parent="#accordion">
+    <h2 class="text-center bold-font">All Home-tuition Announcements</h2>
+    <%if(!homeTuitions.length){%>
+    <span class="pt-2">
+      <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no home tuition announcements.</p>
+    </span>
+    <%}%> <% homeTuitions.forEach(function(tuition){ %>
+    <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= tuition._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+      <img class="avatar-tiny" src="/images/profile/profile-<%=tuition.username%>.jpg" />
+      <strong class="text-uppercase"><%= tuition.teacherName %> </strong>
+      <span class="float-right"><strong>Class:</strong><%= tuition.class %></span>
+    </a>
+    <div class="collapse" id="collapse<%= tuition._id %>">
+      <div class="card card-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">
+              <div class="text-center">
+                <img class="batchPictureAvatar" src="/images/profile/profile-<%=tuition.username%>.jpg" class="rounded" alt="...">
+              </div>
+              <div class="container mb-4">
+                <p><strong>Teacher Name : </strong><%= tuition.teacherName %></p>
+                <p><strong>Stream : </strong><%= tuition.stream %></p>
+                <p><strong>Subject : </strong><%= tuition.subjectName %></p>
+                <p><strong>Class : </strong><%= tuition.class %></p>
+                <strong><p>Announcement Views : <%= tuition.announcementViewed %></p></strong>
+                <h3><strong>Given Address</strong></h3>
+                <p><strong>District : </strong><%= tuition.district %></p>
+                <p><strong>Police Station : </strong><%= tuition.policeStation %></p>
+                <p><strong>Post Office : </strong><%= tuition.postOffice %></p>
+                <hr />
+                <%if(tuition.presentAnnouncement){%>
+                  <form class="d-inline-block" action="/stopAnnouncement/<%=tuition._id%>/homeTuition" method="POST">
+                    <button type="submit" class="btn btn-danger">Stop Announcement</button>
+                  </form>
+                <%}else{%>
+                  <form class="d-inline-block" action="/restartAnnouncement/<%=tuition._id%>/homeTuition" method="POST">
+                    <button type="submit" class="btn btn-primary">Re-start Announcement</button>
+                  </form>
+                <%}%>
+                <form class="d-inline-block" action="/deleteAnnouncement/<%=tuition._id%>/homeTuition" method="POST">
+                  <button type="submit" class="btn btn-primary">delete Announcement</button>
+                </form>
+              </div>
+              
+            </div>
+
+            <div class="col-md-1"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+</div>

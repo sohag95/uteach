@@ -1,0 +1,47 @@
+<%- include('includes/header') %>
+<div class="container">
+  <h2 class="text-center">All Batches Teaching</h2>
+  <h5>All Batches (<%=batchesTeach.length%>)</h5>
+  <%if(!batchesTeach.length){%>
+  <span class="pt-2">
+    <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no present batches.</p>
+  </span>
+  <%}%> <% batchesTeach.forEach(function(batch){ %>
+  <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= batch._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <img class="avatar-tiny" src="/images/profile/profile-<%=batch.username%>.jpg" />
+    <strong class="text-uppercase"><%= batch.teacherName %> </strong>
+    <div class="float-right"><strong>Subject : </strong><%= batch.subjects %></div>
+  </a>
+  <div class="collapse" id="collapse<%= batch._id %>">
+    <% let presentStudents=batch.admittedStudents.length %>
+    <div class="text-center">
+      <img class="batchPictureAvatar" src="/images/profile/profile-<%=batch.username%>.jpg" class="rounded" alt="...">
+    </div>
+    <div class="container row mt-4">
+      <div class="col-6">
+        <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
+        <p><strong>Stream : </strong><%= batch.stream %></p>
+        <p><strong>Subject : </strong><%= batch.subjects %></p>
+        <p><strong>Class : </strong><%= batch.class %></p>
+      </div>
+      <div class="col-6">
+        <p><strong>Batch Time : </strong><%= batch.classTime %></p>
+        <p><strong>Teaching Days : </strong><%= batch.days %></p>
+        <p><strong>Address : </strong><%= batch.address %></p>
+        <p><strong>Session : </strong><%= batch.session %></p>
+      </div>
+
+      <div>
+        <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
+        <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
+        <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
+      </div>
+    </div>
+    <a href="/viewSingleBatch/<%=batch._id%>"><button class="btn btn-lg btn-primary btn-block">Batch in Details</button> </a>
+    <hr />
+  </div>
+
+  <% }) %>
+  <hr />
+</div>
+<%- include('includes/footer') %>

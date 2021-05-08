@@ -1,0 +1,22 @@
+<%- include('includes/header') %><%- include('includes/flash') %> <%if(accountType=="studentTeacher"){%>
+
+<div class="container mb-4"><%- include('includes/batch-create-form') %></div>
+<div class="container mb-4"><%- include('includes/home-tuition-announcement-form') %></div>
+<h2 class="text-center">Batches as a Teacher</h2>
+<%- include('includes/batches-page-for-teacher') %>
+<%- include('includes/home-tuition-announcements') %> 
+
+<br />
+<hr />
+<h2 class="text-center">Batches as a Student</h2>
+<%- include('includes/batches-page-for-student') %> 
+<%}else if(accountType=="teacher"){%> 
+<div class="container mb-4"><%- include('includes/batch-create-form') %></div>
+<div class="container mb-4"><%- include('includes/home-tuition-announcement-form') %></div>
+<h2 class="text-center">Batches as a Teacher</h2>
+<%- include('includes/batches-page-for-teacher') %> 
+<%- include('includes/home-tuition-announcements') %> 
+<%}else{%>
+<h2 class="text-center">Your Taken Batches</h2>
+<%- include('includes/batches-page-for-student') %> 
+<%}%> <%- include('includes/footer') %>

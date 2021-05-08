@@ -1,0 +1,59 @@
+<%- include('includes/header') %>
+<div class="container">
+<div class="list-group shadow-sm">
+  <div class="list-group-item active"><strong>Search Results (<%=batches.length%>)</strong> </div>
+  <%if(!batches.length){%>
+    <p class="text-center"><strong>No running batches found according to your search data!!</strong></p>
+  <%}%>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 shadow">
+         <% batches.forEach(function(batch){ %>
+        <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= batch._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
+          <img class="avatar-tiny" src="/images/profile/profile-<%=batch.username%>.jpg" />
+          By-<strong class=""> <%= batch.teacherName %> </strong>
+          <div class="float-right"><strong>Stream : </strong><%= batch.stream %></div>
+        </a>
+        <div class="collapse" id="collapse<%= batch._id %>">
+          <div class="card card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                  <div class="text-center">
+                    <img class="batchPictureAvatar" src="/images/profile/profile-<%=batch.username%>.jpg" class="rounded" alt="...">
+                  </div>
+                  <% let presentStudents=batch.admittedStudents.length %>
+                  <div class="container mb-4">
+                    <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
+                    <p><strong>Stream : </strong><%= batch.stream %></p>
+                    <p><strong>Subject : </strong><%= batch.subjects %></p>
+                    <p><strong>Class : </strong><%= batch.class %></p>
+                    <p><strong>Batch Time : </strong><%= batch.classTime %></p>
+                    <p><strong>Teaching Days : </strong><%= batch.days %></p>
+                    <p><strong>Address : </strong><%= batch.address %></p>
+                    <hr />
+                    <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
+                    <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
+                    <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
+                  </div>
+                  <form action="/requestForAdmission/<%=batch._id%>" method="POST">
+                    <span class="pt-2">
+                      <button type="submit" class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">Sent Request For Admition</button>
+                    </span>
+                  </form>
+                </div>
+  
+                <div class="col-md-1"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+</div>
+<%- include('includes/footer') %>

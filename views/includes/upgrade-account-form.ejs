@@ -1,0 +1,41 @@
+<button class="btn btn-lg btn-primary btn-block" type="button" data-toggle="collapse" data-target="#collapseSignUpAsTeacher" aria-expanded="false" aria-controls="collapseExample">Upgrade your account as a teacher</button>
+<div class="collapse" id="collapseSignUpAsTeacher">
+  <div class="container" style="background-color: #fff">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 shadow">
+        <h2 class="bold-font">Upgrade account as a teacher</h2>
+        <form action="/upgradeAccount" method="POST" id="accountUpgrade-form">
+          <div class="form-group">
+            <label for="qualification-register" class="text-muted mb-1"><small>Select your qualification</small></label>
+            <select id="qualification-register" class="form-control" name="qualification" form="accountUpgrade-form">
+              <option value="secondary">Secondary</option>
+              <option value="higher-secondary">Higher Secondary</option>
+              <option value="under-graduation">Under Graduation</option>
+              <option value="post-graduation">Post Graduation</option>
+              <option value="phd-graduation">PHD</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="stream-register" class="text-muted mb-1"><small>Select your stream</small></label>
+            <select id="stream-register" class="form-control" name="stream" form="accountUpgrade-form">
+              <option value="science">Science</option>
+              <option value="arts">Arts</option>
+              <option value="commerce">Commerce</option>
+              <option value="other">Others</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="subject-register" class="text-muted mb-1"><small>Subject name</small></label>
+            <input name="subject" id="subject-register" class="form-control" type="text" placeholder="Write your subject name" autocomplete="off" />
+          </div>
+
+          <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Upgrade Account</button>
+        </form>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</div>
