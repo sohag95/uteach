@@ -50,6 +50,7 @@ UserAccount.prototype.upgradeAccount = function (username) {
           $set: {
             accountType: "studentTeacher",
             teacherData: this.data,
+            rating:{givenBy:[]},
           }
         }
       )

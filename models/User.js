@@ -68,6 +68,7 @@ User.prototype.cleanUp = function () {
         varifiedAccount: false,
         createdDate: new Date()
       },
+      rating:{givenBy:[]},
       notifications: [],
       password: this.data.password
     }
@@ -197,6 +198,7 @@ User.findByUsername = function (username) {
             phone: userDocument.phone,
             accountType: userDocument.accountType,
             teacherData: userDocument.teacherData,
+            rating:userDocument.rating,
             createdDate: userDocument.createdDate
           }
           resolve(userDocument)
@@ -212,6 +214,7 @@ User.findByUsername = function (username) {
             accountType: userDocument.accountType,
             studentData: userDocument.studentData,
             teacherData: userDocument.teacherData,
+            rating:userDocument.rating,
             createdDate: userDocument.createdDate
           }
 

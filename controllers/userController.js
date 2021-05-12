@@ -163,14 +163,30 @@ exports.ifUserExists = function (req, res, next) {
       res.render("404")
     })
 }
+exports.getConnectionsForProfile =async function (req, res, next) {
+  try{
+    let operation=new Operations(req.profileUser.username,req.profileUser.accountType)
+    operation.getConnections().then((connections)=>{
+      req.connections=connections
+      next()
+    }).catch(()=>{
+      console.log("I am here now!")
+      res.render("404")
+    })
+  }catch{
 
+  }
+}
 exports.getUserProfileData = async function (req, res) {
   try {
+    console.log("connections",req.connections.studentConnections.allFriends,req.connections.studentConnections.allTeachers,req.connections.teacherConnections.allStudents)
+   
     let allFeeds = await postsCollection.find({ username: req.profileUser.username}).toArray()
     res.render("user-profile", {
       profileUser: req.profileUser,
       isVisitorsProfile: req.isVisitorsProfile,
-      allFeeds:allFeeds
+      allFeeds:allFeeds,
+      connections:req.connections
     })
   } catch {
     res.render("404")
@@ -303,7 +319,7 @@ exports.allStudents = async function (req, res) {
   }
 }
 
-exports.getConnections =async function (req, res, next) {
+exports.getConnectionsForHome =async function (req, res, next) {
   try{
     let operation=new Operations(req.username,req.accountType)
     operation.getConnections().then((connections)=>{
@@ -318,13 +334,26 @@ exports.getConnections =async function (req, res, next) {
   }
 }
  
+
 exports.userHome =async function (req, res) {
   try {
     let allConnections=[req.username]
-    req.connections.forEach(connection => {
+    if(req.accountType=="student" || req.accountType=="studentTeacher"){
+        req.connections.studentConnections.allFriends.forEach(connection => {
+          allConnections.push(connection.username)
+      })
+      req.connections.studentConnections.allTeachers.forEach(connection => {
         allConnections.push(connection.username)
     })
-    console.log("connections",req.connections)
+    }
+    if(req.accountType=="teacher" || req.accountType=="studentTeacher"){
+      req.connections.teacherConnections.allStudents.forEach(connection => {
+        allConnections.push(connection.username)
+    })
+    }
+    
+    console.log("connections",req.connections.studentConnections.allFriends,req.connections.studentConnections.allTeachers)
+    console.log("all connections:",allConnections)
     let allFeeds = await postsCollection.find({ username: { $in: allConnections } }).toArray()
     allFeeds=Operations.shuffle(allFeeds)
 

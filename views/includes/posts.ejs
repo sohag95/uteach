@@ -86,15 +86,17 @@
               <%  if(liked){%> 
                   <form class="inlineContainer" action="/disLike/<%=post._id%>" method="POST">
                     <input type="hidden" name="postType" value="<%=post.postType%>">
-                    <button class="btn  btn-block" type="submit">
-                        <i class="far fa-thumbs-down"></i> Dislike
+                    
+                    <button class="btn  btn-block text-primary" type="submit">
+                        <i class="far fa-thumbs-up"></i> Liked
                     </button>
+                  
                   </form>
             <%}else{%> 
               <form class="inlineContainer" action="/like/<%=post._id%>" method="POST">
                 <input type="hidden" name="likeFrom" value="student">
                 <input type="hidden" name="postType" value="<%=post.postType%>">
-                <button class="btn  btn-block"  type="submit">
+                <button class="btn  btn-block "  type="submit">
                     <i class="far fa-thumbs-up"></i> Like 
                 </button>
               </form>

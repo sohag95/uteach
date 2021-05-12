@@ -39,11 +39,13 @@
         <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
         <input name="phone" value="<%=editableData.phone%>" id="phone-register" class="form-control" type="text" placeholder="Enter your phone number" autocomplete="off" />
       </div>
-            
-
+        
       <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit</button>
     </form>
+    <hr>
+      <%- include('includes/passwordChangingForm') %>
     </div>
     </div>
   </div>
+  
 <%- include('includes/footer') %>

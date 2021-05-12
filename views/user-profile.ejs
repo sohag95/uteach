@@ -65,7 +65,27 @@
       </div>
       <% } %>
     </span>
-    <% } %>
+    <% }else{%>
+      <%if(profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher"){%>
+        <%let student=false %>
+        <% connections.teacherConnections.allStudents.forEach(function(stu) { %>
+          <%  if(stu.username==user.username){%>
+            <% student=true %>
+        <%}})%>
+        <%if(student){%>
+          <%let rated=false %>
+          <%profileUser.rating.givenBy.forEach(function(given) { %>
+            <%  if(given.username==user.username){%>
+              <% rated=true %>
+          <%}})%>
+          <%if(!rated){%>
+            <%- include('includes/give-rating') %>
+          <%}else{%>
+            <div class="btn btn-primary btn-block">You have given your rating</div>
+          <%}%>
+        <%}%>
+      <%}%>
+    <%} %>
   </div>
 </div>
 

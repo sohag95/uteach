@@ -1,0 +1,43 @@
+<div class="container d-flex justify-content-center">
+  <div class="row">
+      <div class="col-md-12">
+          <div class="stars text-center">
+            <h5><strong>Your Openion</strong></h5>
+              <form action="/giveRating/<%=profileUser.username%>" method="post"> 
+                <div class="form-group btmMarginZero">
+                  <label for="comment" class=" mb-1"><small>Comment</small></label>
+                  <input name="comment" id="comment" class="form-control" type="text" placeholder="Comment about the teacher." required autocomplete="off" />
+                  <strong>Give Your Rating</strong>
+                </div>
+                <input class="star star-5" id="star-5" type="radio" name="star" value="5"/>
+                <label class="star star-5" for="star-5"></label>
+                  <input class="star star-4" id="star-4" type="radio" name="star" value="4"/>
+                <label class="star star-4" for="star-4"></label>
+                  <input class="star star-3" id="star-3" type="radio" name="star" value="3" />
+                <label class="star star-3" for="star-3"></label>
+                  <input class="star star-2" id="star-2" type="radio" name="star" value="2" />
+                <label class="star star-2" for="star-2"></label>
+                  <input class="star star-1" id="star-1" type="radio" name="star" value="1"/> 
+                 <label class="star star-1" for="star-1"></label> 
+                 <button type="submit" class="btn btn-primary btn-sm text-center"> Submit rating</button>
+                </form>
+          </div>
+      </div>
+  </div>
+</div>
+<script>
+  $(document).ready(function(){
+
+$("input[type='radio']").click(function(){
+    var sim = $("input[type='radio']:checked").val();
+    //alert(sim);
+    if (sim<3) { 
+        $('.myratings').css('color','red'); 
+        $(".myratings").text(sim); 
+    }else{ 
+        $('.myratings').css('color','green'); 
+        $(".myratings").text(sim); 
+    } 
+});
+});
+</script>

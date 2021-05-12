@@ -7,6 +7,9 @@ const userAccountController = require("./controllers/userAccountController")
 const messageController = require("./controllers/messageController")
 const postController = require("./controllers/postController")
 const batchMessageController=require("./controllers/batchMessageController")
+const passwordController=require("./controllers/passwordController")
+const libraryController=require("./controllers/libraryController")
+const ratingController=require("./controllers/ratingController")
 
 //guest user
 router.get("/", userController.guestHome)
@@ -14,14 +17,15 @@ router.get("/sign-up-form", userController.signUp)
 
 //user related router
 router.post("/createAccount", userController.userRegister)
-router.get("/user-home", userController.userMustBeLoggedIn, userController.getConnections, userController.userHome)
+router.get("/user-home", userController.userMustBeLoggedIn, userController.getConnectionsForHome, userController.userHome)
 router.get("/notifications", userController.userMustBeLoggedIn, userController.getNotifications)
 router.post("/userLogin", userController.userLogin)
-router.get("/profile/:username", userController.userMustBeLoggedIn, userController.ifUserExists, userController.getUserProfileData)
+router.get("/profile/:username", userController.userMustBeLoggedIn, userController.ifUserExists,userController.getConnectionsForProfile, userController.getUserProfileData)
 router.post("/upgradeAccount", userController.userMustBeLoggedInAsStudent, userAccountController.ifUserStudent, userAccountController.upgradeAccount)
 
 router.get('/profile/:username/edit', userController.userMustBeLoggedIn, userController.viewProfileEditScreen)
 router.post('/profile/:username/edit', userController.userMustBeLoggedIn, userController.editProfile)
+router.post("/changePassword", userController.userMustBeLoggedIn, passwordController.changePassword)
 
 //profile routers
 router.get("/teachers/:username", userController.userMustBeLoggedIn, userController.ifUserExists, userController.allTeachers)
@@ -73,6 +77,14 @@ router.post("/post/:postId/delete", userController.userMustBeLoggedIn, postContr
 router.get('/group-chat/:_id',userController.userMustBeLoggedIn,batchController.ifBatchExists,batchMessageController.ifBatchStudent,batchMessageController.getMessages)
 router.post('/group-chat/:_id',userController.userMustBeLoggedIn,batchController.ifBatchExists,batchMessageController.ifBatchStudent,batchMessageController.sentMessage)
 
+//library related router
+router.get('/library',userController.userMustBeLoggedIn,libraryController.getLibraryData)
+router.post('/add-library-item',userController.userMustBeLoggedIn,libraryController.addNote)
+router.get('/library/item/:index/edit',userController.userMustBeLoggedIn,libraryController.getEditNotePage)
+router.post('/library/item/:index/edit',userController.userMustBeLoggedIn,libraryController.updateItem)
+
+//rating related router
+router.post("/giveRating/:username",userController.userMustBeLoggedInAsStudent,userController.ifUserExists,ratingController.isStudentOfTheTeacher,ratingController.firstRating,ratingController.giveRating)
 //logging out
 router.post("/logout", userController.logout)
 

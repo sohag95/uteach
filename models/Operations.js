@@ -11,11 +11,9 @@ this.accountType=accountType
 Operations.prototype.removeDuplicates = function (originalArray, prop) {
   var newArray = []
   var lookupObject = {}
-
   for (var i in originalArray) {
     lookupObject[originalArray[i][prop]] = originalArray[i]
   }
-
   for (i in lookupObject) {
     newArray.push(lookupObject[i])
   }
@@ -68,7 +66,10 @@ Operations.prototype.getConnections=function(){
     if(this.accountType=="teacher" || this.accountType=="studentTeacher"){
       teacherConnections=await this.teacherConnections()
     }
-    connections=studentConnections.concat(teacherConnections)
+    connections={
+      studentConnections:studentConnections,
+      teacherConnections:teacherConnections
+    }
     resolve(connections)
   }catch{
     reject()
@@ -82,14 +83,12 @@ Operations.prototype.studentConnections=function(){
     try{
     let allFriends = []
     let allTeachers=[]
-    let connections=[]
     let user=await usersCollection.findOne({username:this.username})
       let batchesId = user.studentData.allBatchesTaken
       let batchesIds = batchesId.map(batchId => {
         return batchId.batchId
       })
       let studentBatches = await Batch.getBatches(batchesIds)
-      
       studentBatches.forEach(batch => {
         batch.admittedStudents.forEach(student => {
           if (student.username != this.username) {
@@ -104,8 +103,12 @@ Operations.prototype.studentConnections=function(){
         }
         return teacher
       })
-      connections=allFriends.concat(allTeachers)
-      let allConnections = this.removeDuplicates(connections, "username")
+      allFriends=this.removeDuplicates(allFriends, "username")
+      allTeachers=this.removeDuplicates(allTeachers, "username")
+      let allConnections = {
+        allFriends:allFriends,
+        allTeachers:allTeachers
+      }
     resolve(allConnections)
     }catch{
       reject()
@@ -125,7 +128,10 @@ Operations.prototype.teacherConnections=function(){
         })
       })
       let students = this.removeDuplicates(allStudents, "username")
-      resolve(students)
+      let allConnections={
+        allStudents:students
+      }
+      resolve(allConnections)
     }catch{
       reject()
     }
