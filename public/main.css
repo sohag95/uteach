@@ -1,6 +1,9 @@
 body, .tooltip
  {
   font-family: 'Open Sans', sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+  padding: 0;
 }
 
 .header-bar {
@@ -305,13 +308,6 @@ textarea.tall-textarea {
   overflow: auto;
 }
 
-.chat-self,
-.chat-other {
-  font-size: .75rem;
-  display: flex;
-  align-items: center;
-  margin-bottom: 7px;
-}
 
 .chat-self {
   padding-left: 25%;
@@ -494,4 +490,411 @@ label.star:hover {
 label.star:before {
   content: '\f006';
   font-family: FontAwesome
+}
+
+/* CSS STARTED FROM HERE */
+.overflow-control{
+  height: 100vh;
+  overflow: auto;
+}
+.overflow-control::-webkit-scrollbar{
+  width: 0px;
+}
+/* visibile item css on header */
+@media (max-width: 991.98px) {
+  .notVisibleOnCollapse{
+    display: none;
+  }
+ }
+ @media (min-width: 992px) {
+  .visibleItemsOnCollapse{
+    display: none;
+  }
+ }
+ .icon{
+   margin-right: 5rem;
+ }
+ .homeNavbar{ 
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #FFF;
+  padding: .5rem 1rem;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+ }
+
+
+ /* sidebar items */
+ .side-item{
+   margin-top: 1rem;
+ }
+ .side-item strong{
+  margin-left: 1rem;
+}
+.active-signal{
+  padding-right: 4px;
+    padding-left: 2px;
+    border-radius: 5px;
+    line-height: 5px;
+    color: #28a745;
+    background-color: #28a745;
+    position: absolute;
+    margin-left: -15px;
+    margin-top: 20px;
+}
+.active-avatar{
+  top: -2px;
+  margin-right: 10px;
+}
+
+/* post-form css */
+.item-container{
+  display: flax;
+  background-color: #FFF;
+  padding: 10px 10px;
+  border-radius: 10px;
+}
+.post-form-container{
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 50px;
+  padding: 9px;
+  margin-right: 3px;
+  margin-left: 3px;
+  background-color: #f0f2f5;
+}
+.post-input-field{
+  width: 100%;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  border: 0px;
+  background-color: #f0f2f5;
+}
+.post-button{
+  border: 0px;
+}
+
+
+/* cover photo css */
+.cover-image{
+  width: 100%;
+  height: 350px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  object-fit: cover;
+  object-position:center;
+}
+.profile-image{
+  margin-top:-80px;
+  width: 150px;
+  height: 150px;
+  border: white solid 5px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 768px) {
+  .cover-image{
+    height: 280px;
+  }
+ }
+
+
+ /* banner css */
+ .banner{
+   width: 100%;
+   height: auto;
+ }
+ .banner-batch{
+  position: absolute;
+  background: #fff;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+  padding: 1.5rem;
+  font-weight: 400;
+  left: 4.8rem;
+  top: 4.4rem;
+  color: #3c3b37;
+ }
+ .banner-batch h1{
+  font-family: sf pro display,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.02rem;
+ }
+ @media (max-width: 870.98px) {
+  .banner-batch{
+    display: none;
+  }
+ }
+ 
+
+ /* teacher banner css */
+ .bolder{
+  font-family: sf pro display,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-weight: 700;
+  line-height: 1.2;
+  padding-bottom: .30rem;
+  color: #3c3b37;
+ }
+ .teacher-banner-container{
+   max-width: 100%;
+   display: flex;
+   overflow-x: auto;
+ }
+ .teacher-banner-container .teacher-data,.batch-data{
+   min-width: 250px;
+   background-color: #f0f2f5;
+   margin-right: .45rem;
+   border-radius: 5px;
+   box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+ }
+.teacher-image{
+  width: 100%;
+  height: 100px;
+  object-fit: cover; 
+  object-position: top;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+ .teacher-banner-container::-webkit-scrollbar{
+   width: 0px;
+ }
+ .path{
+  background: url(https://s.udemycdn.com/browse_components/shared-assets/purple-intersect.svg) repeat-x #003640;
+  background-size: auto 120%;
+  background-position: 0 -2.4rem;
+  padding: 2.4rem;
+  border: 1px solid #dcdacb;
+  border-radius: 4px;
+  color: #FFF;
+ }
+
+
+ /* message rooms css */
+ .message-room-container,.student-room-container,.notification-container{
+  width: 100%;
+  border-bottom: 1px solid gray;
+  border-radius: 25px;
+  padding: 9px;
+  margin: 0;
+  background-color: #f0f2f5;
+ }
+ .message-room :hover{
+   background-color: rgb(219, 218, 218);
+ }
+ .message-badge{
+  position: absolute;
+  margin-left: -12px;
+  border-bottom-left-radius: 0rem;
+ }
+
+
+ /* one-to-one message room */
+ .message-container{
+  height: 80vh;
+  width: 100%;
+  background-color: #fff;
+  overflow: auto;
+ }
+ .message-container::-webkit-scrollbar{
+  width: 0px;
+}
+.chat-self .chat-message-inner {
+  text-align: right;
+  padding: 3px 7px;
+  border-radius: 12px;
+  margin-right: .75rem;
+  border-top-right-radius: 1px;
+  background-color: #1fa075;
+  color: #FFF;
+}
+.chat-other .chat-message-inner {
+  padding: 3px 7px;
+  margin-left: .75rem;
+  border-radius: 12px;
+  border-top-left-radius: 0px;
+  background-color: #6c757d;
+  color: #fff;
+}
+.chat-self, .chat-other {
+    font-size: .75rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+
+/* log in form css */
+.logIn-form-container{
+  margin: auto;
+  background-color: #FFF;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: 55%;
+}
+.space{
+  margin-bottom: 5px;
+}
+@media (max-width: 720.98px) {
+  .logIn-form-container{
+    width: 90%;
+  }
+ }
+ .uteach{
+  font-family: sf pro display,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.02rem;
+ }
+
+ /* sign up form css */
+ label{
+   margin-bottom: 0px;
+ }
+ .form-group{
+   margin-bottom: .5rem;
+ }
+ .signUp-form-container{
+  margin: auto;
+  background-color: #FFF;
+  padding: 20px 24px;
+  border-radius: 10px;
+  width: 70%;
+}
+@media (max-width: 720.98px) {
+  .signUp-form-container{
+    width: 95%;
+  }
+ }
+ #gender-register .form-control-lg{
+   padding: 0.5rem 0rem;
+ }
+
+ /* batch banners css */
+
+ .teacher-image-batch{
+  width: 100%;
+  height: 100px;
+  object-fit: cover; 
+  object-position: top;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  opacity: .6;
+}
+.batch-no{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+.batch-data-container{
+  padding-bottom: 5px;
+  padding-left: 2px;
+  background-color: #fff;
+}
+
+/* single batch css */
+
+.single-batch-container{
+  width: 100%;
+  padding:0px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media (max-width: 992px) {
+  .single-batch-container{
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+ }
+
+ .single-batch-data {
+   background-color: #FFF;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 8%);
+}
+
+.single-batch-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: top;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  opacity: .6;
+}
+
+@media (max-width: 720.98px) {
+  .single-batch-image{
+    height: 150px;
+  }
+  .float-btn,.float-text{
+    float: left!important;
+  }
+ }
+ .float-btn,.float-text{
+  float: right;
+}
+
+/* Search result banner pages css */
+.search-batch-image{
+  width: 250px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 3px;
+  opacity: .8;
+}
+
+@media (max-width: 720.98px) {
+  .search-batch-image{
+    width: 4rem;
+    height: 4rem;
+  }
+}
+
+/* notification css */
+.not-viewed{
+  background-color: #b7c8d9;
+}
+
+.notification-container:hover{
+  background-color: #cfd3da;;
+}
+
+/* connections css */
+.connection-container{
+    box-shadow: 0 .1rem .5rem rgba(0,0,0,.15)!important;
+    padding: .5rem;
+    margin-bottom: .25rem;
+    display: flex;
+    border-radius: 8px;
+}
+.name-container{
+  display: flex; 
+  width: 100%;
+  align-items: center;
+}
+.profile-batch-show{
+  width: 250px;
+}
+@media (max-width: 720.98px) {
+  .profile-batch-show{
+    width: 100%;
+  }
+}
+
+.footer p{
+  color:#0f7c90 ;
+}
+
+.footer p,i,.footer-icon:hover{
+  color:#094c59 ;
+}
+.footer-icon{
+  color:#0f7c90 ;
+  margin-right: .50rem;
 }

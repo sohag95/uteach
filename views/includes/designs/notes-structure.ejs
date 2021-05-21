@@ -1,0 +1,47 @@
+<div class="item-container">
+  <div id="accordion">
+    <div class="card">
+      <div class="" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <strong>Add Note</strong> <i class="fas fa-plus-square"></i>
+          </button>
+        </h5>
+      </div>
+
+      <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+        <div class="card-body" style="background-color: #f0f2f5;">
+            <h2 class="bolder text-center">Add Notes</h2>
+            <form action="#" method="POST" class="">
+              <div class="form-group">
+                <label for="noteType-register" class="text-muted"><small>Note type</small></label>
+                <div id="noteType-register" class="text-center" style="display: flex;">
+                  <div class="col-6 form-control form-control-sm ">
+                  Text Note <input name="noteType" type="radio" required autocomplete="off" />
+                  </div>
+                  <div class="col-6 form-control form-control-sm ">
+                  Web Link <input name="noteType"  type="radio"  autocomplete="off" />
+                  </div>
+                </div>
+              </div>
+              <label for="noteType-register" class="text-muted"><small>About</small></label>
+              <input required id="noteType-register" class="form-control form-control-sm space" type="text" placeholder="Heading of the note">
+              <label for="body-register" class="text-muted"><small>Note body-content/link</small></label>
+              <textarea required id="body-register" cols="10" rows="2" class="form-control form-control-sm space" type="text"></textarea>
+              <button class="btn btn-primary btn-block btn-lg">Add note <i class="fas fa-plus-square"></i></button>
+            </form>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="mb-2">
+    <h3><strong class="bolder">Your all text Notes</strong></h3>
+    <div style="width: 100%; background-color: antiquewhite;border-radius: 5px;height: 100px;">This is note body</div>
+  </div>
+  <div>
+    <h3><strong class="bolder">Your all web-link Notes</strong></h3>
+    <div style="width: 100%; background-color: antiquewhite;border-radius: 5px;height: 100px;">This is note body</div>
+  </div>
+ 
+</div>
+ 

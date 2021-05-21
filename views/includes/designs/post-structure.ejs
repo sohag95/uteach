@@ -1,0 +1,264 @@
+
+
+  <div class="container mb-2">
+   <div class="item-container" >
+     <div style="display: flex;">
+       <div class="text-center">
+         <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+       </div>
+       <div class="post-form-container">
+         <form action="/" method="post" style="display: flex;">
+           <input type="text" class="post-input-field" placeholder="Write your thoughts here." required>
+           <button class="post-button">Post</button>
+         </form>
+       </div>
+     </div>
+     <hr style="margin-bottom: .35rem;">
+     <div class="text-center">
+      <a href=""><strong><i class="fas fa-images"></i>&nbsp;&nbsp;Photo upload</strong></a>
+     </div>
+   </div>
+   <!-- file upload form -->
+   <!-- <div class="item-container" >
+     <div style="display: flex;">
+       <div>
+         <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+       </div>
+       <form action="/" method="post"  style="display:block;width: 100%;">
+         <div class="post-form-container" style="margin-bottom: 2px;">
+           <input type="text" class="post-input-field" placeholder="Write caption here." required>
+         </div>
+           <div class="input-group post-form-container" style="margin-bottom: 2px;">
+             <div class="input-group-prepend">
+               <span class="input-group-text">Upload</span>
+             </div>
+             <div class="custom-file">
+               <input type="file" class="custom-file-input" required id="inputGroupFile01">
+               <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+             </div>
+           </div>
+           <button class="btn btn-primary btn-block" style="border-radius: 10px;">Submit</button>
+       </form>
+     </div>
+     <hr style="margin-bottom: .35rem;">
+   </div> -->
+ </div>
+ <hr>
+<div class="container mb-2">
+  <div class="item-container" >
+    <div style="display: flex;">
+      <div class="text-center">
+        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+      </div>
+      <div class="post-header" style="width: 100%;display: flex;">
+        <div class="mr-auto" style="padding-left: 5px;">
+          <div style="margin: 0;padding: 0;">
+            <a href=""><strong>Sohag Roy</strong></a>
+          </div>
+          <div style="margin: 0;padding: 0;">
+            <i><span>Posted on 05/02/2000</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+          </div>
+        </div>
+        <div class="float-right">
+          <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong><i class="fas fa-ellipsis-h"></i></strong>
+          </p>
+          <div class="dropdown-menu dropdown-menu-right">
+            <%if(user){%>
+              <form onsubmit="return deletePost(this);" class="inlineContainer " action="" method="POST">
+                <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
+              </form>
+           <% }else{%>
+              <p class="dropdown-item text-primary" >For Post Owner</p>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr style="margin-bottom: .35rem;margin-top: 2px;">
+    <p>Lorem ipsum dolor sit amet consectetur adipisici
+      ng elit. Beatae, mollitia. Unde debitis et corporis
+       reprehenderit excepturi dolor suscipit sunt animi!
+        Officia soluta fuga nam, minus dignissimos eum ea
+         asperiores, aut quaerat sunt esse aspernatur volupta
+         tem, at ducimus cum quidem velit tenetur! Qui nemo ma
+      iores ratione nulla porro magni? Dolores, harum.
+    </p>
+    <div style="display: flex;">
+      <div class="text-left" style="width: 50%;">
+        <i class="far fa-thumbs-up"></i><span> 12 likes</span>
+      </div>
+      <div class="text-right" style="width: 50%;">
+        <span>2 comments</span> 
+      </div>
+    </div>
+    <div style="display: flex;margin-bottom: 5px; border-top: 1px solid rgb(126, 124, 124);border-bottom: 1px solid rgb(126, 124, 124);">
+      <div class="text-center" style="width: 50%;">
+        <%  if(0==1){%> 
+          <form class="inlineContainer" action="/disLike/" method="POST">
+            <button class="btn  btn-block text-primary" style="border: 0px;background: #fff;" type="submit">
+                <i class="far fa-thumbs-up"></i> Liked
+            </button>
+          </form>
+        <%}else{%> 
+          <form class="inlineContainer" action="/like/" method="POST">
+            <button class="btn  btn-block " style="border: 0px;background: #fff;" type="submit">
+                <i class="far fa-thumbs-up"></i> Like 
+            </button>
+          </form>
+        <%}%>
+      </div>
+      <div class="text-center" style="width: 50%;">
+        <button class="btn  btn-block" style="border: 0px;background: #fff;" type="button" data-toggle="collapse" data-target="#collapseIDHERE" aria-expanded="false" aria-controls="collapseExample">
+          <i class="far fa-comment-alt"></i> comments
+        </button>
+      </div>
+    </div>
+    <div class="collapse" id="collapseIDHERE">
+      <div class="card card-body">
+        <p class="inlineContainer">  
+          <%if( 0==0){%>
+            <div class="text-muted small list-group-item">
+              <p class="btmMarginZero bolderFont">No one comment on this post till now , be the first one.</p>
+            </div>
+          <%}%>                         
+            <!-- comments loop will be here -->
+              <div class="text-muted small list-group-item">
+                  <a href="/images/profile/profile-sohag.jpg">
+                    <img class="avatar-tiny" src="/images/profile/profile-sohag.jpg">
+                    <strong>By<a href="/profile"> sohag roy</a> </strong>
+                  </a>
+                <div >
+                  <i><strong>On </strong> 02/02/2021</i>
+                </div>
+                  <p class="btmMarginZero textJustifyAlign" ><strong> Comment : </strong> This is comment body</p>                                           
+              </div>                                       
+            <!-- close -->
+        </p>
+      </div>
+    </div>
+    <!-- comment section -->
+      <div style="display: flex;">
+        <div class="text-center">
+          <img class="avatar-small" style="top:1px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        </div>
+        <div class="post-form-container" style="padding: 4px;">
+          <form action="/" method="post" style="display: flex;">
+            <input type="text" class="post-input-field" placeholder="Write your comment here." required>
+            <button class="post-button">Comment</button>
+          </form>
+        </div>
+      </div>
+  </div>
+</div>
+
+<div class="container mb-2">
+  <div class="item-container" >
+    <div style="display: flex;">
+      <div class="text-center">
+        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+      </div>
+      <div class="post-header" style="width: 100%;display: flex;">
+        <div class="mr-auto" style="padding-left: 5px;">
+          <div style="margin: 0;padding: 0;">
+            <a href=""><strong>Sohag Roy</strong></a>
+          </div>
+          <div style="margin: 0;padding: 0;">
+            <i><span>Posted on 05/02/2000</span></i> <span style="font-weight: 500;">.</span><i class="fas fa-user-friends fa-sm"></i>
+          </div>
+        </div>
+        <div class="float-right">
+          <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <strong><i class="fas fa-ellipsis-h"></i></strong>
+          </p>
+          <div class="dropdown-menu dropdown-menu-right">
+            <%if(user){%>
+              <form onsubmit="return deletePost(this);" class="inlineContainer " action="" method="POST">
+                <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
+              </form>
+           <% }else{%>
+              <p class="dropdown-item text-primary" >For Post Owner</p>
+            <%}%>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr style="margin-bottom: 0px;margin-top: 2px;">
+    <p>
+      <div class="photoPostContainer">
+        <img class="postedPhoto" src="/images/profile/profile-sohag.jpg" alt="">
+      </div>
+    </p>
+    
+    <div style="display: flex;">
+      <div class="text-left" style="width: 50%;">
+        <i class="far fa-thumbs-up"></i><span> 12 likes</span>
+      </div>
+      <div class="text-right" style="width: 50%;">
+        <span>2 comments</span> 
+      </div>
+    </div>
+    <div style="display: flex;margin-bottom: 5px; border-top: 1px solid rgb(126, 124, 124);border-bottom: 1px solid rgb(126, 124, 124);">
+      <div class="text-center" style="width: 50%;">
+        <%  if(0==1){%> 
+          <form class="inlineContainer" action="/disLike/" method="POST">
+            <button class="btn  btn-block text-primary" style="border: 0px;background: #fff;" type="submit">
+                <i class="far fa-thumbs-up"></i> Liked
+            </button>
+          </form>
+        <%}else{%> 
+          <form class="inlineContainer" action="/like/" method="POST">
+            <button class="btn  btn-block " style="border: 0px;background: #fff;" type="submit">
+                <i class="far fa-thumbs-up"></i> Like 
+            </button>
+          </form>
+        <%}%>
+      </div>
+      <div class="text-center" style="width: 50%;">
+        <button class="btn  btn-block" style="border: 0px;background: #fff;" type="button" data-toggle="collapse" data-target="#collapseIDHERE" aria-expanded="false" aria-controls="collapseExample">
+          <i class="far fa-comment-alt"></i> comments
+        </button>
+      </div>
+    </div>
+    <div class="collapse" id="collapseIDHERE">
+      <div class="card card-body">
+        <p class="inlineContainer">  
+          <%if( 0==0){%>
+            <div class="text-muted small list-group-item">
+              <p class="btmMarginZero bolderFont">No one comment on this post till now , be the first one.</p>
+            </div>
+          <%}%>                         
+            <!-- comments loop will be here -->
+              <div class="text-muted small list-group-item">
+                  <a href="/images/profile/profile-sohag.jpg">
+                    <img class="avatar-tiny" src="/images/profile/profile-sohag.jpg">
+                    <strong>By<a href="/profile"> sohag roy</a> </strong>
+                  </a>
+                <div >
+                  <i><strong>On </strong> 02/02/2021</i>
+                </div>
+                  <p class="btmMarginZero textJustifyAlign" ><strong> Comment : </strong> This is comment body</p>                                           
+              </div>                                       
+            <!-- close -->
+        </p>
+      </div>
+    </div>
+    <!-- comment section -->
+      <div style="display: flex;">
+        <div class="text-center">
+          <img class="avatar-small" style="top:1px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        </div>
+        <div class="post-form-container" style="padding: 4px;">
+          <form action="/" method="post" style="display: flex;">
+            <input type="text" class="post-input-field" placeholder="Write your comment here." required>
+            <button class="post-button">Comment</button>
+          </form>
+        </div>
+      </div>
+  </div>
+</div>
+<script>
+  function deletePost() {
+  return confirm('Do you really want to delete the post.');
+  }
+</script>

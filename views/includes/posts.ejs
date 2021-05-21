@@ -82,7 +82,6 @@
       <div class="flexContainer">
 
         <div class="likeCommentTagContainer">
-          
               <%  if(liked){%> 
                   <form class="inlineContainer" action="/disLike/<%=post._id%>" method="POST">
                     <input type="hidden" name="postType" value="<%=post.postType%>">

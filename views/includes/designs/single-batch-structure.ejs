@@ -1,0 +1,181 @@
+<div class="single-batch-container">
+  <div class="single-batch-data">
+    <div style="position: relative;">
+      <img class="single-batch-image"  src="/images/profile/profile-sohag.jpg" alt="">
+      <div class="batch-no">Home-tuition</div>
+    </div>
+    <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Teacher :</strong> Sohag Roy</div>
+    
+    <strong class="text-primary ml-2">Announcement Details:</strong>
+    <div class="row m-2" >
+      <div class="col-md-6">
+        <span class="d-block"><strong>Stream : </strong> Science</span>
+        <span class="d-block"><strong>Subject : </strong> Math</span>
+        <span class="d-block"><strong>Class : </strong> 10th</span>
+      </div>
+      <div class="col-md-6">
+        <span class="d-block"><strong>Days per week : </strong> 2</span>
+        <span class="d-block"><strong>Salery per month : </strong> 5000/-</span>
+      </div>
+    </div>
+    <strong class="text-primary ml-2">Choosen Area Details:</strong>
+      <div class="col">
+        <span class="d-block"><strong>District : </strong> Darjeeling</span>
+        <span class="d-block"><strong>Police Station : </strong> Pradhan nagar</span>
+        <span class="d-block"><strong>Post Office : </strong> Champasari</span>
+      </div>
+    <hr>
+    <strong class="text-primary ml-2">Contact details:</strong>
+    <div class="col m-2">
+      <span class="d-block"><strong>Phone number : </strong> 7468987072</span>
+      <span class="d-block"><strong>Email id : </strong> roysohag95@gmail.com</span>
+    </div>  
+    <div class="text-center">
+      <div class="btn btn-sm  btn-success ">View teacher's profile</div>
+    </div>
+    <hr>
+    <hr>
+  </div>
+</div>
+
+
+<h2>Single batch details</h2>
+<div class="single-batch-container">
+  <div class="single-batch-data">
+    <div style="position: relative;">
+      <img class="single-batch-image"  src="/images/profile/profile-sohag.jpg" alt="">
+      <div class="batch-no">Offline batch</div>
+    </div>
+    <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Teacher :</strong> Sohag Roy</div>
+    <div class="text-center">
+      <div class="btn btn-sm  btn-success ">View teacher's profile</div>
+      <div class="btn btn-sm  btn-success ">Group chatting</div>
+    </div>
+    
+    <strong class="text-primary ml-2">Batch Details:</strong>
+    <div class="row m-2" >
+      <div class="col-md-6">
+        <span class="d-block"><strong>Days : </strong> Saturday,sunday</span>
+        <span class="d-block"><strong>Time : </strong> 07:00am-09:00am</span>
+        <span class="d-block"><strong>Address : </strong> Darjeeling, pradhan nagar, champasari</span>
+      </div>
+      <div class="col-md-6">
+        <span class="d-block"><strong>Stream : </strong> Science</span>
+        <span class="d-block"><strong>Subject : </strong> Math</span>
+        <span class="d-block"><strong>Class : </strong> 10th</span>
+      </div>
+    </div>
+    <strong class="text-primary ml-2">Vacancy details:</strong>
+    <div class="col m-2">
+      <span class="d-block"><strong>Total Sits : </strong> 20</span>
+      <span class="d-block"><strong>Total Present Students : </strong> 10</span>
+      <span class="d-block"><strong>Sits Available : </strong> 10</span>
+    </div>
+    <hr>
+    <div class="text-center">
+      <div class="btn btn-lg btn-primary btn block">Sent request for admition</div>  
+    </div>
+    <hr>
+    <p><h5 class="bolder text-primary ml-2">Student requests:</h5></p>
+    <div class="ml-2 mr-2">
+      <div class="student-room-container" style="display: flex;width: 100%;">
+        <div class="mr-2" >
+          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        </div>
+          <div class="row"  style="width: 100%;">
+            <div class="col-sm-6"  style="width: 100%;display: flex;">
+              <div style="width: 100%;">
+                <strong class="d-block">Sohag Roy</strong>
+                <span class="d-block">Requested on 02/05/2021</span>
+              </div>
+            </div>
+            <div class="col-sm-6 " style="margin: auto;">
+              <div class="float-btn" style="display: flex;">
+                <div class="btn btn-primary btn-sm mr-1">View profile</div>
+                <div class="btn btn-danger btn-sm mr-1">Delete</div>
+                <div class="btn btn-success btn-sm ">Accept</div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <hr>
+    <p><h5 class="bolder text-primary ml-2">Batch Students:</h5></p>
+    <div class="ml-2 mr-2">
+      <div class="student-room-container" style="display: flex;width: 100%;">
+        <div class="mr-2" >
+          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        </div>
+          <div class="row"  style="width: 100%;">
+            <div class="col-sm-6"  style="width: 100%;display: flex;">
+              <div style="width: 100%;">
+                <strong class="d-block">Sohag Roy</strong>
+                <span class="d-block">Joined on 02/05/2021</span>
+              </div>
+              <div class=" d-block mr-2" style=" text-align: right;">
+                <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <strong><i class="fas fa-ellipsis-h"></i></strong>
+                </p>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%if(user){%>
+                    <form onsubmit="return deletePost(this);" class="inlineContainer " action="" method="POST">
+                      <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
+                    </form>
+                 <% }else{%>
+                    <p class="dropdown-item text-primary" >For Post Owner</p>
+                  <%}%>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 " style="margin: auto;">
+              <div class="float-btn" style="display: flex;">
+                <div class="btn btn-primary btn-sm mr-1">View profile</div>
+                <div class="btn btn-primary btn-sm ">Message</div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="ml-2 mr-2">
+      <div class="student-room-container" style="display: flex;width: 100%;">
+        <div class="mr-2" >
+          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        </div>
+        
+          <div class="row"  style="width: 100%;">
+            <div class="col-sm-6"  style="width: 100%;display: flex;">
+              <div style="width: 100%;">
+                <strong class="d-block">Sohag Roy</strong>
+                <span class="d-block">Joined on 02/05/2021</span>
+              </div>
+              <div class=" d-block mr-2" style=" text-align: right;">
+                <p style="margin-right: 8px;" type="button"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <strong><i class="fas fa-ellipsis-h"></i></strong>
+                </p>
+                <div class="dropdown-menu dropdown-menu-right">
+                  <%if(user){%>
+                    <form onsubmit="return deletePost(this);" class="inlineContainer " action="" method="POST">
+                      <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
+                    </form>
+                 <% }else{%>
+                    <p class="dropdown-item text-primary" >For Post Owner</p>
+                  <%}%>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 " style="margin: auto;">
+              <div class="float-btn" style="display: flex;">
+                <div class="btn btn-primary btn-sm mr-1">View profile</div>
+                <div class="btn btn-primary btn-sm ">Message</div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function deletePost() {
+  return confirm('Do you really want to delete the post.');
+  }
+</script>

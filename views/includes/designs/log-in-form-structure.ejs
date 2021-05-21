@@ -1,0 +1,132 @@
+<div class="row">
+  <div class="col" ></div>
+  <div class="col-lg-8" style="margin-bottom: 2rem;" >
+    <h2 class="uteach text-primary mt-4 mb-2 text-center">Uteach</h2>
+    <div class="logIn-form-container">   
+      <h2 class="bolder">User Address Details</h2>
+      <form action="/userLogin" method="POST" id="address-form">
+        <div class="form-group">
+          <label for="district-register" class="text-muted mb-1"><small>Select your district</small></label>
+          <select id="district-register" class="form-control form-control-lg" name="district" form="address-form">
+            <option value="student">Darjeeling</option>
+            <option value="teacher">Jalpaiguri</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="policeStation-register" class="text-muted mb-1"><small>Select your police station</small></label>
+          <select id="policeStation-register" class="form-control form-control-lg" name="policeStation" form="address-form">
+            <option value="student">Pradhan Nagar</option>
+            <option value="teacher">Siliguri</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="postOffice-register" class="text-muted mb-1"><small>Select your post office</small></label>
+          <select id="postOffice-register" class="form-control form-control-lg" name="postOffice" form="address-form">
+            <option value="student">Siliguri</option>
+            <option value="teacher">Champasari</option>
+          </select>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg">Submit</button>
+      </form>
+    </div>
+  </div>
+  <div class="col" ></div>
+</div>
+
+
+<div class="row">
+  <div class="col" ></div>
+  <div class="col-lg-8 text-center" style="margin-bottom: 2rem;" >
+    <h2 class="uteach text-primary mt-4 mb-2">Uteach</h2>
+    <div class="logIn-form-container text-center">   
+      <h2 class="bolder">User Login</h2>
+      <form action="/userLogin" method="POST" class="">
+        <input class="form-control form-control-lg space" type="text" placeholder="Username:">
+        <input class="form-control form-control-lg space" type="text" placeholder="Password">
+        <button class="btn btn-primary btn-block btn-lg">Log in</button>
+      </form>
+      <hr>
+      <button class="btn btn-success  btn-lg">Create a new account</button>
+    </div>
+  </div>
+  <div class="col" ></div>
+</div>
+
+<div class="row">
+  <div class="col" ></div>
+  <div class="col-lg-8 " style="margin-bottom: 2rem;" >
+    <h2 class="uteach text-primary mt-4 mb-2 text-center">Uteach</h2>
+    <div class="signUp-form-container ">   
+      <h2 class="bolder text-center">Create new account</h2>
+      <form action="/userLogin" method="POST" class="">
+        <div class="">
+          <strong class="text-primary"> User related data</strong>
+          <div class="form-group">
+            <label for="name-register" class="text-muted"><small>Full name</small></label>
+            <input name="name" id="name-register" class="form-control form-control-lg " type="text" placeholder="Your full name." required autocomplete="off" />
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="name-register" class="text-muted"><small>Date of Birth</small></label>
+                <input name="name" id="name-register" class="form-control form-control-lg " type="date" placeholder="Birth date" required autocomplete="off" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="phone-register" class="text-muted"><small>Phone Number</small></label>
+                <input name="phone" id="phone-register" class="form-control form-control-lg " type="text" placeholder="Phone number" required autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          
+            <div class="form-group">
+              <label for="gender-register" class="text-muted"><small>Gender</small></label>
+              <div id="gender-register" class="text-center" style="display: flex;">
+                <div class="col-4 form-control form-control-lg ">
+                Male <input name="gender"  class="" type="radio" required autocomplete="off" />
+                </div>
+                <div class="col-4 form-control form-control-lg ">
+                  Female <input name="gender"  type="radio"  autocomplete="off" />
+                </div>
+                <div class="col-4 form-control form-control-lg ">
+                  Custom <input name="gender"  type="radio"  autocomplete="off" />
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="">
+          <strong class="text-primary">Account related data</strong>
+          <div class="form-group">
+            <label for="accountType-register" class="text-muted"><small>Account Type</small></label>
+            <div id="accountType-register" class="text-center" style="display: flex;">
+              <div class="col-6 form-control form-control-lg ">
+                Student <input name="accountType" required class="" type="radio" autocomplete="off" />
+              </div>
+              <div class="col-6 form-control form-control-lg ">
+                Teacher <input name="accountType"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username-register" class="text-muted"><small>Username [Username will be used for log in]</small></label>
+            <input name="username" required id="username-register" class="form-control form-control-lg " type="text" placeholder="Choose an username" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="password-register" class="text-muted"><small>Password </small></label>
+            <input name="password" required id="password-register" class="form-control form-control-lg " type="text" placeholder="New password" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="re-password-register" class="text-muted"><small>Confirm Password </small></label>
+            <input name="re-password" required id="re-password-register" class="form-control form-control-lg " type="text" placeholder="Confirm password" autocomplete="off" />
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <button class="btn btn-success btn-lg ">Sign up account</button>
+        </div>
+      </form>
+      
+    </div>
+  </div>
+  <div class="col" ></div>
+</div>

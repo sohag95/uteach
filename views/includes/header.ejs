@@ -13,6 +13,146 @@
     
   </head>
   <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light navShadow">
+      <a class="navbar-brand" href="#">
+        <img src="/images/logo.svg" width="110" height="32" alt="">
+      </a>
+      <!-- <div class="d-flax justify-content-between visibleItemsOnCollapse">
+        <div class="p-1">
+          <div class="form-control" style="border-radius: 4rem;">Search here</div>
+        </div>
+      </div> -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="text-center notVisibleOnCollapse">
+        <div class="d-flex justify-content-between">
+          <div class="p-1">
+            <div class="form-control" style="border-radius: 4rem; width: 15rem;text-align: left;">
+              <i class="fas fa-search"></i> Search here
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="visibleItemsOnCollapse">
+        <hr>
+          <div>
+            <div class="mt-2 mb-2">
+              <div class="form-control" style="border-radius: 4rem; "><i class="fas fa-search"></i> Search here</div>
+            </div>
+            <a href="">
+              <div class="">
+              <img class="avatar-small" style="top: 0;margin-right: 10px;" src="/images/profile/profile-sohag.jpg" alt="">
+              <strong>Sohag roy</strong>
+              </div>
+            </a>
+            <a href="">
+              <div class="side-item">
+                <i class="fas fa-users fa-lg"></i>
+                <strong>Friends</strong>
+              </div>
+            </a>
+            <a href="">
+            <div class="side-item">
+              <i class="fas fa-chalkboard-teacher fa-lg"></i>
+              <strong>Teachers</strong>
+            </div>
+            </a>
+            <a href="">
+            <div class="side-item">
+              <i class="fas fa-graduation-cap fa-lg"></i>
+              <strong>Students</strong>
+            </div>
+            </a>
+            <a href="">
+            <div class="side-item">
+              <i class="fas fa-school fa-lg"></i>
+              <strong>Batches</strong>
+            </div>
+            </a>
+            <a href="">
+              <div class="side-item">
+                <i class="fas fa-address-book fa-lg"></i>
+                <strong>Notes</strong>
+              </div>
+            </a>
+            
+            <hr>
+            <a href="">
+            <div class="side-item">
+              <i class="far fa-address-card fa-lg"></i>
+              <strong>About Us</strong>
+            </div>
+          </a>
+          <a href="">
+            <div class="side-item">
+              <i class="fas fa-address-book fa-lg"></i>
+              <strong>Contact Us</strong>
+            </div>
+          </a>
+          <a href="">
+            <div class="side-item">
+              <i class="fas fa-question-circle fa-lg"></i>
+              <strong>Help</strong>
+            </div>
+          </a>
+            <hr>
+            <a href="">
+              <div class="side-item">
+                <i class="fas fa-sign-out-alt fa-lg"></i>
+                <strong>Log Out</strong>
+              </div>
+            </a>
+            <hr>
+        </div>  
+      
+      </div>
+      </div>
+      <div class="float-right notVisibleOnCollapse">
+        <a class="mr-2" href=""><strong>About Us</strong></a>
+        <a class="mr-2" href=""><strong>Contact</strong></a>
+        <button type="button" class="btn btn-outline-primary mr-2"><i class="fas fa-user-plus"></i> Sign Up</button>
+        <button type="button" class="btn btn-primary"><i class="fas fa-sign-in-alt"></i> Log In</button>
+      </div>
+    </nav>
+
+    <!-- header after log-in -->
+    
+   <div class="sticky-top">
+    <div class="row homeNavbar">
+      <div class="col-lg pt-2 " >
+      </div>  
+     <div class="col-lg-6" >
+        <div class=" d-flex justify-content-between ">
+          <div>
+            <a class="p-2" href=""><i class="fas fa-home fa-lg"></i></a>
+          </div>
+          <div>
+            <a class="p-2" href=""><i class="fas fa-bell fa-lg"></i></a>
+          </div>
+          <div>
+            <a class="p-2" href=""><i class="fas fa-address-book fa-lg"></i></a>
+          </div>
+          <div>
+            <a class="p-2" href=""><i class="fas fa-comment fa-lg"></i></a>
+          </div>
+          <div>
+            <a class="p-2" href=""><i class="fas fa-plus-square fa-lg"></i></a>
+          </div>
+        </div>
+      </div> 
+      <div class="col-lg pt-2 " >
+      </div> 
+    </div>
+  </div>
+    <!-- structure here -->
+    
+    <%- include('designs/structure') %> 
+    <!-- older header -->
     <header class="header-bar mb-3" ;>
       <div class="container d-flex flex-column flex-md-row align-items-center p-3">
         <h4 class="my-0 mr-md-auto font-weight-normal"><a href="/" class="text-white">Uteach</a></h4>
