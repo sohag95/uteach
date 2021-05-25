@@ -58,15 +58,83 @@ Rating.prototype.giveRating = function (username) {
   })
 }
 
+//have to work later on this function
 Rating.prototype.updateRating = function (username) {
   return new Promise(async (resolve, reject) => {
     try {
-      
         resolve()
     } catch {
       reject()
     }
   })
 }
+
+
+Rating.teachersRating=function(){
+  return new Promise(async (resolve, reject) => {
+    try {
+      let teachers=await userCollection.find({
+        $or: [{ accountType: "teacher" }, { accountType: "studentTeacher" }] 
+      }).toArray()
+
+      let batchTeachers=teachers.filter((teacher)=>{
+        if(teacher.teacherData.allBatchesTeach.length!=0){
+          return teacher
+        }
+      }).map((teacher)=>{
+          let totalRating=0
+          let averageRating=0
+          let givenNumber=teacher.rating.givenBy.length
+          if(givenNumber){
+            teacher.rating.givenBy.forEach((rate)=>{
+              totalRating+=Number(rate.rated)
+            })
+            averageRating=Number((totalRating/givenNumber).toFixed(2))
+          }
+          let data={
+            username:teacher.username,
+            name:teacher.name,
+            address:teacher.address,
+            averageRating:averageRating,
+            givenNumber:givenNumber
+          }
+          return data
+      })
+
+      let tuitionTeachers=teachers.filter((teacher)=>{
+        if(teacher.teacherData.homeTuitionAnnouncements.length!=0){
+          return teacher
+        }
+      }).map((teacher)=>{
+          let totalRating=0
+          let averageRating=0
+          let givenNumber=teacher.rating.givenBy.length
+          if(givenNumber){
+            teacher.rating.givenBy.forEach((rate)=>{
+              totalRating+=Number(rate.rated)
+            })
+            averageRating=Number((totalRating/givenNumber).toFixed(2))
+          }
+          let data={
+            username:teacher.username,
+            name:teacher.name,
+            address:teacher.address,
+            averageRating:averageRating,
+            givenNumber:givenNumber
+          }
+          return data
+      })
+
+      let teachersRating={
+        batchTeachers:batchTeachers,
+        tuitionTeachers:tuitionTeachers
+      }
+      resolve(teachersRating)
+    } catch {
+      reject()
+    }
+  })
+}
+
 
 module.exports = Rating

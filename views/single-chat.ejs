@@ -1,5 +1,21 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
 
+
+<div style="display: flex;flex-wrap: wrap;">
+  <%- include('includes/designs/desktop-screen-left-part') %>
+  <div class="col-lg-6 pt-2 "  >
+  <%- include('includes/designs/message-room-one-to-one-structure') %>
+  </div>
+  <%- include('includes/designs/desktop-screen-right-part') %>
+</div>
+
+<%- include('includes/footer') %>
+
+
+
+
+
+
 <!-- chat feature begins -->
 <div class="text-center"><strong><%=user.username%>&nbsp;&nbsp;<i class="fas fa-paper-plane"></i>&nbsp;&nbsp; <%=messageTo%></strong></div>
 <div id="chat-wrapper" class="container py-md-5 container--narrow" style="height: 480px">
@@ -27,13 +43,6 @@
       </div>
     </div>
     <% }%> <%})%>
-    <!-- template for your own message -->
-
-    <!-- end template-->
-
-    <!-- template for messages from others -->
-
-    <!-- end template-->
   </div>
 
   <form action="/sendMessage/<%=messageTo%>" method="post" id="chatForm" class="chat-form border-top">

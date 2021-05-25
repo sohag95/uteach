@@ -1,4 +1,18 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
+
+
+<div style="display: flex;flex-wrap: wrap;">
+  <%- include('includes/designs/desktop-screen-left-part') %>
+  <div class="col-lg-6 pt-2 "  >
+  <%- include('includes/designs/notes-structure') %>
+  </div>
+  <%- include('includes/designs/desktop-screen-right-part') %>
+</div>
+
+<%- include('includes/footer') %>
+
+
+
 <div class="text-center">
   <h2>This is <strong><%= user.name %>'s</strong> Library</h2>
 </div>
@@ -70,4 +84,4 @@
 </div>
 <hr>
 
-<%- include('includes/footer') %>
+

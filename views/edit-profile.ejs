@@ -1,5 +1,133 @@
 <%- include('includes/header') %>
-<h2 class="text-center mb-4"><strong>Edit Your Profile</strong></h2>
+<%- include('includes/flash') %>
+
+<div class="mt-2 mb-2" style="display: flex;flex-wrap: wrap;">
+<div class="col-lg"></div>
+<div class="col-lg-7">
+  <h4 class="bolder text-primary"><strong>Edit Your Profile</strong></h4>
+  <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
+    <h5 class="bolder m-2">Update Cover Photo</h5>
+    <form class="m-2" action="/coverPictureUpload" method="POST" id="fileUpload-form1" enctype="multipart/form-data">
+      <label class="text-center" for="FormControlFile1">Choose cover picture</label> 
+      <div class="input-group post-form-container" style="margin-bottom: 2px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Upload</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" name="coverPicture" class="custom-file-input" required id="inputGroupFile01">
+          <label class="custom-file-label" for="inputGroupFile01">Choose file(.jpg formated)</label>
+        </div>
+      </div>
+      <button type="submit" class=" btn btn-sm btn-secondary btn-block">Submit</button>
+    </form>
+  </div>
+
+  <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
+    <h5 class="bolder m-2">Update Profile Photo</h5>
+    <form class="m-2" action="/profilePictureUpload" method="POST" id="fileUpload-form2" enctype="multipart/form-data">
+      <label class="text-center" for="FormControlFile2">Choose profile picture</label> 
+      <div class="input-group post-form-container" style="margin-bottom: 2px;">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Upload</span>
+        </div>
+        <div class="custom-file">
+          <input type="file" name="profilePicture" class="custom-file-input" required id="inputGroupFile02">
+          <label class="custom-file-label" for="inputGroupFile02">Choose file (.jpg formated)</label>
+        </div>
+      </div>
+      <button type="submit" class=" btn btn-sm btn-secondary btn-block">Submit</button>
+    </form>
+  </div>
+
+  <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
+    <h5 class="bolder m-2">Edit address data</h5>
+    <form class="m-2" action="/present-address/<%=user.username%>/update" method="POST" id="presentAddress-form">
+        <strong class="text-primary"> Present address</strong>
+        <div class="form-group">
+          <label for="district" class="text-muted mb-1"><small>Select Your District</small></label>
+          <select id="district" class="form-control form-control-lg" name="district" form="presentAddress-form">
+            <option value="darjeeling">Darjeeling</option>
+            <option value="jalpaiguri">Jalpaiguri</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="policeStation" class="text-muted mb-1"><small>Select Police Station</small></label>
+          <select id="policeStation" class="form-control form-control-lg" name="policeStation" form="presentAddress-form">
+            <option value="siliguri">Siliguri</option>
+            <option value="pradhan nagar">Pradhan Nagar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="postOffice" class="text-muted mb-1"><small>Select Post Office</small></label>
+          <select id="postOffice" class="form-control form-control-lg" name="postOffice" form="presentAddress-form">
+            <option value="champasari">Champasari</option>
+            <option value="siliguri">Siliguri</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="address-register" class="text-muted mb-1"><small>Near By Place(optional)</small></label>
+          <input name="nearBy" id="address-register" class="form-control form-control-lg" type="text" placeholder="Exact location address." autocomplete="off" />
+        </div>
+      <div style="text-align: center;">
+        <button class="btn btn-success btn-lg btn-block">Submit present address</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
+    <h5 class="bolder m-2">Edit profile data</h5>
+    <form class="m-2" action="/profile/<%= user.username %>/edit" method="POST" id="registration-form">
+      
+        <strong class="text-primary"> User related data</strong>
+        <div class="form-group">
+          <label for="name-register" class="text-muted"><small>Full name</small></label>
+          <input name="name" value="<%=editableData.name%>" id="name-register" class="form-control form-control-lg " type="text" placeholder="Your full name." required autocomplete="off" />
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="dateOfBirth-register" class="text-muted"><small>Date of Birth</small></label>
+              <input name="dob" value="<%=editableData.dob%>" id="dateOfBirth-register" class="form-control form-control-lg " type="date" placeholder="Birth date" required autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="form-group">
+              <label for="phone-register" class="text-muted"><small>Phone Number</small></label>
+              <input name="phone" value="<%=editableData.phone%>" id="phone-register" class="form-control form-control-lg " type="text" placeholder="Phone number" required autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email-register" class="text-muted"><small>Email Id</small></label>
+          <input name="email" value="<%=editableData.email%>"  id="email-register" class="form-control form-control-lg " type="text" placeholder="Email id" autocomplete="off" />
+        </div>
+      <div style="text-align: center;">
+        <button class="btn btn-success btn-lg btn-block">Submit profile data</button>
+      </div>
+    </form>
+  </div>
+
+  <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
+    <h5 class="bolder m-2">Change password</h5>
+    <%- include('includes/passwordChangingForm') %>
+  </div>
+
+</div>
+<div class="col-lg"></div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<h5 class="text-center mb-4"><strong>Edit Your Profile</strong></h5>
 <div style="margin-bottom: 9px;">
 <div class="container py-md-5 container--narrow">
   <%- include('includes/flash') %>
@@ -37,7 +165,7 @@
       
       <div class="form-group">
         <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
-        <input name="phone" value="<%=editableData.phone%>" id="phone-register" class="form-control" type="text" placeholder="Enter your phone number" autocomplete="off" />
+        <input name="phone" value="<%=editableData.phone%>" id="phon-register" class="form-control" type="text" placeholder="Enter your phone number" autocomplete="off" />
       </div>
         
       <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit</button>

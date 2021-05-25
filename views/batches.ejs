@@ -1,22 +1,14 @@
-<%- include('includes/header') %><%- include('includes/flash') %> <%if(accountType=="studentTeacher"){%>
+<%- include('includes/header') %> <%- include('includes/flash') %>
 
-<div class="container mb-4"><%- include('includes/batch-create-form') %></div>
-<div class="container mb-4"><%- include('includes/home-tuition-announcement-form') %></div>
-<h2 class="text-center">Batches as a Teacher</h2>
-<%- include('includes/batches-page-for-teacher') %>
-<%- include('includes/home-tuition-announcements') %> 
+<div style="display: flex;flex-wrap: wrap;">
+  <%- include('includes/designs/desktop-screen-left-part') %>
+  <div class="col-lg-6 pt-2 "  >
+  <%- include('includes/designs/batch-structure') %>
+  </div>
+  <%- include('includes/designs/desktop-screen-right-part') %>
+</div>
 
-<br />
-<hr />
-<h2 class="text-center">Batches as a Student</h2>
-<%- include('includes/batches-page-for-student') %> 
-<%}else if(accountType=="teacher"){%> 
-<div class="container mb-4"><%- include('includes/batch-create-form') %></div>
-<div class="container mb-4"><%- include('includes/home-tuition-announcement-form') %></div>
-<h2 class="text-center">Batches as a Teacher</h2>
-<%- include('includes/batches-page-for-teacher') %> 
-<%- include('includes/home-tuition-announcements') %> 
-<%}else{%>
-<h2 class="text-center">Your Taken Batches</h2>
-<%- include('includes/batches-page-for-student') %> 
-<%}%> <%- include('includes/footer') %>
+<%- include('includes/footer') %>
+
+
+

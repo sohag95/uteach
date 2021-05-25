@@ -1,118 +1,181 @@
 <%- include('includes/header') %><%- include('includes/flash') %>
-<div>
-  
-  <div class="text-center">
-    <picture>
-      <img class="shadow coverPictureAvatar" src="/images/cover/cover-<%=profileUser.username%>.jpg" class="img-fluid" alt="Responsive image">
-      </picture> 
-  </div>
-      <div class="text-center">
-        <picture>
-          <img class="shadow profilePictureAvatar" src="/images/profile/profile-<%=profileUser.username%>.jpg"  alt="">    
-        </picture> 
-        <div>
-          <i class="fas fa-camera"> </i> 
-        </div>
-    </div> 
-  <%if(profileUser.accountType=="student"){ %> 
-    <h2 class="text-center">Students's Profile Data</h2>
-    
-  <%}else if(profileUser.accountType=="teacher"){ %>
-  <h2 class="text-center">Teacher's Profile Data</h2>
-  <%}else if(profileUser.accountType=="studentTeacher"){ %>
-  <h2 class="text-center">Student also Teacher's Profile Data</h2>
-  <%}%>
-  <div class="container mb-4" >
-    <% if (isVisitorsProfile) { %>
-      <span class="pt-2 flex-right">
-        <a href="/profile/<%= profileUser.username %>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-      </span>
-    <% } %>
-    <p><strong>Name : </strong><%= profileUser.name %></p>
-    <p><strong>Date of birth : </strong><%= profileUser.dob %></p>
-    <p><strong>Gender : </strong><%= profileUser.gender %></p>
-    <p><strong>Address : </strong><%= profileUser.address %></p>
-    <p><strong>email : </strong><%= profileUser.email %></p>
-    <p><strong>Phone number : </strong><%= profileUser.phone %></p>
-    <p><strong>Account type : </strong><%= profileUser.accountType %></p>
+<%- include('includes/designs/profile-related-header') %>
+    <!-- Profile related structures will be added here -->
+    <!-- **************************************************** -->
 
-    <% if (isVisitorsProfile) { %>
-    <span class="pt-2">
-      <% if (profileUser.accountType=="student") { %>
-
-      <div><%- include('includes/upgrade-account-form') %></div>
-      <% }else{ %>
-      <button class="btn btn-lg btn-primary btn-block">Only owner can see this</button>
-      <div class="card">
-        <div class="card-body">
-          <form action="/coverPictureUpload" method="POST" id="fileUpload-form1" enctype="multipart/form-data">
-            <div class="custom-file form-group">
-              <label for="FormControlFile1">Choose cover picture</label>
-              <input type="file" name="coverPicture" class="form-control" id="FormControlFile1" />
-            </div>
-            <button type="submit" class=" btn btn-sm btn-success ">Submit</button>
-          </form>
-        </div>
-         <div class="card-body">
-            <form action="/profilePictureUpload" method="POST" id="fileUpload-form2" enctype="multipart/form-data">
-              <div class="custom-file form-group">
-                <label for="FormControlFile2">Choose profile picture</label>
-                <input type="file" name="profilePicture" class="form-control" id="FormControlFile2" />
-              </div>
-              <button type="submit" class=" btn btn-sm btn-success ">Submit</button>
-            </form>
+    <div class="row">
+      <div class="col-md-4">
+        <div class="">
+          <div class="item-container mb-2">
+            <strong><p>Identity</p></strong>
+            <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+            <%if(profileUser.accountType=="student"){ %> 
+              <p><i class="fas fa-briefcase"></i><strong> Work -</strong> Student</p>
+            <%}else if(profileUser.accountType=="teacher"){%>
+              <p><i class="fas fa-briefcase"></i><strong> Work -</strong> Teacher</p>
+            <%}else{%>
+              <p><i class="fas fa-briefcase"></i><strong> Work -</strong> Student with teaching</p>
+            <%}%>
+            <p><i class="fas fa-home"></i> <strong> Home - </strong> <span class="text-capitalize"><%=profileUser.address.postOffice%></span></p>
+            <p><i class="fas fa-graduation-cap"></i><strong> College - </strong> Siliguri College</p>
+            <p><i class="fas fa-map-marker-alt"></i><strong> Address - </strong> <span class="text-capitalize"><%=profileUser.address.district%>,</span> <%=profileUser.address.policeStation%>.</p>
+            <%if(profileUser.gender=="male"){ %> 
+              <p><i class="fas fa-male"></i><strong> Gender - </strong> Male</p> 
+            <%}else if(profileUser.gender=="female"){%>
+              <p><i class="fas fa-female"></i><strong> Gender - </strong> Female</p>
+            <%}else{%>
+              <p><i class="fas fa-female"></i><strong> Gender - </strong> Custom</p>
+            <%}%>
+            <p><i class="fas fa-clock"></i><strong> Joined on - </strong> 5 may 2021</p>
+            
+            <%if(isVisitorsProfile){ %> 
+            <a href="/profile/<%= profileUser.username %>/edit">
+              <div class="btn btn-secondary btn-block"><i class="fas fa-pen"></i> Update your profile</div>
+            </a>
+            <%}%>
+            <hr>
+            <%if(profileUser.accountType=="student" && isVisitorsProfile){ %> 
+            <div class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Upgrate account as a teacher</div>
+            <%}%>
           </div>
-      </div>
-      <% } %>
-    </span>
-    <% }else{%>
-      <%if(profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher"){%>
-        <%let student=false %>
-        <% connections.teacherConnections.allStudents.forEach(function(stu) { %>
-          <%  if(stu.username==user.username){%>
-            <% student=true %>
-        <%}})%>
-        <%if(student){%>
-          <%let rated=false %>
-          <%profileUser.rating.givenBy.forEach(function(given) { %>
-            <%  if(given.username==user.username){%>
-              <% rated=true %>
-          <%}})%>
-          <%if(!rated){%>
-            <%- include('includes/give-rating') %>
-          <%}else{%>
-            <div class="btn btn-primary btn-block">You have given your rating</div>
+          <div class="item-container mb-2">
+            <a href="/running-batches/<%=profileUser.username%>">
+              <div class="btn btn-success btn-block">All running batches <i class="fas fa-arrow-right"></i></div>
+            </a>
+          </div>
+          <%if(!isVisitorsProfile && (profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher")){%>
+            <%let student=false %>
+            <%let myRating %>
+            <% connections.teacherConnections.allStudents.forEach(function(stu) { %>
+              <%if(stu.username==user.username){%>
+                <% student=true %>
+                
+              <%}%>
+            <%})%>
+            <%if(student){%>
+              <%let rated=false %>
+              <%profileUser.rating.givenBy.forEach(function(given) { %>
+                <%  if(given.username==user.username){%>
+                  <% rated=true %>
+                  <% myRating=given%>
+              <%}})%>
+              <%if(!rated){%>
+                <%- include('includes/give-rating') %>
+              <%}else{%>
+                <%rating=Number(myRating.rated)%>
+                <div class="item-container mb-2 text-center">
+                  <strong class="d-block bolder ">Your given rating</strong>
+                  <span class="text-warning">
+                    <%- include('includes/rating-stars') %> <strong>(<%=rating%>)</strong>
+                  </span>
+                  <div><strong>Comment : </strong><%=myRating.comment%></div>
+                  <div><strong>Date : </strong><%=myRating.createdDate%></div>
+                </div>
+              <%}%>
+            <%}%>
           <%}%>
-        <%}%>
-      <%}%>
-    <%} %>
-  </div>
-</div>
+          
+          <%if(profileUser.accountType=="student" || profileUser.accountType=="studentTeacher"){%>
+            
+            <div class="item-container mb-2">
+              <strong><p>Friends (<%=connections.studentConnections.allFriends.length%>)</p></strong>
+              <%if(!connections.studentConnections.allFriends.length){%>
+                <%if(isVisitorsProfile){%>
+                  <p class="btn btn-primary btn-block">You have no friend!!</p>
+                <%}else{%>
+                  <p class="btn btn-primary btn-block">User has no friend!</p>
+                <%}%>
+              <%}else{%>
+                <div class="row mb-2">
+                  <%let range1=3%>
+                  <%if(connections.studentConnections.allFriends.length<3){%>
+                    <%range1=connections.studentConnections.allFriends.length%>
+                  <%}%>
+                  <%for(let i=0;i<range1;i++){%>
+                    <div class="col-4 text-center" >
+                      <img style="height: 100px;width: 95%;border-radius: 5px;" src="/images/profile/profile-<%=connections.studentConnections.allFriends[i].username%>.jpg" alt="">
+                      <a href="/profile/<%=connections.studentConnections.allFriends[i].username%>">
+                        <span class="d-block text-left"><%=connections.studentConnections.allFriends[i].name%></span>
+                      </a>
+                     </div>
+                  <%}%>
+                </div>
+                <a href="/friends/<%= profileUser.username %>"><p class="btn btn-primary btn-block">See all friends...</p></a>
+              <%}%>
+            </div>
 
-<div class="text-center">
-  <%if(profileUser.accountType=="student" || profileUser.accountType=="studentTeacher"){ %>
-  <a href="/batchesTaken/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Batches Taken</button></a>
-  <a href="/teachers/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Teachers</button></a>
-  <a href="/friends/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Friends</button></a>
-  <% } %> <%if(profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher"){ %>
-  <a href="/batchesTeach/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Batches Teach</button></a>
-  <a href="/students/<%= profileUser.username %>"> <button class="btn btn-sm btn-secondary">Students</button></a>
-  <% } %> 
-</div>
-<hr>
-<h3 class="text-center"><strong>All Posts</strong></h3>
-<% if (isVisitorsProfile) { %>
-  <%- include('includes/post-forms') %>
-<%}%>
-<hr>
-<div class="container " >
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <%- include('includes/posts') %>
+            <div class="item-container mb-2">
+              <strong><p>Teachers (<%=connections.studentConnections.allTeachers.length%>)</p></strong>
+              <%if(!connections.studentConnections.allTeachers.length){%>
+                <%if(isVisitorsProfile){%>
+                  <p class="btn btn-primary btn-block">You have no teacher!!</p>
+                <%}else{%>
+                  <p class="btn btn-primary btn-block">User has no teacher!</p>
+                <%}%>
+              <%}else{%>
+                <div class="row mb-2">
+                  <%let range2=3%>
+                  <%if(connections.studentConnections.allTeachers.length<3){%>
+                    <%range2=connections.studentConnections.allTeachers.length%>
+                  <%}%>
+                  <%for(let i=0;i<range2;i++){%>
+                    <div class="col-4 text-center" >
+                      <img style="height: 100px;width: 95%;border-radius: 5px;" src="/images/profile/profile-<%=connections.studentConnections.allTeachers[i].username%>.jpg" alt="">
+                      <a href="/profile/<%=connections.studentConnections.allTeachers[i].username%>">
+                        <span class="d-block text-left"><%=connections.studentConnections.allTeachers[i].name%></span>
+                      </a>
+                     </div>
+                   <%}%>
+                 </div>
+                  <a href="/teachers/<%=profileUser.username %>"><p class="btn btn-primary btn-block">See all teachers...</p></a>
+                <%}%>        
+            </div>
+
+          <%}%>
+
+          <%if(profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher"){%>
+            <div class="item-container mb-2">
+              <strong><p>Students (<%=connections.teacherConnections.allStudents.length%>)</p></strong>
+              <%if(!connections.teacherConnections.allStudents.length){%>
+                <%if(isVisitorsProfile){%>
+                  <p class="btn btn-primary btn-block">You have no student!!</p>
+                <%}else{%>
+                  <p class="btn btn-primary btn-block">User has no student!</p>
+                <%}%>
+              <%}else{%>
+                <div class="row mb-2">
+                  <%let range3=3%>
+                  <%if(connections.teacherConnections.allStudents.length<3){%>
+                    <%range3=connections.teacherConnections.allStudents.length%>
+                  <%}%>
+                  <%for(let i=0;i<range3;i++){%>
+                    <div class="col-4 text-center" >
+                      <img style="height: 100px;width: 95%;border-radius: 5px;" src="/images/profile/profile-<%=connections.teacherConnections.allStudents[i].username%>.jpg" alt="">
+                      <a href="/profile/<%=connections.teacherConnections.allStudents[i].username%>">
+                        <span class="d-block text-left"><%=connections.teacherConnections.allStudents[i].name%></span>
+                      </a>
+                     </div>
+                  <%}%>
+                </div>
+                <a href="/students/<%=profileUser.username %>"><p class="btn btn-primary btn-block">See all students...</p></a>
+              <%}%>
+            </div>
+          <%}%>
+
+        </div>
       </div>
-      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        
+        <% if (isVisitorsProfile) { %>
+          <%- include('includes/post-form') %>
+        <%}%>
+        <h5 class="bolder text-center">All Posts</h5>
+        <%- include('includes/designs/post-structure') %>
+      </div>
     </div>
-  </div>
-</div>
+    
+
+    <!-- **************************************************** -->
+<%- include('includes/designs/profile-related-footer') %>
+
 <%- include('includes/footer') %>

@@ -33,6 +33,9 @@ Batch.prototype.cleanUp = function () {
   if (typeof this.data.days != "string") {
     this.data.days = ""
   }
+  if (typeof this.data.batchMood != "string") {
+    this.data.batchMood = ""
+  }
   if (typeof this.data.district != "string") {
     this.data.district = ""
   }
@@ -54,15 +57,17 @@ Batch.prototype.cleanUp = function () {
     classTime: sanitizeHTML(this.data.classTime.trim(), { allowedTags: [], allowedAttributes: {} }),
     session: sanitizeHTML(this.data.session.trim(), { allowedTags: [], allowedAttributes: {} }),
     studentsQuentity: this.data.studentsQuentity,
-    district: sanitizeHTML(this.data.district.trim(), { allowedTags: [], allowedAttributes: {} }),
-    policeStation: sanitizeHTML(this.data.policeStation.trim(), { allowedTags: [], allowedAttributes: {} }),
-    postOffice: sanitizeHTML(this.data.postOffice.trim(), { allowedTags: [], allowedAttributes: {} }),
-    address: sanitizeHTML(this.data.address.trim(), { allowedTags: [], allowedAttributes: {} }),
+    address:{
+      district: sanitizeHTML(this.data.district.trim(), { allowedTags: [], allowedAttributes: {} }),
+      policeStation: sanitizeHTML(this.data.policeStation.trim(), { allowedTags: [], allowedAttributes: {} }),
+      postOffice: sanitizeHTML(this.data.postOffice.trim(), { allowedTags: [], allowedAttributes: {} }),  
+    },
+    nearBy: sanitizeHTML(this.data.nearBy.trim(), { allowedTags: [], allowedAttributes: {} }),
+    batchMood:sanitizeHTML(this.data.batchMood.trim(), { allowedTags: [], allowedAttributes: {} }),
     appliedStudents: [],
     admittedStudents: [],
     groupMessages:[],
     presentBatch: true,
-    topperOfTheBatch: [],
     createdDate: new Date()
   }
 
@@ -77,13 +82,13 @@ Batch.prototype.validate = function () {
     this.errors.push("You must provide batch time.")
   }
   if (this.data.days == "") {
-    this.errors.push("You must provide selected date names.")
+    this.errors.push("You must provide selected day names.")
+  }
+  if (this.data.batchMood == "") {
+    this.errors.push("You must select batch mood.")
   }
   if (this.data.session == "") {
     this.errors.push("You must provide session of the batch.")
-  }
-  if (this.data.address == "") {
-    this.errors.push("You must provide address of the batch.")
   }
   if (this.data.studentsQuentity == "") {
     this.errors.push("You must provide total quentity of students for the batch.")
@@ -180,7 +185,8 @@ Batch.sentRequest = function (studentUsername, id, teacherUsername, studentName)
       //   .then(() => {
       let student = {
         name: studentName,
-        username: studentUsername
+        username: studentUsername,
+        requestedOn:new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
       }
       await batchCollection.updateOne(
         { _id: new ObjectID(id) },
@@ -214,12 +220,19 @@ Batch.sentRequest = function (studentUsername, id, teacherUsername, studentName)
   })
 }
 
-Batch.prototype.acceptRequest = function (batch, studentUsername, studentName) {
+Batch.prototype.acceptRequest = function (batch, studentUsername, studentName,requestedOn) {
   return new Promise(async (resolve, reject) => {
     try {
       let student = {
         name: studentName,
-        username: studentUsername
+        username: studentUsername,
+        joinedOn:new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+      }
+
+      let removeStudent = {
+        name: studentName,
+        username: studentUsername,
+        requestedOn:requestedOn
       }
 
       let notification = {
@@ -245,7 +258,7 @@ Batch.prototype.acceptRequest = function (batch, studentUsername, studentName) {
         { _id: new ObjectID(batch._id) },
         {
           $pull: {
-            appliedStudents: student
+            appliedStudents: removeStudent
           }
         }
       )
@@ -274,12 +287,13 @@ Batch.prototype.acceptRequest = function (batch, studentUsername, studentName) {
   })
 }
 
-Batch.prototype.deleteRequest = function (batch, studentUsername, studentName) {
+Batch.prototype.deleteRequest = function (batch, studentUsername, studentName,requestedOn) {
   return new Promise(async (resolve, reject) => {
     try {
       let student = {
         name: studentName,
-        username: studentUsername
+        username: studentUsername,
+        requestedOn:requestedOn
       }
 
       let notification = {
@@ -314,12 +328,13 @@ Batch.prototype.deleteRequest = function (batch, studentUsername, studentName) {
   })
 }
 
-Batch.prototype.deleteStudentFromBatch = function (batch, studentUsername, studentName) {
+Batch.prototype.deleteStudentFromBatch = function (batch, studentUsername, studentName,joinedOn) {
   return new Promise(async (resolve, reject) => {
     try {
       let student = {
         name: studentName,
-        username: studentUsername
+        username: studentUsername,
+        joinedOn:joinedOn
       }
 
       let notification = {

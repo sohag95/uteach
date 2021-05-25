@@ -1,20 +1,64 @@
 <%- include('includes/header') %>
-<div class="container">
-  <h5>All Teachers (<%=teachers.length%>)</h5>
+
+<%- include('includes/designs/profile-related-header') %>
+<!-- page structure will be here -->
+
+<div style="background-color: #fff;">
+  <h4 class="bolder col"><strong>All Teachers (<%=teachers.length%>)</strong></h4>
   <%if(!teachers.length){%>
-  <span class="pt-2">
-    <p class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">There is no teacher till now.</p>
-  </span>
-  <%}%> <%teachers.forEach((teacher)=>{%>
-  <span class="list-group-item list-group-item-action">
-    <a href="/profile/<%=teacher.username%>">
-      <img class="avatar-tiny" src="/images/profile/profile-<%=teacher.username%>.jpg" />
-      <strong class="text-uppercase"><%=teacher.teacherName%> </strong>
-    </a>
-    <div class="float-right">
-      <a href="/single-chat/<%=teacher.username%>"><i class="fas fa-comment"></i></a>
-    </div>
-  </span>
-  <%})%>
+    <%if(isVisitorsProfile){%>
+      <div class="connection-container">
+        <div class="btn btn-primary btn-block">You have no teacher!</div>
+      </div>
+    <%}else{%>
+      <div class="connection-container">
+        <div class="btn btn-primary btn-block">No teacher available!</div>
+      </div>
+    <%}%>
+  <%}else{%>
+    <%if(teachers.length==1){%>
+      <div class="col">
+        <div class="connection-container">
+          <img style="border-radius: 5px;" height="70" width="70" src="/images/profile/profile-<%=teachers[0].username%>.jpg" alt="">
+          <div class="name-container">
+            <strong class="d-block ml-2" style="width: 100%;"><a href="/profile/<%=teachers[0].username%>"><%=teachers[0].teacherName%></a></strong>
+            <strong class="d-block float-right"><i class="fas fa-ellipsis-h"></i></strong>
+          </div>
+        </div>
+      </div>
+      
+    <%}else{%>
+      <%let middle=parseInt(teachers.length/2)%>
+      <div style="display: flex;    flex-wrap: wrap;">
+        <div class="col-md-6">
+          <%for(let i=0;i<middle;i++){%>
+            <div class="connection-container">
+              <img style="border-radius: 5px;" height="70" width="70" src="/images/profile/profile-<%=teachers[i].username%>.jpg" alt="">
+              <div class="name-container">
+                <strong class="d-block ml-2" style="width: 100%;"><a href="/profile/<%=teachers[i].username%>"><%=teachers[i].teacherName%></a></strong>
+                <strong class="d-block float-right"><i class="fas fa-ellipsis-h"></i></strong>
+              </div>
+            </div>
+          <%}%>
+        </div>
+        <div class="col-md-6" >
+          <%for(let j=middle;j<teachers.length;j++){%>
+          <div class="connection-container">
+            <img style="border-radius: 5px;" height="70" width="70" src="/images/profile/profile-<%=teachers[j].username%>.jpg" alt="">
+            <div class="name-container">
+              <strong class="d-block ml-2" style="width: 100%;"><a href="/profile/<%=teachers[j].username%>"><%=teachers[j].teacherName%></a></strong>
+              <strong class="d-block float-right"><i class="fas fa-ellipsis-h"></i></strong>
+            </div>
+          </div>
+          <%}%>
+        </div>
+      </div>
+    <%}%>
+    
+  <%}%>
 </div>
+
+<!-- #################################### -->
+<%- include('includes/designs/profile-related-footer') %>
+
 <%- include('includes/footer') %>

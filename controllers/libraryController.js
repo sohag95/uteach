@@ -30,6 +30,7 @@ exports.getLibraryData =async function (req, res) {
     console.log("webLinknotes:",webLinkNotes)
 
     res.render("library",{
+      myActiveConnections:req.myActiveConnections,
       textNotes:textNotes,
       webLinkNotes:webLinkNotes
     })

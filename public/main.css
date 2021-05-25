@@ -4,6 +4,10 @@ body, .tooltip
   background-color: #f0f2f5;
   margin: 0;
   padding: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .header-bar {
@@ -39,6 +43,7 @@ body, .tooltip
   height: 24px;
   border-radius: 12px;
   margin-right: 4px;
+  margin-left:4px;
   position: relative;
   top: -1px;
 }
@@ -136,7 +141,7 @@ textarea.tall-textarea {
   display: flex;
   flex-direction: column;
   position: fixed;
-  z-index: 500;
+  z-index: 1500;
   top: 0;
   left: 0;
   bottom: 0;
@@ -517,6 +522,7 @@ label.star:before {
  .homeNavbar{ 
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   background-color: #FFF;
   padding: .5rem 1rem;
@@ -643,6 +649,7 @@ label.star:before {
    overflow-x: auto;
  }
  .teacher-banner-container .teacher-data,.batch-data{
+   max-width: 250px;
    min-width: 250px;
    background-color: #f0f2f5;
    margin-right: .45rem;
@@ -780,7 +787,7 @@ label.star:before {
   object-position: top;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
-  opacity: .6;
+  opacity: .7;
 }
 .batch-no{
   position: absolute;
@@ -805,12 +812,12 @@ label.star:before {
   margin-right: auto;
   margin-left: auto;
 }
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
   .single-batch-container{
     padding-right: 15px;
     padding-left: 15px;
   }
- }
+ } */
 
  .single-batch-data {
    background-color: #FFF;

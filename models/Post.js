@@ -2,8 +2,6 @@ const postsCollection = require("../db").db().collection("posts")
 
 const ObjectID = require("mongodb").ObjectID
 const sanitizeHTML = require("sanitize-html")
-const { post } = require("../router")
-const { Timestamp } = require("mongodb")
 const fs = require("fs")
 const md5 = require("md5")
 

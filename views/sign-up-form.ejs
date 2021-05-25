@@ -1,0 +1,82 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+
+<div class="row">
+  <div class="col" ></div>
+  <div class="col-lg-8 " style="margin-bottom: 2rem;" >
+    <h2 class="uteach text-primary mt-4 mb-2 text-center">Uteach</h2>
+    <div class="signUp-form-container ">   
+      <h2 class="bolder text-center">Create new account</h2>
+      <form action="/createAccount" method="POST" id="registration-form">
+        <% regErrors.forEach(function(message) { %>
+          <div class="alert alert-danger small"><%= message %></div>
+          <% }) %>
+          <strong class="text-primary"> User related data</strong>
+          <div class="form-group">
+            <label for="name-register" class="text-muted"><small>Full name</small></label>
+            <input name="name" id="name-register" class="form-control form-control-lg " type="text" placeholder="Your full name." required autocomplete="off" />
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="dateOfBirth-register" class="text-muted"><small>Date of Birth</small></label>
+                <input name="dateOfBirth" id="dateOfBirth-register" class="form-control form-control-lg " type="date" placeholder="Birth date" required autocomplete="off" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label for="phone-register" class="text-muted"><small>Phone Number</small></label>
+                <input name="phone" id="phone-register" class="form-control form-control-lg " type="text" placeholder="Phone number" required autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          
+            <div class="form-group">
+              <label for="gender-register" class="text-muted"><small>Gender</small></label>
+              <div id="gender-register" class="text-center" style="display: flex;">
+                <div class="col-4 form-control form-control-lg ">
+                Male <input name="gender" value="male" type="radio" required autocomplete="off" />
+                </div>
+                <div class="col-4 form-control form-control-lg ">
+                  Female <input name="gender" value="female"  type="radio"  autocomplete="off" />
+                </div>
+                <div class="col-4 form-control form-control-lg ">
+                  Custom <input name="gender" value="custom" type="radio"  autocomplete="off" />
+                </div>
+              </div>
+            </div>
+        
+          <strong class="text-primary">Account related data</strong>
+          <div class="form-group">
+            <label for="accountType-register" class="text-muted"><small>Account Type</small></label>
+            <div id="accountType-register" class="text-center" style="display: flex;">
+              <div class="col-6 form-control form-control-lg ">
+                Student <input name="accountType" value="student" required class="" type="radio" autocomplete="off" />
+              </div>
+              <div class="col-6 form-control form-control-lg ">
+                Teacher <input name="accountType" value="teacher"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="username-register" class="text-muted"><small>Username [Username will be used for log in]</small></label>
+            <input name="username" required id="username-register" class="form-control form-control-lg " type="text" placeholder="Choose an username" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="password-register" class="text-muted"><small>Password </small></label>
+            <input name="password" required id="password-register" class="form-control form-control-lg " type="password" placeholder="New password" autocomplete="off" />
+          </div>
+          <div class="form-group">
+            <label for="re-password-register" class="text-muted"><small>Confirm Password </small></label>
+            <input name="rePassword" required id="re-password-register" class="form-control form-control-lg " type="password" placeholder="Confirm password" autocomplete="off" />
+          </div>
+        <div style="text-align: center;">
+          <button class="btn btn-success btn-lg ">Sign up account</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  <div class="col" ></div>
+</div>
+
+  <%- include('includes/footer') %>

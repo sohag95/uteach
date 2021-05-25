@@ -12,14 +12,21 @@ let User = function (data) {
 }
 
 User.prototype.cleanUp = function () {
-  if (typeof this.data.username != "string") {
-    this.data.username = ""
-  }
+  
   if (typeof this.data.name != "string") {
     this.data.name = ""
   }
-  if (typeof this.data.email != "string") {
-    this.data.email = ""
+  if (typeof this.data.dateOfBirth != "string") {
+    this.data.dateOfBirth = ""
+  }
+  if (typeof this.data.phone != "string") {
+    this.data.phone = ""
+  }
+  if (typeof this.data.gender != "string") {
+    this.data.gender = ""
+  }
+  if (typeof this.data.username != "string") {
+    this.data.username = ""
   }
   if (typeof this.data.accountType != "string") {
     this.data.accountType = ""
@@ -31,46 +38,54 @@ User.prototype.cleanUp = function () {
     this.data = {
       username: this.data.username.trim().toLowerCase(),
       name: this.data.name,
-      allDataGiven:false,
-      gender: null,
-      dob: null,
-      address: null,
-      phone:null,
-      email: this.data.email,
+      bioStatus:"Bio status is not given",
+      gender: this.data.gender,
+      dob: this.data.dateOfBirth,
+      phone:this.data.phone,
+      email:"Not given",
       accountType: this.data.accountType,
+      address:null,
+      nearBy:"",
       studentData: {
         currentClass: "",
-        streamStudy: "",
+        Institution: "",
         allBatchesTaken: [],
         toppedBatches: []
       },
       notifications: [],
       password: this.data.password,
+      allDataGiven:false,
       createdDate: new Date()
     }
   } else if (this.data.accountType == "teacher") {
     this.data = {
       username: this.data.username.trim().toLowerCase(),
       name: this.data.name,
-      allDataGiven:false,
-      gender: null,
-      dob: null,
-      address: null,
-      phone:null,
-      email: this.data.email,
+      bioStatus:"Bio status is not given",
+      gender: this.data.gender,
+      dob: this.data.dateOfBirth,
+      phone:this.data.phone,
+      email:"Not given",
       accountType: this.data.accountType,
+      address:{
+        district:"",
+        area:"",
+        postOffice:""
+      },
+      nearBy:"",
       teacherData: {
         qualification: "",
-        streamTeach: "",
+        stream: "",
         subject: "",
         allBatchesTeach: [],
         homeTuitionAnnouncements:[],
         varifiedAccount: false,
-        createdDate: new Date()
       },
       rating:{givenBy:[]},
       notifications: [],
-      password: this.data.password
+      allDataGiven:false,
+      password: this.data.password,
+      createdDate: new Date()
     }
   } else {
     this.errors.push("Invalid account type.")
@@ -83,26 +98,29 @@ User.prototype.validate = function () {
     if (this.data.username == "") {
       this.errors.push("You must provide a username.")
     }
+    if (this.data.accountType == "") {
+      this.errors.push("You must select your account-type.")
+    }
     if (this.data.username != "" && !validator.isAlphanumeric(this.data.username)) {
       this.errors.push("Username can only contain letters and numbers.")
     }
     if (this.data.name == "") {
       this.errors.push("You must give your full name.")
     }
-    if (this.data.email == "") {
-      this.errors.push("You must provide a email address.")
+    if (this.data.phone == "") {
+      this.errors.push("You must provide your phone number.")
     }
-    if (this.data.email) {
-      if (!validator.isEmail(this.data.email)) {
-        this.errors.push("You must provide a valid email address.")
-      }
+    if (this.data.gender == "") {
+      this.errors.push("You must select your gender.")
     }
-
+    if (!(this.data.gender == "male" || this.data.gender == "female" || this.data.gender == "custom") ) {
+      this.errors.push("Your gender selection is wrong.")
+    }
     if (this.data.password == "") {
       this.errors.push("You must provide a password.")
     }
-    if (this.data.password.length > 0 && this.data.password.length < 5) {
-      this.errors.push("Password must be at least 5 characters.")
+    if (this.data.password.length > 0 && this.data.password.length < 8) {
+      this.errors.push("Password must be at least 8 characters.")
     }
     if (this.data.password.length > 50) {
       this.errors.push("Password cannot exceed 50 characters.")
@@ -113,7 +131,18 @@ User.prototype.validate = function () {
     if (this.data.username.length > 30) {
       this.errors.push("Username cannot exceed 30 characters.")
     }
-
+    if (this.data.username.length > 30) {
+      this.errors.push("Your name cannot exceed 30 characters.")
+    }
+    if (this.data.phone.length > 13) {
+      this.errors.push("Your phone number cannot contain more then 13 digits.")
+    }
+    if (this.data.phone.length < 10) {
+      this.errors.push("Your phone number should contain 10 digits.")
+    }
+    if (this.data.password==this.data.rePassword) {
+      this.errors.push("Your confirmation password did not match.")
+    }
     // Only if username is valid then check to see if it's already taken
     if (this.data.username.length > 2 && this.data.username.length < 31 && validator.isAlphanumeric(this.data.username)) {
       let usernameExists = await usersCollection.findOne({ username: this.data.username })
@@ -124,6 +153,27 @@ User.prototype.validate = function () {
     resolve()
   })
 }
+
+
+User.prototype.userRegister = function () {
+  return new Promise(async (resolve, reject) => {
+    // Step #1: Validate user data
+    this.cleanUp()
+    await this.validate()
+    // Step #2: Only if there are no validation errors
+    // then save the user data into a database
+    if (!this.errors.length) {
+      // hash user password
+      let salt = bcrypt.genSaltSync(10)
+      this.data.password = bcrypt.hashSync(this.data.password, salt)
+      await usersCollection.insertOne(this.data)
+      resolve()
+    } else {
+      reject(this.errors)
+    }
+  })
+}
+
 
 User.prototype.userLogin = function () {
   return new Promise((resolve, reject) => {
@@ -144,26 +194,6 @@ User.prototype.userLogin = function () {
   })
 }
 
-User.prototype.userRegister = function () {
-  return new Promise(async (resolve, reject) => {
-    // Step #1: Validate user data
-    this.cleanUp()
-    await this.validate()
-
-    // Step #2: Only if there are no validation errors
-    // then save the user data into a database
-    if (!this.errors.length) {
-      // hash user password
-      let salt = bcrypt.genSaltSync(10)
-      this.data.password = bcrypt.hashSync(this.data.password, salt)
-      await usersCollection.insertOne(this.data)
-      resolve()
-    } else {
-      reject(this.errors)
-    }
-  })
-}
-
 User.findByUsername = function (username) {
   return new Promise(function (resolve, reject) {
     if (typeof username != "string") {
@@ -177,6 +207,7 @@ User.findByUsername = function (username) {
           userDocument = {
             username: userDocument.username,
             name: userDocument.name,
+            bioStatus:userDocument.bioStatus,
             dob: userDocument.dob,
             gender: userDocument.gender,
             address: userDocument.address,
@@ -191,6 +222,7 @@ User.findByUsername = function (username) {
           userDocument = {
             username: userDocument.username,
             name: userDocument.name,
+            bioStatus:userDocument.bioStatus,
             dob: userDocument.dob,
             gender: userDocument.gender,
             address: userDocument.address,
@@ -206,6 +238,7 @@ User.findByUsername = function (username) {
           userDocument = {
             username: userDocument.username,
             name: userDocument.name,
+            bioStatus:userDocument.bioStatus,
             dob: userDocument.dob,
             gender: userDocument.gender,
             address: userDocument.address,
@@ -217,8 +250,6 @@ User.findByUsername = function (username) {
             rating:userDocument.rating,
             createdDate: userDocument.createdDate
           }
-
-         
           console.log("User owner :")
           resolve(userDocument)
         } else {
@@ -239,23 +270,15 @@ User.prototype.cleanUpEditableData = function () {
   if (typeof this.data.dob != "string") {
     this.data.dob = ""
   }
-  if (typeof this.data.address != "string") {
-    this.data.address = ""
-  }
   if (typeof this.data.phone != "string") {
     this.data.phone = ""
-  }
-  if (typeof this.data.gender != "string") {
-    this.data.gender = ""
   }
   if (typeof this.data.email != "string") {
     this.data.email = ""
   }
  this.data = {
       name: this.data.name,
-      gender: this.data.gender,
       dob: this.data.dob,
-      address: this.data.address,
       phone:this.data.phone,
       email: this.data.email,
     }
@@ -264,23 +287,23 @@ User.prototype.cleanUpEditableData = function () {
 
 User.prototype.validateEditableData = function () {
  
-    if (this.data.gender == "") {
-      this.errors.push("You must select your gender.")
-    }
     if (this.data.dob == "") {
       this.errors.push("You must provide your date of birth.")
     }
-    if (this.data.address == "") {
-      this.errors.push("You must provide your address.")
-    }
     if (this.data.phone == "") {
       this.errors.push("You must provide your phone number.")
+    }
+    if (this.data.phone.length<10) {
+      this.errors.push("Phone number should contain 10 digit.")
+    }
+    if (this.data.phone.length>13) {
+      this.errors.push("Phone number can not contain more than 13 digits.")
     }
     if (this.data.name == "") {
       this.errors.push("You must give your full name.")
     }
     if (this.data.email == "") {
-      this.errors.push("You must provide a email address.")
+      this.data.email="Email id is not given"
     }
     if (this.data.email) {
       if (!validator.isEmail(this.data.email)) {
@@ -315,9 +338,7 @@ User.prototype.actuallyUpdate = function(updateUsername) {
        {$set: {
               name: this.data.name,
               dob:this.data.dob,
-              address: this.data.address,
               phone:this.data.phone,
-              gender: this.data.gender,
               email: this.data.email}})
       resolve("success")
     } else {
@@ -340,7 +361,63 @@ User.findUserProfile = function(username, updateUsername) {
     }
   })
 }
-
+User.prototype.addressCleanUp=function(req,res){
+  if (typeof this.data.district != "string") {
+    this.data.district = ""
+  }
+  if (typeof this.data.policeStation != "string") {
+    this.data.policeStation = ""
+  }
+  if (typeof this.data.postOffice != "string") {
+    this.data.postOffice = ""
+  }
+  if (typeof this.data.nearBy != "string") {
+    this.data.nearBy = ""
+  }
+  let address={ 
+    district:this.data.district,
+    policeStation:this.data.policeStation,
+    postOffice:this.data.postOffice
+  }
+  this.data={
+    address:address,
+    nearBy:this.data.nearBy
+  }
+  
+}
+User.prototype.addressValidate=function(req,res){
+  if (this.data.district == "") {
+    this.errors.push("You must provide your district.")
+  }
+  if (this.data.policeStation == "") {
+    this.errors.push("You must provide your police station.")
+  }
+  if (this.data.postOffice == "") {
+    this.errors.push("You must provide your post office.")
+  }
+}
+User.prototype.updatePresentAddress = function(username) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      this.addressCleanUp()
+      this.addressValidate()
+      if(!this.errors.length){
+        await usersCollection.findOneAndUpdate(
+          {username: username},
+          {$set: {
+                address: this.data.address,
+                nearBy:this.data.nearBy
+              }
+          })
+          resolve()
+      }else{
+        reject()
+      }
+    } catch {
+      reject()
+    }
+  })
+}
 
 User.getNotifications = function (username) {
   return new Promise(async (resolve, reject) => {
@@ -473,5 +550,34 @@ User.uploadingCoverPicture = function (filePath, file) {
     }
   })
 }
+User.prototype.updateBioStatus=function(username){
+  return new Promise(async (resolve, reject) => {
+    try{
+      if (typeof this.data.bioStatus != "string") {
+        this.data.bioStatus = ""
+      }
+      if(this.data.bioStatus==""){
+        this.data.bioStatus="Bio status is not given."
+      }
+      if(this.data.bioStatus.length>250){
+        this.errors.push("Bio status can't contain more then 250 characters.")
+      }
+      if(!this.errors.length){
+        await usersCollection.findOneAndUpdate(
+          {username: username},
+         {$set: {
+                bioStatus: this.data.bioStatus
+                }
+          })
+          resolve()
+      }else{
+        reject()
+      }
 
+    }catch{
+      this.errors.push("There is some problem!")
+      reject()
+    }
+  })
+}
 module.exports = User

@@ -1,5 +1,27 @@
 const Post = require("../models/Post")
 const Operations=require("../models/Operations")
+const postsCollection = require("../db").db().collection("posts")
+
+
+exports.getPhotoUploadForm=async function(req,res){
+  try{
+    let allPosts = await postsCollection.find({ username: req.username}).toArray()
+    let photoLinks=allPosts.filter((post)=>{
+      if(post.postType=="photo"){
+        return post
+      }
+    }).map((post)=>{
+      return post.link
+    })
+    console.log("Links",photoLinks)
+    res.render("photo-upload-form",{
+      myActiveConnections:req.myActiveConnections,
+      photoLinks:photoLinks
+    })
+  }catch{
+
+  }
+}
 
 exports.createPost = function (req, res) {
   console.log(req.body)

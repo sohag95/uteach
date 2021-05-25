@@ -66,6 +66,7 @@ Operations.prototype.getConnections=function(){
     if(this.accountType=="teacher" || this.accountType=="studentTeacher"){
       teacherConnections=await this.teacherConnections()
     }
+    console.log("teacher Connections",teacherConnections)
     connections={
       studentConnections:studentConnections,
       teacherConnections:teacherConnections

@@ -1,4 +1,15 @@
-<%- include('includes/header') %>
+<%- include('includes/header') %> <%- include('includes/flash') %>
+
+<div style="display: flex;flex-wrap: wrap;">
+  <%- include('includes/designs/desktop-screen-left-part') %>
+  <div class="col-lg-6 pt-2 "  >
+  <%- include('includes/designs/message-rooms-structure') %>
+  </div>
+  <%- include('includes/designs/desktop-screen-right-part') %>
+</div>
+
+<%- include('includes/footer') %>
+
 <div class="container">
   <h5 class="text-center"><strong><%=user.name%>'s</strong> All Message Rooms(<%=rooms.length%>)</h5>
   <%if(!rooms.length){%>
@@ -27,4 +38,4 @@
   </span>
   <%})%>
 </div>
-<%- include('includes/footer') %>
+

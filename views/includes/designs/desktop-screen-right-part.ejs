@@ -1,0 +1,31 @@
+<div class="col-lg pt-2  notVisibleOnCollapse" >
+  <div class="container" style="padding-left: 0;padding-right: 0;">
+    <div class="card border-light mb-3" style="max-width: 100%;">
+      <div class="card-header">Advertisment</div>
+      <div class="card-body">
+        <h5 class="card-title">Business title will be here</h5>
+        <p class="card-text">This is advertisement body.By advertising we can earn money...haaaa haaaa ha</p>
+      </div>
+    </div>
+   <hr>
+   <div class="card border-light mb-3" style="max-width: 100%;">
+    <div class="card-header">Active contacts (<%=myActiveConnections.length%>)</div>
+    <div class="card-body">
+    <%if(!myActiveConnections.length){%>
+      <div class="m-2 btn btn-primary btn-block">Active contacts not available.</div>
+    <%}%>
+      <%myActiveConnections.forEach((connection)=>{%>
+        <a href="/single-chat/<%=connection.username%>">
+          <div style="display: flex;">
+            <div >
+              <img class="avatar-small active-avatar"  src="/images/profile/profile-<%=connection.username%>.jpg" alt="">
+              <span  class="badge active-signal">.</span>
+            </div>
+            <strong style=" margin-left: 1rem;"><%=connection.name%></strong>
+          </div>
+        </a>  
+      <%})%>
+    </div>
+  </div>
+  </div>
+</div>

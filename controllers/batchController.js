@@ -3,107 +3,70 @@ const usersCollection = require("../db").db().collection("users")
 const batchCollection = require("../db").db().collection("batches")
 const homeTuitionCollection = require("../db").db().collection("homeTuition")
 
+exports.getBatchCreationForm=function(req,res){
+  res.render("batch-creation-form")
+}
+
 exports.getAllBatches = async function (req, res) {
+  try{
   let username = req.username
-  if (req.accountType == "student") {
-    Batch.getBatchesId(username, req.accountType)
-      .then(async batches => {
+  let studentPresentBatches=[]
+  let teacherPresentBatches=[]
+  let studentOldBatches=[]
+  let teacherOldBatches=[]
+  let homeTuitionAnnouncements=[]
+  if (req.accountType == "student" || req.accountType=="studentTeacher") {
+    let batches=await Batch.getBatchesId(username, req.accountType)
         let batchesIds = batches.map(batchId => {
           return batchId.batchId
         })
         let studentBatches = await Batch.getBatches(batchesIds)
-        console.log("Student batches taken", studentBatches)
-        let presentBatches = studentBatches.filter(batch => {
+        studentPresentBatches = studentBatches.filter(batch => {
           if (batch.presentBatch) {
             return batch
           }
         })
-        let oldBatches = studentBatches.filter(batch => {
+        studentOldBatches = studentBatches.filter(batch => {
           if (!batch.presentBatch) {
             return batch
           }
-        })
-
-        res.render("batches", {
-          accountType: req.accountType,
-          studentPresentBatches: presentBatches,
-          studentOldBatches: oldBatches
-        })
-      })
-      .catch(() => {
-        res.render("404")
-      })
-  } else if (req.accountType == "teacher") {
-    try {
+        })    
+  } 
+  if (req.accountType == "teacher" || req.accountType=="studentTeacher") {
       let teacherBatches = await batchCollection.find({ username: req.username }).toArray()
-      let homeTuitionAnnouncements = await homeTuitionCollection.find({ username: req.username }).toArray()
-      
-      console.log("teacher homeTuitions:", homeTuitionAnnouncements)
-      let presentBatches = teacherBatches.filter(batch => {
+       homeTuitionAnnouncements = await homeTuitionCollection.find({ username: req.username }).toArray()
+      teacherPresentBatches = teacherBatches.filter(batch => {
         if (batch.presentBatch) {
           return batch
         }
       })
-      let oldBatches = teacherBatches.filter(batch => {
+      teacherOldBatches = teacherBatches.filter(batch => {
         if (!batch.presentBatch) {
           return batch
         }
       })
+    } 
+    let batches={
+        studentBatches:{
+          presentBatches:studentPresentBatches,
+          oldBatches:studentOldBatches
+        },
+        teacherBatches:{
+          presentBatches:teacherPresentBatches,
+          oldBatches:teacherOldBatches,
+          announcements:homeTuitionAnnouncements
+        }
+    }
+    console.log("Present batches:", batches)
       res.render("batches", {
+        myActiveConnections:req.myActiveConnections,
         accountType: req.accountType,
-        teacherPresentBatches: presentBatches,
-        teacherOldBatches: oldBatches,
-        homeTuitions:homeTuitionAnnouncements
+        batches:batches
       })
-    } catch {
+    }catch{
       res.render("404")
     }
-  } else {
-    Batch.getBatchesId(username, req.accountType)
-      .then(async batches => {
-        console.log("hello there", username)
-        let batchesIds = batches.map(batchId => {
-          return batchId.batchId
-        })
-        let studentBatches = await Batch.getBatches(batchesIds)
-        let teacherBatches = await batchCollection.find({ username: req.username }).toArray()
-        let homeTuitionAnnouncements = await homeTuitionCollection.find({ username: req.username }).toArray()
-      
-        console.log(teacherBatches)
-        let presentBatchesStd = studentBatches.filter(batch => {
-          if (batch.presentBatch) {
-            return batch
-          }
-        })
-        let oldBatchesStd = studentBatches.filter(batch => {
-          if (!batch.presentBatch) {
-            return batch
-          }
-        })
-        let presentBatchesTec = teacherBatches.filter(batch => {
-          if (batch.presentBatch) {
-            return batch
-          }
-        })
-        let oldBatchesTec = teacherBatches.filter(batch => {
-          if (!batch.presentBatch) {
-            return batch
-          }
-        })
-        console.log("Present batches:", presentBatchesTec)
-        res.render("batches", {
-          accountType: req.accountType,
-          studentPresentBatches: presentBatchesStd,
-          studentOldBatches: oldBatchesStd,
-          teacherPresentBatches: presentBatchesTec,
-          teacherOldBatches: oldBatchesTec,
-          homeTuitions:homeTuitionAnnouncements
-        })
-      })
-      .catch(() => {
-        res.render("404")
-      })
-  }
+  
 }
 
 exports.batchCreate = function (req, res) {
@@ -152,7 +115,7 @@ exports.sentRequest = async function (req, res) {
       Batch.sentRequest(req.username, req.batch._id, req.batch.username, req.name)
         .then(function () {
           req.flash("success", "Your request successfully added.")
-          req.session.save(() => res.redirect("/"))
+          req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
         })
         .catch(function () {
           req.flash("errors", "There is some problem")
@@ -179,7 +142,10 @@ exports.getSingleBatch = async function (req, res) {
     if (req.batch.username == req.username) {
       batchOwner = true
     }
-    res.render("single-batch-screen", { batch: req.batch, batchOwner: batchOwner })
+    res.render("single-batch-screen", { 
+      batch: req.batch, 
+      batchOwner: batchOwner 
+    })
   } catch {
     console.log("Executed here")
     res.render("404")
@@ -191,6 +157,7 @@ exports.acceptRequest = async function (req, res) {
     let present = false
     let studentUsername = req.body.studentUsername
     let studentName = req.body.studentName
+    let requestedOn=req.body.requestedOn
     req.batch.appliedStudents.forEach(student => {
       if (student.username == studentUsername) {
         present = true
@@ -209,14 +176,14 @@ exports.acceptRequest = async function (req, res) {
       if (req.batch.username == req.username) {
         let batch = new Batch()
         batch
-          .acceptRequest(req.batch, studentUsername, studentName)
+          .acceptRequest(req.batch, studentUsername, studentName,requestedOn)
           .then(function () {
             req.flash("success", "Request accepted successfully.")
-            req.session.save(() => res.redirect("/batches"))
+            req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
           })
           .catch(function (errors) {
             req.flash("errors", errors)
-            req.session.save(() => res.redirect("/batches"))
+            req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
           })
       } else {
         req.flash("errors", "You dont have permission to perform that actiuon.")
@@ -224,7 +191,7 @@ exports.acceptRequest = async function (req, res) {
       }
     } else {
       req.flash("errors", "No request found with this profile /user profile has been deleted/You already accepted his/her request / You are not a student.")
-      req.session.save(() => res.redirect("/batches"))
+      req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
     }
   } catch {
     res.render("404")
@@ -236,6 +203,7 @@ exports.deleteRequest = async function (req, res) {
     let present = false
     let studentUsername = req.body.studentUsername
     let studentName = req.body.studentName
+    let requestedOn=req.body.requestedOn
     req.batch.appliedStudents.forEach(student => {
       if (student.username == studentUsername) {
         present = true
@@ -246,10 +214,10 @@ exports.deleteRequest = async function (req, res) {
       if (req.batch.username == req.username) {
         let batch = new Batch()
         batch
-          .deleteRequest(req.batch, studentUsername, studentName)
+          .deleteRequest(req.batch, studentUsername, studentName,requestedOn)
           .then(function () {
             req.flash("success", "Request deleted successfully.")
-            req.session.save(() => res.redirect("/batches"))
+            req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
           })
           .catch(function (errors) {
             req.flash("errors", errors)
@@ -261,7 +229,7 @@ exports.deleteRequest = async function (req, res) {
       }
     } else {
       req.flash("errors", "No request found with this profile /user profile has been deleted/You already accepted his/her request / You are not a student.")
-      req.session.save(() => res.redirect("/batches"))
+      req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
     }
   } catch {
     res.render("404")
@@ -273,6 +241,7 @@ exports.deleteStudent = async function (req, res) {
     let present = false
     let studentUsername = req.body.studentUsername
     let studentName = req.body.studentName
+    let joinedOn=req.body.joinedOn
     req.batch.admittedStudents.forEach(student => {
       if (student.username == studentUsername) {
         present = true
@@ -284,10 +253,10 @@ exports.deleteStudent = async function (req, res) {
       if (req.batch.username == req.username) {
         let batch = new Batch()
         batch
-          .deleteStudentFromBatch(req.batch, studentUsername, studentName)
+          .deleteStudentFromBatch(req.batch, studentUsername, studentName,joinedOn)
           .then(function () {
             req.flash("success", "Student deleted successfully from the batch.")
-            req.session.save(() => res.redirect("/batches"))
+            req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
           })
           .catch(function (errors) {
             req.flash("errors", errors)
@@ -299,7 +268,7 @@ exports.deleteStudent = async function (req, res) {
       }
     } else {
       req.flash("errors", "No admitted student found with this profile /user profile has been deleted/You have already deleted his/her profile.")
-      req.session.save(() => res.redirect("/batches"))
+      req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
     }
   } catch {
     res.render("404")

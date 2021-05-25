@@ -1,112 +1,153 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
-<h3 class="text-center"><strong>This is guest-home page</strong></h3>
-
-<!-- header ends here -->
-<%if(!user){%>
-<div class="container py-md-5">
-  <div class="row align-items-center">
-    <div class="col-lg-12"><%- include('includes/create-new-account') %></div>
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg-1">
   </div>
-</div>
-<%}%>
-
-<div class="container">
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10 shadow">
-      <h2 class="text-center bold-font">All Batches Announced By Teachers</h2>
-      <% batches.forEach(function(batch){ %>
-      <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= batch._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <img class="avatar-tiny" src="/images/profile/profile-<%=batch.username%>.jpg" />
-        By-<strong class=""> <%= batch.teacherName %> </strong>
-        <div class="float-right"><strong>Subject : </strong><%= batch.subjects %>&nbsp;&nbsp;&nbsp;&nbsp; <strong> Class : </strong> <%= batch.class %></div>
-      </a>
-      <div class="collapse" id="collapse<%= batch._id %>">
-        <div class="card card-body">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-10">
-                <div class="text-center">
-                  <img class="batchPictureAvatar" src="/images/profile/profile-<%=batch.username%>.jpg" class="rounded" alt="...">
-                </div>
-                <% let presentStudents=batch.admittedStudents.length %>
-                <div class="container mb-4">
-                  <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
-                  <p><strong>Stream : </strong><%= batch.stream %></p>
-                  <p><strong>Subject : </strong><%= batch.subjects %></p>
-                  <p><strong>Class : </strong><%= batch.class %></p>
-                  <p><strong>Batch Time : </strong><%= batch.classTime %></p>
-                  <p><strong>Teaching Days : </strong><%= batch.days %></p>
-                  <p><strong>Address : </strong><%= batch.address %></p>
-                  <hr />
-                  <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
-                  <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
-                  <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
-                </div>
-                <form action="/requestForAdmission/<%=batch._id%>" method="POST">
-                  <span class="pt-2">
-                    <button type="submit" class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">Sent Request For Admition</button>
-                  </span>
-                </form>
-              </div>
-
-              <div class="col-md-1"></div>
-            </div>
+  <div class="col-lg-10" style="margin: 0;padding: 0;position: relative;">
+    <img class="banner" src="/images/banner.jpg" alt="">
+    <div class="banner-batch" >
+      <h1>Seek To Learn</h1>
+      <p>One step ahead to make the society batter.</p>
+    </div>
+    
+    <div class="container mt-2 mb-2" style="padding: 0px;">
+      <div class="path">
+        <div class="row ">
+          <div class="col-md-6" style="width: 100%;">
+            <h5>Become a tuitor and make an impact on society.</h5>
+            <a href="/sign-up">
+              <div class="btn btn-primary"><i class="fas fa-user-plus"></i>&nbsp; Sign up an account</div>
+            </a>
+            <hr class="visibleItemsOnCollapse">
+          </div>
+          
+          <div class="col-md-6">
+            <h5>Search home tuitors or batch tuitors in your area.</h5>
+            <div class="btn btn-secondary"><i class="fas fa-search"></i>&nbsp; Search Teacher</div>
           </div>
         </div>
       </div>
-      <% }) %>
     </div>
-  </div>
-</div>
+    
+    <div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+      <h5 class="bolder">Highest Rated Batch Teachers</h5>
+      <div class="teacher-banner-container pb-2">
+        <%highestRatedBatchTeachers.forEach((teacher)=>{%>
+          <div class="teacher-data">
+            <img class="teacher-image"  src="/images/profile/profile-<%=teacher.username%>.jpg" alt="">
+            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
+              <strong class="d-block"><%=teacher.name%></strong>
+              <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%></span>
+              <div class="text-warning">
+                <%rating=teacher.averageRating%>
+                <%- include('includes/rating-stars') %>
+                <i style="color: rgb(46, 44, 44);"><%=teacher.averageRating%> (<%=teacher.givenNumber%>)</i>
+              </div>
+              <a href="/profile/<%=teacher.username%>">
+                <div class="class btn btn-primary btn-sm">
+                  View profile
+                </div>
+              </a>   
+            </div>
+          </div>
+        <%})%>
+      </div>
+    </div>
 <hr>
-<div class="container">
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10 shadow">
-      <h2 class="text-center bold-font">All Home-tuition Announcement By Home-tuitors</h2>
-      <% homeTuitions.forEach(function(tuition){ %>
-      <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= tuition._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
-        <img class="avatar-tiny" src="/images/profile/profile-<%=tuition.username%>.jpg" />
-        By-<strong class=""> <%= tuition.teacherName %> </strong>
-        <div class="float-right"><strong>Class : </strong><%= tuition.class %></div>
-      </a>
-      <div class="collapse" id="collapse<%= tuition._id %>">
-        <div class="card card-body">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-10">
-                  <div class="text-center">
-                    <img class="batchPictureAvatar" src="/images/profile/profile-<%=tuition.username%>.jpg" class="rounded" alt="...">
-                  </div>
-                  
-                
-                <div class="container mb-4">
-                  <p><strong>Teacher Name : </strong><%= tuition.teacherName %></p>
-                  <p><strong>Stream : </strong><%= tuition.stream %></p>
-                  <p><strong>Subject : </strong><%= tuition.subjectName %></p>
-                  <p><strong>Class : </strong><%= tuition.class %></p>
-                  <h3><strong>Address:</strong></h3>
-                  <p><strong>District : </strong><%= tuition.district %></p>
-                  <p><strong>Post Office : </strong><%= tuition.postOffice %></p>
-                  <p><strong>Police Station: </strong><%= tuition.policeStation %></p>
-                  <hr />
-                </div>
-                <span class="pt-2">
-                  <a href="/homeTuitionAnnouncement/<%=tuition._id%>/details" class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">Get Teacher's Details To Contact</a>
-                </span>
+    <div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+      <h5 class="bolder">Highest Rated Home-tuitors</h5>
+      <div class="teacher-banner-container pb-2">
+        <%highestRatedTuitionTeachers.forEach((teacher)=>{%>
+          <div class="teacher-data">
+            <img class="teacher-image"  src="/images/profile/profile-<%=teacher.username%>.jpg" alt="">
+            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
+              <strong class="d-block"><%=teacher.name%></strong>
+              <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%></span>
+              <div class="text-warning">
+                <%rating=teacher.averageRating%>
+                <%- include('includes/rating-stars') %>
+                <i style="color: rgb(46, 44, 44);"><%=teacher.averageRating%> (<%=teacher.givenNumber%>)</i>
               </div>
-              <div class="col-md-1"></div>
+              <a href="/profile/<%=teacher.username%>">
+                <div class="class btn btn-primary btn-sm">
+                  View profile
+                </div>
+              </a>   
             </div>
           </div>
-        </div>
+        <%})%>
       </div>
-      <% }) %>
     </div>
+      
+
+    <div class="container mt-2 mb-2" style="padding: 0px;">
+      <div class="path text-center" style="padding: 1rem;">
+          <div class="col" style="width: 100%;">
+            <h5>Search running batches in your area.</h5>
+            <a href="/sign-up">
+              <div class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search running batches</div>
+            </a>
+          </div>
+      </div>
+    </div>
+
+    <div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+      <h5 class="bolder">Running Batches</h5>
+      <div class="teacher-banner-container pb-2">
+        <%fiveBatches.forEach((batch)=>{%>
+          <div class="teacher-data">
+            <img class="teacher-image"  src="/images/cover/cover-<%=batch.username%>.jpg" alt="">
+            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
+              <span class="d-block"><strong>Class : </strong> <%=batch.class%></span>
+              <span class="d-block"><strong>Subject : </strong> <%=batch.subjects%></span>
+              <span class="d-block"><strong>Address : </strong> <%=batch.address.district%> ,<%=batch.address.policeStation%> ,<%=batch.address.postOffice%>, Near by-<%=batch.nearBy%> </span>
+              <a href="/viewSingleBatch/<%=batch._id%>">
+                <div class="class btn btn-primary btn-sm">
+                Batch details
+              </div></a>
+            </div>
+          </div>
+        <%})%>
+      </div>
+    </div>
+    
+<hr>
+
+    <div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+      <h5 class="bolder">Home-tuition ammouncements</h5>
+      <div class="teacher-banner-container pb-2">
+        <%fiveHomeTuitions.forEach((tuition)=>{%>
+          <div class="teacher-data">
+            <img class="teacher-image"  src="/images/cover/cover-<%=tuition.username%>.jpg" alt="">
+            <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
+              <span class="d-block"><strong>Class : </strong> <%=tuition.class%></span>
+              <span class="d-block"><strong>Subject : </strong> <%=tuition.subjectName%></span>
+              <span class="d-block"><strong>Address : </strong> <%=tuition.address.district%> ,<%=tuition.address.policeStation%> ,<%=tuition.address.postOffice%>.</span>
+              <a href="/homeTuitionAnnouncement/<%=tuition._id%>/details">
+                <div class="class btn btn-primary btn-sm">
+                Announcement details
+              </div></a>
+            </div>
+          </div>
+        <%})%>
+      </div>
+    </div>
+
+    <div class="container mt-2 mb-2" style="padding: 0px;">
+      <div class="path text-center" style="padding: 1rem;">
+          <div class="col" style="width: 100%;">
+            <h5>Search home-tuitors in your area.</h5>
+            <a href="/sign-up">
+              <div class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search home-tuitors</div>
+            </a>
+          </div>
+      </div>
+    </div>
+
+      
   </div>
+  <div class="col-lg-1"></div>
 </div>
 
-<!-- footer begins -->
 <%- include('includes/footer') %>
+
+

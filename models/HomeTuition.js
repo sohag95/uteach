@@ -28,6 +28,9 @@ HomeTuition.prototype.cleanUp = function () {
   if (typeof this.data.policeStation != "string") {
     this.data.policeStation = ""
   }
+  if (typeof this.data.salery != "string") {
+    this.data.salery = ""
+  }
   if (typeof this.data.postOffice != "string") {
     this.data.postOffice = ""
   }
@@ -37,9 +40,12 @@ HomeTuition.prototype.cleanUp = function () {
     stream: sanitizeHTML(this.data.stream.trim(), { allowedTags: [], allowedAttributes: {} }),
     class: sanitizeHTML(this.data.class.trim(), { allowedTags: [], allowedAttributes: {} }),
     subjectName: sanitizeHTML(this.data.subjectName.trim(), { allowedTags: [], allowedAttributes: {} }),
-    district: sanitizeHTML(this.data.district.trim(), { allowedTags: [], allowedAttributes: {} }),
-    policeStation: sanitizeHTML(this.data.policeStation.trim(), { allowedTags: [], allowedAttributes: {} }),
-    postOffice: sanitizeHTML(this.data.postOffice.trim(), { allowedTags: [], allowedAttributes: {} }),
+    salery:sanitizeHTML(this.data.salery.trim(), { allowedTags: [], allowedAttributes: {} }),
+    address:{
+      district: sanitizeHTML(this.data.district.trim(), { allowedTags: [], allowedAttributes: {} }),
+      policeStation: sanitizeHTML(this.data.policeStation.trim(), { allowedTags: [], allowedAttributes: {} }),
+      postOffice: sanitizeHTML(this.data.postOffice.trim(), { allowedTags: [], allowedAttributes: {} }),
+    },
     announcementViewed:0,
     presentAnnouncement: true,
     createdDate: new Date()
@@ -58,14 +64,17 @@ HomeTuition.prototype.validate = function () {
   if (this.data.class == "") {
     this.errors.push("You must select class.")
   }
+  if (this.data.salery == "") {
+    this.errors.push("You must provide your expeced salery amount.")
+  }
   if (this.data.district == "") {
     this.errors.push("You must select district name.")
   }
   if (this.data.policeStation == "") {
-    this.errors.push("You must select police station name.")
+    this.errors.push("You must select your area name.")
   }
   if (this.data.postOffice == "") {
-    this.errors.push("You must select post office.")
+    this.errors.push("You must select near by post office.")
   }
 }
 

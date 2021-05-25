@@ -84,8 +84,7 @@
         <div class="likeCommentTagContainer">
               <%  if(liked){%> 
                   <form class="inlineContainer" action="/disLike/<%=post._id%>" method="POST">
-                    <input type="hidden" name="postType" value="<%=post.postType%>">
-                    
+                                     
                     <button class="btn  btn-block text-primary" type="submit">
                         <i class="far fa-thumbs-up"></i> Liked
                     </button>

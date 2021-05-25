@@ -1,0 +1,74 @@
+<div class="col-lg pt-2 notVisibleOnCollapse" >
+  <div class="container" style="padding-left: 0;padding-right: 0;">
+    <div>
+        <a href="/profile/<%=user.username%>">
+          <div class="">
+          <img class="avatar-small"  src="/images/profile/profile-<%=user.username%>.jpg" alt="">
+          <strong><%=user.name%></strong>
+          </div>
+        </a>
+        <%if(user.accountType=="student" || user.accountType=="studentTeacher"){%>
+          <a href="/friends/<%=user.username%>">
+            <div class="side-item">
+              <i class="fas fa-users fa-lg"></i>
+              <strong>Friends</strong>
+            </div>
+          </a>
+          <a href="/teachers/<%=user.username%>">
+          <div class="side-item">
+            <i class="fas fa-chalkboard-teacher fa-lg"></i>
+            <strong>Teachers</strong>
+          </div>
+          </a>
+        <%}%>
+        <%if(user.accountType=="teacher" || user.accountType=="studentTeacher"){%>
+          <a href="/students/<%=user.username%>">
+            <div class="side-item">
+              <i class="fas fa-graduation-cap fa-lg"></i>
+              <strong>Students</strong>
+            </div>
+            </a>
+        <%}%>
+        <a href="/batches">
+        <div class="side-item">
+          <i class="fas fa-school fa-lg"></i>
+          <strong>Batches</strong>
+        </div>
+      </a>
+      <a href="/library">
+        <div class="side-item">
+          <i class="fas fa-address-book fa-lg"></i>
+          <strong>Notes</strong>
+        </div>
+      </a>
+        <hr>
+        <a href="/about-us">
+        <div class="side-item">
+          <i class="far fa-address-card fa-lg"></i>
+          <strong>About Us</strong>
+        </div>
+      </a>
+      <a href="/contact-us">
+        <div class="side-item">
+          <i class="fas fa-address-book fa-lg"></i>
+          <strong>Contact Us</strong>
+        </div>
+      </a>
+      <a href="/help">
+        <div class="side-item">
+          <i class="fas fa-question-circle fa-lg"></i>
+          <strong>Help</strong>
+        </div>
+      </a>
+        <hr>
+        <a href="">
+          <div class="side-item">
+              <form action="/logout" method="POST" class="d-inline">
+                <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out </button>
+              </form>
+          </div>
+        </a>
+        <hr>
+  </div>  
+</div>
+</div>

@@ -1,6 +1,121 @@
 <%- include('includes/header') %>
 
 <%- include('includes/flash') %>
+
+<div class="mt-2" style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7">
+  <div class="message-header sticky-top" style="display: flex; background-color: rgb(9, 71, 71);padding: 1rem; color: #fff;">
+    <div style="display: flex;width: 100%;">
+      <div style="padding-right: 5px;">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <div class="text-center d-flex" style="width: 100%;">
+        <div>
+          <img class="avatar-small"  src="/images/profile/profile-sohag.jpg" alt="">
+        </div>
+        <div class="row" style="width: 100%;">
+          <div class="col-sm-6 text-left" >
+            <span class="d-block"><strong>Teacher : </strong>Sohag roy</span>
+            <span class="d-block"><strong>Subject : </strong>Math</span>
+          </div>
+          <div class="col-sm-6 text-left">
+            <span class="d-block"><strong>Class : </strong>10</span>
+            <span class="d-block"> <strong>Session : </strong>2019-2020</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="float-right">
+      <i class="fas fa-ellipsis-v"></i>
+    </div>
+  </div>
+  <div class="message-container">
+  <div class="d-block text-center">
+   <span style="background-color: rgb(19, 77, 77);color: rgb(231, 225, 225); border-radius: 5px;padding-left: 5px;padding-right: 5px;">Connected</span> 
+  </div>
+    <div class="chat-self">
+      <div class="chat-message">
+        <div class="chat-message-inner" style="margin-top: 3px;">
+          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
+          <div class="float-right" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-self" >
+      <div class="chat-message">
+        <div class="chat-message-inner" style="border-radius: 8px;">
+          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
+          <div class="float-right" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="chat-other">
+      <div class="chat-message">
+        <div style="display: flex;margin-top: 3px;">
+          <a href="/profile/"><img class="avatar-tiny" src="/images/profile/profile-sohag.jpg"></a>
+          <div class="chat-message-inner" style="margin-left: .15rem;">
+            <a href="" style="color: #fff;"><strong>Sohag Roy</strong> (Sir) </a>
+            <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
+            <div class="float-left" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-self">
+      <div class="chat-message">
+        <div class="chat-message-inner" style="margin-top: 3px;">
+          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
+          <div class="float-right" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-other">
+      <div class="chat-message">
+        <div style="display: flex;margin-top: 3px;">
+          <a href="/profile/"><img class="avatar-tiny" src="/images/profile/profile-sohag.jpg"></a>
+          <div class="chat-message-inner" style="margin-left: .15rem;">
+            <a href="" style="color: #fff;"><strong>Sohag Roy</strong> </a>
+            <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
+            <div class="float-left" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chat-other" style="margin-left: 1.8rem;">
+      <div class="chat-message">
+        <div class="chat-message-inner" style="border-radius: 8px;margin-left: .15rem;">
+          <div style="font-size: 14px;">this is message i am happy this is message i am happthis is message i am happthis is message i am happs to be here&nbsp;</div> 
+          <div class="float-left" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div style="display: flex;">
+      <div class="text-center">
+        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+      </div>
+      <div class="post-form-container">
+        <form action="/" method="post" style="display: flex;">
+          <input type="text" class="post-input-field" placeholder="Write your message here." required>
+          <button class="post-button text-primary"><i class="fas fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg"></div>
+</div>
+
+
+
+
+
+
+
 <h5 class="text-center"><strong>Batch Group Chatting</strong></h5>
 <div class="container text-center">
   <p><strong>Teacher Name : </strong><%= batchData.teacherName %></p>

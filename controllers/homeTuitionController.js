@@ -3,6 +3,10 @@ const usersCollection = require("../db").db().collection("users")
 const batchCollection = require("../db").db().collection("batches")
 
 
+exports.getHomeTuitionAnnouncementForm=function(req,res){
+  res.render("home-tuition-creation-form")
+}
+
 exports.createAnnouncement = function (req, res) {
   console.log(req.body)
   let homeTuition = new HomeTuition(req.body, req.username , req.name)
@@ -118,7 +122,6 @@ exports.getSingleAnnouncementDetails =async function (req, res) {
     let tuitor=await usersCollection.findOne({username:tuitionAnnouncement.username})
     let tuitorData={
       gender:tuitor.gender,
-      address:tuitor.address,
       phone:tuitor.phone,
       email:tuitor.email
     }

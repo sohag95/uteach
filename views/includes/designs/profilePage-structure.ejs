@@ -1,63 +1,10 @@
-<div class="row">
-  <div class="col-lg notVisibleOnCollapse" >
-    
-  </div>
-  <div class="col-lg-9 pt-1" >
-    <div class="container">
-      <div style="width: 100%;position: relative;">
-        <img class="cover-image" src="/images/profile/profile-sohag.jpg" width="1000" height="250"/>
-        <div class="text-center">
-          <img class="profile-image" src="/images/profile/profile-sohag.jpg" />
-          <h5><strong>Sohag Roy</strong></h5>
-          <p>
-            <span >Bio status will be here</span>
-            <span type="button" class="d-block text-primary" data-toggle="modal" data-target="#exampleModalCenter">Edit</span>
-            <!-- Modal -->
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Edit your bio-status</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form action="/hello" method="post">
-                      <div class="form-group" style="text-align: left;">
-                        <label for="status" class="text-muted" ><small>Edit status </small></label>
-                        <input name="status" id="status" class="form-control form-control-sm " type="text" placeholder="status" autocomplete="off" />
-                      </div>
-                      <div style="text-align: left;">
-                        <button class="btn btn-success btn-sm ">Submit</button>
-                      </div>
-                    </form>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </p>
-        </div>
-      </div>  
-      <!-- <div class="mb-2" style="display: flax; width: 100%;background-color: aliceblue;">
-        <div class="d-inline">
-          Student profile
-        </div>
-      </div> -->
-      <hr>
-    </div>
+<%- include('profile-related-header') %>
     <!-- Profile related structures will be added here -->
     <!-- **************************************************** -->
 
     <%- include('main-profilePage-structure') %>
     
-
+   
     <!-- **************************************************** -->
-  </div>
-  <div class="col-lg notVisibleOnCollapse" >
-  </div>
-</div>
-<%- include('footer-structure') %>
+<%- include('profile-related-header') %>
+

@@ -1,0 +1,22 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+<div class="row">
+  <div class="col" ></div>
+  <div class="col-lg-8 text-center" style="margin-bottom: 2rem;" >
+    <h2 class="uteach text-primary mt-4 mb-2">Uteach</h2>
+    <div class="logIn-form-container text-center">   
+      <h2 class="bolder">User Login</h2>
+      <form action="/userLogin" method="POST" class="">
+        <input name="username" class="form-control form-control-lg space" type="text" placeholder="Username:" autocomplete="off">
+        <input name="password" class="form-control form-control-lg space" type="password" placeholder="Password">
+        <button class="btn btn-primary btn-block btn-lg">Log in</button>
+      </form>
+      <hr>
+      
+      <a href="/sign-up"><button class="btn btn-success  btn-lg">Create a new account</button></a>
+      
+    </div>
+  </div>
+  <div class="col" ></div>
+</div>
+<%- include('includes/footer') %>

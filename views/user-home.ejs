@@ -1,32 +1,20 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
-<div class="text-center">
-  <h2>This is <strong><%= user.name %>'s</strong> home</h2>
-  <a href="/profile/<%= user.username %>">
-    <p><i class="fas fa-user-circle"></i> Go To Profile</p>
-  </a>
-  <a href="/batches">
-    <p><i class="fas fa-plus-square"></i> Batches</p>
-  </a>
-  
-  <a href="/notifications">
-    <p><i class="fas fa-bell"></i> Notifications</p>
-  </a>
-  <a href="/messages">
-    <p><i class="fas fa-comment"></i> Messages</p>
-  </a>
-  <a href="/library">
-    <p><i class="fas fa-book-open"></i> Library</p>
-  </a>
-</div>
-<%- include('includes/post-forms') %>
-<div class="container " >
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <%- include('includes/posts') %>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
+
+
+<div style="display: flex;flex-wrap: wrap;">
+  <%- include('includes/designs/desktop-screen-left-part') %>
+  <div class="col-lg-6 pt-2 "  >
+  <%- include('includes/post-form') %>
+  <%- include('includes/designs/post-structure') %>
   </div>
+  <%- include('includes/designs/desktop-screen-right-part') %>
 </div>
+
+
+
+
 <%- include('includes/footer') %>
+
+
+
+

@@ -1,0 +1,95 @@
+<%- include('includes/header') %>
+ <%- include('includes/flash') %>
+
+<div class="row">
+  <div class="col" ></div>
+  <div class="col-lg-8 " style="margin-bottom: 2rem;" >
+    <h2 class="uteach text-primary mt-4 mb-2 text-center">Uteach</h2>
+    <div class="signUp-form-container ">   
+      <h2 class="bolder text-left">Home tuition announcement</h2>
+      <form action="/createHomeTuitionAnnouncement" method="POST" id="createAnnouncement-form">
+        <strong class="text-primary">Announcement details</strong> 
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label for="stream" class="text-muted mb-1"><small>Select Stream</small></label>
+            <select id="stream" class="form-control form-control-lg" name="stream" form="createAnnouncement-form">
+              <option value="science">Science</option>
+              <option value="arts">Arts</option>
+              <option value="commerce">Commarts</option>
+              <option value="all-subjects">All subjects</option>
+              <option value="music">Music</option>
+              <option value="dance">Dance</option>
+              <option value="drawing">Drawing</option>
+              <option value="others">Others</option>
+            </select>
+          </div>
+          <div class="form-group col-sm-6">
+            <label for="class" class="text-muted mb-1"><small>Select class</small></label>
+            <select id="class" class="form-control form-control-lg" name="class" form="createAnnouncement-form">
+              <option value="1st">Class 1</option>
+              <option value="2nd">Class 2</option>
+              <option value="3rd">Class 3</option>
+              <option value="4th">Class 4</option>
+              <option value="5th">Class 5</option>
+              <option value="6th">Class 6</option>
+              <option value="7th">Class 7</option>
+              <option value="8th">Class 8</option>
+              <option value="9th">Class 9</option>
+              <option value="10th">Class 10</option>
+              <option value="11th">Class 11</option>
+              <option value="12th">Class 12</option>
+              <option value="all">All</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="subjectName" class="text-muted mb-1"><small>Subject name</small></label>
+          <input name="subjectName" id="subjectName" class="form-control form-control-lg" type="text" placeholder="Teaching subject name" autocomplete="off" />
+        </div>
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <div class="form-group">
+              <label for="daysPerWeek" class="text-muted mb-1"><small>Days/Week</small></label>
+              <input name="daysPerWeek" id="daysPerWeek" class="form-control form-control-lg" type="number" required placeholder="Teaching days/week" autocomplete="off" />
+            </div>
+          </div>
+          <div class="form-group col-sm-6">
+            <div class="form-group">
+              <label for="salery" class="text-muted mb-1"><small>Salery/month</small></label>
+              <input name="salery" id="salery" class="form-control form-control-lg" type="number" placeholder="Salery/month expecting" required autocomplete="off" />
+            </div>
+          </div>
+        </div>
+        
+        <strong class="text-primary"><i class="fas fa-map-marker-alt"></i> Select the address according to the area you want to teach.</strong>
+        <div class="form-group">
+          <label for="district" class="text-muted mb-1"><small>Select Your District</small></label>
+          <select id="district" class="form-control form-control-lg" name="district" form="createAnnouncement-form">
+            <option value="darjeeling">Darjeeling</option>
+            <option value="jalpaiguri">Jalpaiguri</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="policeStation" class="text-muted mb-1"><small>Select Police Station</small></label>
+          <select id="policeStation" class="form-control form-control-lg" name="policeStation" form="createAnnouncement-form">
+            <option value="siliguri">Siliguri</option>
+            <option value="pradhan nagar">Pradhan Nagar</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="postOffice" class="text-muted mb-1"><small>Select Post Office</small></label>
+          <select id="postOffice" class="form-control form-control-lg" name="postOffice" form="createAnnouncement-form">
+            <option value="champasari">Champasari</option>
+            <option value="siliguri">Siliguri</option>
+          </select>
+        </div>
+        <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Announcement</button>
+      </form>
+      <hr>
+      <p class="text-danger"><i class="fas fa-exclamation-circle"></i> If you are interested to teach <i>'other classes student'</i>  or <i>'in other area'</i> then create an another announcement.</p>
+    </div>
+  </div>
+  <div class="col" ></div>
+</div>
+
+<%- include('includes/footer') %>
