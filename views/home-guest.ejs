@@ -17,12 +17,12 @@
             <a href="/sign-up">
               <div class="btn btn-primary"><i class="fas fa-user-plus"></i>&nbsp; Sign up an account</div>
             </a>
-            <hr class="visibleItemsOnCollapse">
+            <hr style="margin: 8px;" class="visibleItemsOnCollapse">
           </div>
           
           <div class="col-md-6">
             <h5>Search home tuitors or batch tuitors in your area.</h5>
-            <div class="btn btn-secondary"><i class="fas fa-search"></i>&nbsp; Search Teacher</div>
+            <div class="btn btn-secondary header-search-icon"><i class="fas fa-search"></i>&nbsp; Search Teacher</div>
           </div>
         </div>
       </div>
@@ -39,7 +39,7 @@
               <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%></span>
               <div class="text-warning">
                 <%rating=teacher.averageRating%>
-                <%- include('includes/rating-stars') %>
+                <%- include('includes/designs/rating-stars') %>
                 <i style="color: rgb(46, 44, 44);"><%=teacher.averageRating%> (<%=teacher.givenNumber%>)</i>
               </div>
               <a href="/profile/<%=teacher.username%>">
@@ -64,7 +64,7 @@
               <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%></span>
               <div class="text-warning">
                 <%rating=teacher.averageRating%>
-                <%- include('includes/rating-stars') %>
+                <%- include('includes/designs/rating-stars') %>
                 <i style="color: rgb(46, 44, 44);"><%=teacher.averageRating%> (<%=teacher.givenNumber%>)</i>
               </div>
               <a href="/profile/<%=teacher.username%>">
@@ -83,7 +83,7 @@
       <div class="path text-center" style="padding: 1rem;">
           <div class="col" style="width: 100%;">
             <h5>Search running batches in your area.</h5>
-            <a href="/sign-up">
+            <a href="/search-batch-form">
               <div class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search running batches</div>
             </a>
           </div>
@@ -117,7 +117,7 @@
       <div class="teacher-banner-container pb-2">
         <%fiveHomeTuitions.forEach((tuition)=>{%>
           <div class="teacher-data">
-            <img class="teacher-image"  src="/images/cover/cover-<%=tuition.username%>.jpg" alt="">
+            <img class="teacher-image"  src="/images/profile/profile-<%=tuition.username%>.jpg" alt="">
             <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
               <span class="d-block"><strong>Class : </strong> <%=tuition.class%></span>
               <span class="d-block"><strong>Subject : </strong> <%=tuition.subjectName%></span>
@@ -136,7 +136,7 @@
       <div class="path text-center" style="padding: 1rem;">
           <div class="col" style="width: 100%;">
             <h5>Search home-tuitors in your area.</h5>
-            <a href="/sign-up">
+            <a href="/search-home-tuitor-form">
               <div class="btn btn-primary"><i class="fas fa-search"></i>&nbsp; Search home-tuitors</div>
             </a>
           </div>

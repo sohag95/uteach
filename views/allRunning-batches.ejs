@@ -1,0 +1,115 @@
+<%- include('includes/header') %>
+
+<%- include('includes/designs/profile-related-header') %>
+<!-- page structure will be here -->
+
+
+<div style="background-color: #fff;">
+  <%if(accountType=="student" || accountType=="studentTeacher"){%>
+    <h4 class="bolder ml-2 text-primary"><strong>Running Batches As Student</strong></h4>
+    <strong class="d-block m-2">All running batches (<%=runningBatches.takenRunningBatches.length%>)</strong>
+    <div style="display: flex;    flex-wrap: wrap;">
+      <%if(runningBatches.takenRunningBatches.length){%>
+        <%runningBatches.takenRunningBatches.forEach((batch)=>{%>
+          <div class="batch-data ml-2 mb-2 profile-batch-show">
+            <div style="position: relative;">
+              <img class="teacher-image-batch"  src="/images/cover/cover-<%=batch.username%>.jpg" alt="">
+              <div class="batch-no">Offline Batch</div>
+            </div>
+            <div class="text-left batch-data-container" >
+              <span class="d-block"><strong>Teacher Name : </strong> <%=batch.teacherName%></span>
+              <span class="d-block"><strong>Stream : </strong><%=batch.stream%></span>
+              <span class="d-block"><strong>Subject : </strong> <%=batch.subjects%></span>
+              <span class="d-block"><strong>Class : </strong> <%=batch.class%></span>
+              <span class="d-block"><strong>Session : </strong><%=batch.session%></span>
+              <a href="/viewSingleBatch/<%=batch._id%>">
+                <div class="class btn btn-primary btn-sm">
+                  Batch details
+                </div>
+              </a>
+            </div>
+          </div>
+        <%})%>
+      <%}else{%>
+        <%if(isVisitorsProfile){%>
+            <div class="btn btn-primary btn-block m-2">You have no running batch!!</div>
+        <%}else{%>
+            <div class="btn btn-primary btn-block m-2">Running batch not available!!</div>
+        <%}%>
+      <%}%>
+    </div>
+  <%}%>
+  <%if(accountType=="teacher" || accountType=="studentTeacher"){%>
+    <h4 class="bolder ml-2 text-primary"><strong>Running Batches As Teacher</strong></h4>
+    <strong class="d-block m-2">All running batches (<%=runningBatches.teachRunningBatches.length%>)</strong>
+    <div style="display: flex;    flex-wrap: wrap;">
+      <%if(runningBatches.teachRunningBatches.length){%>
+        <%runningBatches.teachRunningBatches.forEach((batch)=>{%>
+          <div class="batch-data ml-2 mb-2 profile-batch-show">
+            <div style="position: relative;">
+              <img class="teacher-image-batch"  src="/images/cover/cover-<%=batch.username%>.jpg" alt="">
+              <div class="batch-no">Offline Batch</div>
+            </div>
+            <div class="text-left batch-data-container" >
+              <span class="d-block"><strong>Teacher Name : </strong> <%=batch.teacherName%></span>
+              <span class="d-block"><strong>Stream : </strong><%=batch.stream%></span>
+              <span class="d-block"><strong>Subject : </strong> <%=batch.subjects%></span>
+              <span class="d-block"><strong>Class : </strong> <%=batch.class%></span>
+              <span class="d-block"><strong>Session : </strong><%=batch.session%></span>
+              <a href="/viewSingleBatch/<%=batch._id%>">
+                <div class="class btn btn-primary btn-sm">
+                  Batch details
+                </div>
+              </a>
+            </div>
+          </div>
+        <%})%>
+      <%}else{%>
+        <%if(isVisitorsProfile){%>
+            <div class="btn btn-primary btn-block m-2">You have no running batch!!</div>
+        <%}else{%>
+            <div class="btn btn-primary btn-block m-2">Running batch not available!!</div>
+        <%}%>
+      <%}%>
+    </div>
+  
+    <strong class="d-block m-2">Running home-tuition announcements (<%=runningBatches.runningHomeTuitions.length%>)</strong>
+    <div style="display: flex;    flex-wrap: wrap;">
+      
+      <%if(runningBatches.runningHomeTuitions.length){%>
+        <%runningBatches.runningHomeTuitions.forEach((tuition)=>{%>
+          <div class="batch-data ml-2 mb-2 profile-batch-show">
+            <div style="position: relative;">
+              <img class="teacher-image-batch"  src="/images/profile/profile-<%=tuition.username%>.jpg" alt="">
+              <div class="batch-no">Announcement</div>
+            </div>
+            <div class="text-left batch-data-container" >
+              <span class="d-block"><strong>Teacher Name : </strong> <%=tuition.teacherName%></span>
+              <span class="d-block"><strong>Stream : </strong><%=tuition.stream%></span>
+              <span class="d-block"><strong>Subject : </strong> <%=tuition.subjectName%></span>
+              <span class="d-block"><strong>Class : </strong> <%=tuition.class%></span>
+              <span class="d-block"><strong>Address : </strong><%=tuition.address%></span>
+              <a href="/homeTuitionAnnouncement/<%=tuition._id%>/details">
+                <div class="class btn btn-primary btn-sm">
+                  Announcement details
+                </div>
+              </a>
+              
+            </div>
+          </div>
+        <%})%>
+      <%}else{%>
+        <%if(isVisitorsProfile){%>
+            <div class="btn btn-primary btn-block m-2">You have no home-tuition announcements!!</div>
+        <%}else{%>
+            <div class="btn btn-primary btn-block m-2">Home-tuition announcements not available!!</div>
+        <%}%>
+      <%}%>
+    </div>
+  <%}%>
+</div>
+
+<!-- #################################### -->
+<%- include('includes/designs/profile-related-footer') %>
+
+<%- include('includes/footer') %>

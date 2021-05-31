@@ -34,17 +34,31 @@
             <span class="d-block"><strong>Police Station : </strong><%=announcementData.address.policeStation%></span>
             <span class="d-block"><strong>Post Office : </strong> <%=announcementData.address.postOffice%></span>
           </div>
+          <strong class="text-primary ml-2">Views :</strong>
+        <div class="ml-2">
+          <span class="d-block"><strong>Announcement Viewed : </strong> <%=announcementData.announcementViewed%></span>
+        </div>
         <hr>
         <strong class="text-primary ml-2">Contact details:</strong>
         <div class="col m-2">
           <span class="d-block"><strong>Phone number : </strong> <%=tuitorData.phone%></span>
           <span class="d-block"><strong>Email id : </strong> <%=tuitorData.email%></span>
         </div>  
-        <a href="/profile/<%=announcementData.username%>">
+        <%if(user.username!=announcementData.username){%>
+          <a href="/profile/<%=announcementData.username%>">
+            <div class="text-center">
+              <div class="btn btn-sm  btn-success ">View teacher's profile</div>
+            </div>
+          </a>
+        <%}else{%>
           <div class="text-center">
-            <div class="btn btn-sm  btn-success ">View teacher's profile</div>
+            <div class="btn btn-sm  btn-warning ">This Is Your Announcement</div>
+            <form action="/delete/announcement/<%=announcementData._id%>/homeTuition" method="POST" class="d-inline">
+              <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+              <button class="btn  btn-danger btn-sm m-2"><i class="fas fa-trash"></i> Delete Announcement </button>
+            </form>
           </div>
-        </a>
+        <%}%>
         <hr>
         <hr>
       </div>

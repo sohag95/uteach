@@ -1,7 +1,7 @@
+<%if(accountType=="teacher" || accountType=="studentTeacher"){%>
 
-<div class="container" style="padding:.5rem;">
   <div class="path">
-    <div class="row ">
+    <div style="display: flex;flex-wrap: wrap;">
       <div class="col-md-6" style="width: 100%;">
         <a href="/create-batch">
           <div class="btn btn-primary btn-block"><i class="far fa-plus-square"></i>&nbsp; Create new batch</div>
@@ -15,15 +15,37 @@
       </div>
     </div>
   </div>
-</div>
+
+<%}else{%>
+  
+    <div class="path">
+      <div style="display: flex;flex-wrap: wrap;">
+        <div class="col-md-6" style="width: 100%;">
+          <h5><strong class="bolder" style="color: #fff;">You can be a teacher as well.It is so simple.</strong></h5>
+          <hr class="visibleItemsOnCollapse">
+        </div>
+        <div class="col-md-6">
+            <h5><strong class="bolder" style="color: #fff;">
+              <a href="/upgradeAccount-form">Click here</a>
+              to upgrade your account as a teacher.
+            </strong></h5>
+        </div>
+      </div>
+    </div>
+
+<%}%>
 <%if(accountType=="student" || accountType=="studentTeacher"){%>
-<div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+<div class=" item-container  mb-1" style="background-color:#f0f2f5 ;padding: 0;">
   <h5 class="bolder text-primary ">Students Batch Data</h5>
   <h6 class="bolder">All running batches</h6>
+  <%if(!batches.studentBatches.presentBatches.length){%>
+    <div>
+      <div class="btn btn-primary btn-block mb-2">There is no present batch available.</div>
+      <a href="/search-batch-form"><div class="btn btn-success btn-block"><i class="fas fa-search"></i> Search running batches in your area.</div></a>
+    </div>
+  <%}%>
   <div class="teacher-banner-container pb-2">
-    <%if(!batches.studentBatches.presentBatches.length){%>
-      <div class="btn btn-primary btn-block">There is no present batch available.</div>
-    <%}%>
+    
     <%batches.studentBatches.presentBatches.forEach((batch)=>{%>
       <div class="batch-data">
         <div style="position: relative;">
@@ -36,11 +58,16 @@
           <span class="d-block"><strong>Subject : </strong><%=batch.subjects%></span>
           <span class="d-block"><strong>Days : </strong><%=batch.days%></span>
           <span class="d-block"><strong>Time : </strong><%=batch.classTime%></span>
-          <a href="/viewSingleBatch/<%=batch._id%>">
-            <div class="class btn btn-primary btn-sm">
-              Batch details
-            </div>
-          </a>
+          <div>
+            <a href="/viewSingleBatch/<%=batch._id%>">
+              <div class="class btn btn-primary btn-sm">
+                Batch details
+              </div>
+            </a>
+            <a href="/group-chat/<%=batch._id%>">
+              <div class="btn btn-sm  btn-success "><i class="fas fa-comment"></i> Group chatting</div>
+            </a>
+          </div>
         </div>
       </div>
     <%})%>
@@ -48,7 +75,7 @@
 </div>
 
 
-<div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+<div class=" item-container  mb-1" style="background-color:#f0f2f5 ;padding: 0;">
   <h6 class="bolder">All old batches</h6>
   <div class="teacher-banner-container pb-2">
     <%if(!batches.studentBatches.oldBatches.length){%>
@@ -66,11 +93,16 @@
           <span class="d-block"><strong>Subject : </strong><%=batch.subjects%></span>
           <span class="d-block"><strong>Days : </strong><%=batch.days%></span>
           <span class="d-block"><strong>Time : </strong><%=batch.classTime%></span>
+          <div>
           <a href="/viewSingleBatch/<%=batch._id%>">
             <div class="class btn btn-primary btn-sm">
               Batch details
             </div>
           </a>
+          <a href="/group-chat/<%=batch._id%>">
+            <div class="btn btn-sm  btn-success "><i class="fas fa-comment"></i> Group chatting</div>
+          </a>
+        </div>
         </div>
       </div>
     <%})%>
@@ -78,8 +110,8 @@
 </div>
 <%}%>
 <hr>
-<%if(accountType=="student" || accountType=="studentTeacher"){%>
-<div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+<%if(accountType=="teacher" || accountType=="studentTeacher"){%>
+<div class=" item-container  mb-1" style="background-color:#f0f2f5 ;padding: 0;">
   <h5 class="bolder text-primary ">Teachers Batch Data</h5>
   <h6 class="bolder">All running batches</h6>
   <div class="teacher-banner-container pb-2">
@@ -97,18 +129,23 @@
           <span class="d-block"><strong>Subject : </strong><%=batch.subjects%></span>
           <span class="d-block"><strong>Days : </strong><%=batch.days%></span>
           <span class="d-block"><strong>Time : </strong><%=batch.classTime%></span>
-          <a href="/viewSingleBatch/<%=batch._id%>">
-            <div class="class btn btn-primary btn-sm">
-              Batch details
-            </div>
-          </a>
+          <div>
+            <a href="/viewSingleBatch/<%=batch._id%>">
+              <div class="class btn btn-primary btn-sm">
+                Batch details
+              </div>
+            </a>
+            <a href="/group-chat/<%=batch._id%>">
+              <div class="btn btn-sm  btn-success "><i class="fas fa-comment"></i> Group chatting</div>
+            </a>
+          </div>
         </div>
       </div>
     <%})%>
   </div>
 </div>
 
-<div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+<div class=" item-container  mb-1" style="background-color:#f0f2f5 ;padding: 0;">
   <h6 class="bolder">All home-tuition announcements</h6>
   <div class="teacher-banner-container pb-2">
     <%if(!batches.teacherBatches.announcements.length){%>
@@ -127,9 +164,13 @@
           <span class="d-block"><strong>Address : </strong><%=announcement.address.district%>, <%=announcement.address.policeStation%>, <%=announcement.address.postOffice%>.</span>
           <a href="/homeTuitionAnnouncement/<%=announcement._id%>/details">
             <div class="class btn btn-primary btn-sm">
-              Announcement details
+              Go to details
             </div>
           </a>
+          <form action="/delete/announcement/<%=announcement._id%>/homeTuition" method="POST" class="d-inline">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+            <button class="btn  btn-danger btn-sm m-2"><i class="fas fa-trash"></i> Delete</button>
+          </form>
         </div>
       </div>
     <%})%>
@@ -137,7 +178,7 @@
 </div>
 
 
-<div class=" item-container container mb-1" style="background-color:#f0f2f5 ;">
+<div class=" item-container  mb-1" style="background-color:#f0f2f5 ;padding: 0;">
   <h6 class="bolder">All old batches</h6>
   <div class="teacher-banner-container pb-2">
     <%if(!batches.teacherBatches.oldBatches.length){%>
@@ -154,11 +195,16 @@
           <span class="d-block"><strong>Subject : </strong><%=batch.subjects%></span>
           <span class="d-block"><strong>Days : </strong><%=batch.days%></span>
           <span class="d-block"><strong>Time : </strong><%=batch.classTime%></span>
-          <a href="/viewSingleBatch/<%=batch._id%>">
-            <div class="class btn btn-primary btn-sm">
-              Batch details
-            </div>
-          </a>
+          <div>
+            <a href="/viewSingleBatch/<%=batch._id%>">
+              <div class="class btn btn-primary btn-sm">
+                Batch details
+              </div>
+            </a>
+            <a href="/group-chat/<%=batch._id%>">
+              <div class="btn btn-sm  btn-success "><i class="fas fa-comment"></i> Group chatting</div>
+            </a>
+          </div>
         </div>
       </div>
     <%})%>

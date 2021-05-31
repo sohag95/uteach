@@ -2,6 +2,8 @@ const User = require("../models/User")
 const Batch = require("../models/Batch")
 const Operations = require("../models/Operations")
 const Rating = require("../models/Rating")
+const Notification = require("../models/Notification")
+const UserAccount = require("../models/UserAccount")
 const batchCollection = require("../db").db().collection("batches")
 const homeTuitionCollection = require("../db").db().collection("homeTuition")
 const postsCollection = require("../db").db().collection("posts")
@@ -86,7 +88,16 @@ exports.userRegister = function (req, res) {
 exports.viewProfileEditScreen = async function(req, res) {
   try {
     let user = await User.findByUsername(req.params.username)
-    console.log("view profile:",user)
+    let teacherData={}
+    if(user.accountType=="teacher" || user.accountType=="studentTeacher"){
+      teacherData={
+        highestQualification:user.teacherData.highestQualification,
+        stream:user.teacherData.stream,
+        favouriteSubject:user.teacherData.favouriteSubject,
+        secondaryPercentage:user.teacherData.secondaryPercentage,
+        higherSecondaryPercentage:user.teacherData.higherSecondaryPercentage
+      }
+    }
     let editableData={
       name:user.name,
       dob:user.dob,
@@ -95,9 +106,12 @@ exports.viewProfileEditScreen = async function(req, res) {
       phone:user.phone,
       email:user.email
     }
-    console.log("data:",editableData)
+    
     if (user.username==req.username) {
-      res.render("edit-profile", {editableData: editableData})
+      res.render("edit-profile", {
+        editableData: editableData,
+        teacherData:teacherData
+      })
     } else {
       req.flash("errors", "You do not have permission to perform that action.")
       req.session.save(() => res.redirect(`/profile/${req.username}`))
@@ -106,9 +120,10 @@ exports.viewProfileEditScreen = async function(req, res) {
     res.render("404")
   }
 }
+
+
 exports.editProfile = function(req, res) {
   let user= new User(req.body)
-  console.log(req.username)
   user.updateProfile(req.username, req.params.username).then((status) => {
     // the post was successfully updated in the database
     if (status == "success") {
@@ -134,9 +149,7 @@ exports.editProfile = function(req, res) {
 }
 
 exports.updatePresentAddress=function(req,res){
-  try{
     if(req.params.username==req.username){
-      console.log("Address:",req.body)
       let user= new User(req.body)
       user.updatePresentAddress(req.username).then(()=>{
         req.flash("success", "Profile address successfully updated.")
@@ -157,10 +170,32 @@ exports.updatePresentAddress=function(req,res){
       res.redirect("/")
     })
     }
-  }catch{
+}
 
+exports.updateTeacherData=function(req,res){
+  if(req.params.username==req.username){
+    let userAccount= new UserAccount(req.body)
+    userAccount.updateTeacherData(req.username).then(()=>{
+      req.flash("success", "Successfully updated qualification data.")
+      req.session.save(function() { 
+        res.redirect(`/profile/${req.username}/edit`)
+      })
+    }).catch(()=>{
+      user.errors.forEach(function(error) {
+        req.flash("errors", error)
+      })
+      req.session.save(function() {
+        res.redirect(`/profile/${req.username}/edit`)
+      })
+    })
+  }else{
+    req.flash("errors", "You do not have permission to perform that action.")
+  req.session.save(function() {
+    res.redirect("/")
+  })
   }
 }
+
 
 exports.logout = function (req, res) {
   req.flash("success", "Logged out successfully.")
@@ -189,7 +224,6 @@ exports.userLogin = function (req, res) {
 }
 
 exports.ifUserExists = function (req, res, next) {
-  console.log(req.params.username)
   User.findByUsername(req.params.username)
     .then(function (userDocument) {
       req.profileUser = userDocument
@@ -197,13 +231,30 @@ exports.ifUserExists = function (req, res, next) {
       if (req.profileUser.username == req.username) {
         req.isVisitorsProfile = true
       }
+      let rating={}
+      if(req.profileUser.accountType=="teacher" || req.profileUser.accountType=="studentTeacher"){
+        let totalRating=0
+          let averageRating=0
+          let givenNumber=req.profileUser.rating.givenBy.length
+          if(givenNumber){
+            req.profileUser.rating.givenBy.forEach((rate)=>{
+              totalRating+=Number(rate.rated)
+            })
+            averageRating=Number((totalRating/givenNumber).toFixed(2))
+          }
+        rating={
+          averageRating:averageRating,
+          givenNumber:givenNumber
+        }
+      }
       req.profileHeaderData={
         username:userDocument.username,
         name:userDocument.name,
         bioStatus:userDocument.bioStatus,
-        isVisitorsProfile:req.isVisitorsProfile
+        isVisitorsProfile:req.isVisitorsProfile,
+        accountType:req.profileUser.accountType,
+        rating:rating
       }
-      console.log("executed")
       next()
     })
     .catch(function () {
@@ -228,17 +279,29 @@ exports.getConnectionsForProfile =async function (req, res, next) {
 }
 exports.getUserProfileData = async function (req, res) {
   try {
-    console.log("connections",req.connections.studentConnections.allFriends,req.connections.studentConnections.allTeachers,req.connections.teacherConnections.allStudents)
     let allFeeds = await postsCollection.find({ username: req.profileUser.username}).toArray()
+    
+    if(req.username!=req.profileUser.username){
+      let allData={
+        profileOwner:req.profileUser.username,
+        visitorUsername:req.username,
+        visitorName:req.name
+      }
+      await Notification.profileSeenNotification(allData)
+    }
+    
     allFeeds=allFeeds.reverse()
     res.render("user-profile", {
       profileHeaderData:req.profileHeaderData,
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       profileUser: req.profileUser,
       isVisitorsProfile: req.isVisitorsProfile,
       allFeeds:allFeeds,
       connections:req.connections
     })
   } catch {
+    console.log("I am here.")
     res.render("404")
   }
 }
@@ -256,14 +319,12 @@ exports.runningBatches=async function(req,res){
       let batchesIds = batchesId.map(batchId => {
         return batchId.batchId
       })
-      console.log("BatchesId taken",batchesIds)
       batchesTaken = await Batch.getBatches(batchesIds)
       batchesTaken.forEach((batch)=>{
         if(batch.presentBatch){
           takenRunningBatches.push(batch)
         }
       })
-      console.log("taken running batches :",takenRunningBatches)
     }
     if (req.profileUser.accountType == "teacher" || req.profileUser.accountType == "studentTeacher") {
       let teacherBatches = await batchCollection.find({ username: req.profileUser.username }).sort({ createdDate: -1 }).toArray()
@@ -286,14 +347,17 @@ exports.runningBatches=async function(req,res){
       teachRunningBatches:teachRunningBatches,
       runningHomeTuitions:runningHomeTuitions
     }
-    console.log("Running batches:",runningBatches)
-    res.render("running-batches", {
+    
+    res.render("allRunning-batches", {
       profileHeaderData:req.profileHeaderData,
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       runningBatches: runningBatches,
       isVisitorsProfile: req.isVisitorsProfile,
       accountType:req.profileUser.accountType
     })
   }catch{
+    console.log("Executed i am here")
     res.render("404")
   }
 }
@@ -319,13 +383,18 @@ exports.allTeachers = async function (req, res) {
 
       res.render("teachers", {
         profileHeaderData:req.profileHeaderData,
+        unseenMessages:req.unseenMessages,
+        unseenNotifications:req.unseenNotifications,
         teachers: teachers,
         isVisitorsProfile: req.isVisitorsProfile
       })
     } else {
+      console.log("Here problem")
       res.render("404")
     }
   } catch {
+    console.log("no ...Here problem")
+     
     res.render("404")
   }
 }
@@ -351,6 +420,8 @@ exports.allFriends = async function (req, res) {
 
       res.render("friends", {
         profileHeaderData:req.profileHeaderData,
+        unseenMessages:req.unseenMessages,
+        unseenNotifications:req.unseenNotifications,
         friends: friends,
         isVisitorsProfile: req.isVisitorsProfile
       })
@@ -377,6 +448,8 @@ exports.allStudents = async function (req, res) {
 
       res.render("students", {
         profileHeaderData:req.profileHeaderData,
+        unseenMessages:req.unseenMessages,
+        unseenNotifications:req.unseenNotifications,
         students: students,
         isVisitorsProfile: req.isVisitorsProfile
       })
@@ -437,8 +510,7 @@ exports.getConnectionsForHome =function (req, res, next) {
     //to remove duplicate usernames
     req.allConnections=[...new Set(req.allConnections)]
 
-    console.log("Req.allConnections",req.allConnections)
-      next()
+    next()
     }).catch(()=>{
       console.log("I am here now!")
       res.render("404")
@@ -466,9 +538,7 @@ exports.getConnectionsForHome =function (req, res, next) {
         myActiveConnections.push(user)
       }
     })
-
     req.myActiveConnections=myActiveConnections
-    console.log("Active connections:",req.myActiveConnections)
   next()
  }catch{
   console.log("I am on active contacts!")
@@ -480,13 +550,12 @@ exports.userHome =async function (req, res) {
   try {
     let allConnections=req.allConnections
     allConnections.push(req.username)
-    console.log("All connections",allConnections)
     let allFeeds = await postsCollection.find({ username: { $in: allConnections } }).toArray()
     allFeeds=Operations.shuffle(allFeeds)
-
-    console.log("Feeds:",allFeeds)
      res.render("user-home",{
       myActiveConnections:req.myActiveConnections,
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       allFeeds:allFeeds
      })
   } catch {
@@ -494,20 +563,6 @@ exports.userHome =async function (req, res) {
   }
 }
 
-
-
-exports.getNotifications = async function (req, res) {
-  try {
-    let notifications = await User.getNotifications(req.username)
-    console.log("Notifications:", notifications)
-    res.render("notifications", {
-      myActiveConnections:req.myActiveConnections,
-      notifications: notifications
-    })
-  } catch {
-    res.render("404")
-  }
-}
 
 
 
@@ -528,6 +583,8 @@ exports.guestHome = async function (req, res) {
    
     res.render("home-guest", {
       fiveBatches: fiveBatches,
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       fiveHomeTuitions:fiveHomeTuitions,
       highestRatedBatchTeachers:highestRatedBatchTeachers,
       highestRatedTuitionTeachers:highestRatedTuitionTeachers
@@ -562,21 +619,15 @@ exports.logIn = function (req, res) {
     } 
 }
 
-exports.search = function (req, res) {
-  User.search(req.body.searchTerm)
-    .then(users => {
-      res.json(users)
-    })
-    .catch(() => {
-      res.json([])
-    })
-}
 
 exports.searchHomeTuitor = function (req, res) {
   User.searchHomeTuitor(req.body)
     .then(tuitors => {
       res.render("home-tuitor-search-result", {
-        tuitors:tuitors
+        unseenMessages:req.unseenMessages,
+        unseenNotifications:req.unseenNotifications,
+        tuitors:tuitors,
+        area:req.body.postOffice
       })
     })
     .catch(() => {
@@ -588,7 +639,10 @@ exports.searchBatch = function (req, res) {
   User.searchBatch(req.body)
     .then(batches => {
       res.render("batch-search-result", {
-        batches:batches
+        unseenMessages:req.unseenMessages,
+        unseenNotifications:req.unseenNotifications,
+        batches:batches,
+        area:req.body.postOffice
       })
     })
     .catch(() => {
@@ -599,14 +653,20 @@ exports.searchBatch = function (req, res) {
 
 exports.searchHomeTuitorPage = function (req, res) {
   try {
-    res.render("search-tuitor-page")
+    res.render("search-tuitor-page",{
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
+    })
   } catch {
     res.render("404")
   }
 }
 exports.searchBatchPage = function (req, res) {
   try {
-    res.render("search-batch-page")
+    res.render("search-batch-page",{
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
+    })
   } catch {
     res.render("404")
   }
@@ -648,3 +708,38 @@ exports.uploadCoverPicture = function (req, res) {
       })
     })
 }
+
+
+
+exports.search = function (req, res) {
+  User.search(req.body.searchTerm)
+    .then(users => {
+      res.json(users)
+    })
+    .catch(() => {
+      res.json([])
+    })
+}
+
+
+// ########ADDRESS RELATE FUNCTIONS#########
+
+// exports.policeStations = function (req, res) {
+//   User.policeStations(req.body.district)
+//     .then(stations => {
+//       res.json(stations)
+//     })
+//     .catch(() => {
+//       res.json([])
+//     })
+// }
+
+// exports.postOffices = function (req, res) {
+//   User.postOffices(req.body.policeStation)
+//     .then(offices => {
+//       res.json(offices)
+//     })
+//     .catch(() => {
+//       res.json([])
+//     })
+// }

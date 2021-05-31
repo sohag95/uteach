@@ -8,7 +8,7 @@
         <div class="text-center">
           <img class="profile-image" src="/images/profile/profile-<%=profileHeaderData.username%>.jpg" />
           <h5><strong><%=profileHeaderData.name%></strong></h5>
-          <p>
+          <span>
             <span ><%=profileHeaderData.bioStatus%></span>
             <%if(profileHeaderData.isVisitorsProfile){%>
               <span type="button" class="d-block text-primary" data-toggle="modal" data-target="#exampleModalCenter">Edit</span>
@@ -28,6 +28,7 @@
                           <label for="status" class="text-muted" ><small>Edit status </small></label>
                           <input name="bioStatus" value="<%=profileHeaderData.bioStatus%>" id="status" class="form-control form-control-sm " type="text" placeholder="status" autocomplete="off" />
                         </div>
+                        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                         <div style="text-align: left;">
                           <button class="btn btn-success btn-sm ">Submit</button>
                         </div>
@@ -40,7 +41,16 @@
                 </div>
               </div>
             <%}%>
-          </p>
+            </span>
+            <%if(profileHeaderData.accountType=="teacher" || profileHeaderData.accountType=="studentTeacher"){ %>  
+            <div class="text-warning">
+            <span class="d-block">
+              <%rating=profileHeaderData.rating.averageRating%>
+                <%- include('rating-stars') %>
+              (<%=profileHeaderData.rating.averageRating%>)</span>
+            <span class="d-block bolder">Reviews - <%=profileHeaderData.rating.givenNumber%></span>
+          </div>
+          <%}%>
         </div>
       </div>  
       <hr>

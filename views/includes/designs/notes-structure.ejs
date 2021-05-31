@@ -12,22 +12,23 @@
       <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body" style="background-color: #f0f2f5;">
             <h2 class="bolder text-center">Add Notes</h2>
-            <form action="#" method="POST" class="">
+            <form action="/add-library-item" method="POST" class="library-form">
               <div class="form-group">
                 <label for="noteType-register" class="text-muted"><small>Note type</small></label>
                 <div id="noteType-register" class="text-center" style="display: flex;">
                   <div class="col-6 form-control form-control-sm ">
-                  Text Note <input name="noteType" type="radio" required autocomplete="off" />
+                  Text Note <input name="noteType" value="text" type="radio" required autocomplete="off" />
                   </div>
                   <div class="col-6 form-control form-control-sm ">
-                  Web Link <input name="noteType"  type="radio"  autocomplete="off" />
+                  Web Link <input name="noteType" value="webLink"  type="radio"  autocomplete="off" />
                   </div>
                 </div>
               </div>
-              <label for="noteType-register" class="text-muted"><small>About</small></label>
-              <input required id="noteType-register" class="form-control form-control-sm space" type="text" placeholder="Heading of the note">
+              <label for="about-register" class="text-muted"><small>About</small></label>
+              <input required id="about-register" name="about" class="form-control form-control-sm space" type="text" placeholder="Heading of the note">
               <label for="body-register" class="text-muted"><small>Note body-content/link</small></label>
-              <textarea required id="body-register" cols="10" rows="2" class="form-control form-control-sm space" type="text"></textarea>
+              <textarea required name="content" id="body-register" cols="10" rows="2" class="form-control form-control-sm space" type="text"></textarea>
+              <input type="hidden" name="_csrf" value="<%=csrfToken%>">
               <button class="btn btn-primary btn-block btn-lg">Add note <i class="fas fa-plus-square"></i></button>
             </form>
       </div>
@@ -36,11 +37,48 @@
   </div>
   <div class="mb-2">
     <h3><strong class="bolder">Your all text Notes</strong></h3>
-    <div style="width: 100%; background-color: antiquewhite;border-radius: 5px;height: 100px;">This is note body</div>
+    <%if(!textNotes.length){%>
+      <button class="btn btn-primary btn-block">No text notes created</button>
+    <%}%>
+    <%textNotes.forEach((note)=>{%>
+    <div class="mb-2" style="width: 100%; background-color:#f0f2f5 ;border-radius: 5px;">
+        <div style="display: flex;background-color: #dee2e6;align-items: center;"> 
+          <div class="p-2 " style="width: 100%;">
+            <strong ><span class="bolder text-primary">Note About : </span><%= note.about%></strong>
+          </div>
+          <div> 
+            <a href="/library/item/<%=note.index%>/edit" class="text-primary mr-2"><i class="fas fa-edit"></i></a>
+          </div>
+        </div>
+        <div class="p-2"><strong>Body Content : </strong>
+          <%=note.content%>
+        </div>
+    </div>
+    <%})%>
   </div>
-  <div>
+
+  <div class="mb-2">
     <h3><strong class="bolder">Your all web-link Notes</strong></h3>
-    <div style="width: 100%; background-color: antiquewhite;border-radius: 5px;height: 100px;">This is note body</div>
+    <%if(!webLinkNotes.length){%>
+      <button class="btn btn-primary btn-block">No web-link notes created</button>
+    <%}%>
+    <%webLinkNotes.forEach((note)=>{%>
+    <div style="width: 100%; border-radius: 5px;">
+      <div style="display: flex;"> 
+        <div class="p-2 bg-secondary" style="width: 100%;display: flex;"><strong>Web-link Of :</strong> 
+          <div style="width: 100%;"><%= note.about%></div>
+          <div> 
+            <a href="/library/item/<%=note.index%>/edit" class="text-primary mr-2"><i class="fas fa-edit"></i></a>
+          </div>
+        </div>
+        <div class="btn btn-primary">
+          <a href="<%=note.content%>" target="_blank" style="color: #fff;">
+          Visite site
+          </a>
+        </div>
+      </div>
+    </div>
+    <%})%>
   </div>
  
 </div>

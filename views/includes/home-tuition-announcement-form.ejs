@@ -46,27 +46,27 @@
 
           <h5>Address details(Important)</h5>
           <p><strong>Select the address according to the area you want to teach.</strong></p>
-          <div class="form-group">
-            <label for="district" class="text-muted mb-1"><small>Select Your District</small></label>
-            <select id="district" class="form-control" name="district" form="createAnnouncement-form">
-              <option value="darjeeling">Darjeeling</option>
-              <option value="jalpaiguri">Jalpaiguri</option>
-            </select>
+          <div id="address-part">
+            <div class="form-group">
+              <label for="districtPart" class="text-muted mb-1"><small>Select Your District</small></label>
+              <select id="districtPart" class="form-control" name="district" form="createAnnouncement-form">
+                <option value="darjeeling">Darjeeling</option>
+                <option value="jalpaiguri">Jalpaiguri</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="policeStationPart" class="text-muted mb-1"><small>Select Police Station</small></label>
+              <select id="policeStationPart" class="form-control" name="policeStation" form="createAnnouncement-form">
+                
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="postOfficePart" class="text-muted mb-1"><small>Select Post Office</small></label>
+              <select id="postOfficePart" class="form-control" name="postOffice" form="createAnnouncement-form">  
+              </select>
+            </div>
           </div>
-          <div class="form-group">
-            <label for="policeStation" class="text-muted mb-1"><small>Select Police Station</small></label>
-            <select id="policeStation" class="form-control" name="policeStation" form="createAnnouncement-form">
-              <option value="siliguri">Siliguri</option>
-              <option value="pradhan nagar">Pradhan Nagar</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="postOffice" class="text-muted mb-1"><small>Select Post Office</small></label>
-            <select id="postOffice" class="form-control" name="postOffice" form="createAnnouncement-form">
-              <option value="champasari">Champasari</option>
-              <option value="siliguri">Siliguri</option>
-            </select>
-          </div>
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Announcement</button>
         </form>
       </div>

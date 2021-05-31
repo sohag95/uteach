@@ -16,6 +16,8 @@ exports.getPhotoUploadForm=async function(req,res){
     console.log("Links",photoLinks)
     res.render("photo-upload-form",{
       myActiveConnections:req.myActiveConnections,
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       photoLinks:photoLinks
     })
   }catch{
@@ -52,6 +54,7 @@ exports.ifPostExists = function (req, res, next) {
   Post.findById(req.params.postId)
     .then(function (post) {
       req.postId = post._id
+      req.postUsername=post.username
       next()
     })
     .catch(function () {
@@ -62,7 +65,7 @@ exports.like = function (req, res) {
   let post = new Post(req.body, req.username, req.postId,req.name)
   console.log(req.body, req.postId, req.username)
   post
-    .like()
+    .like(req.postUsername)
     .then(function () {
         req.flash("success", "Like added...")
         req.session.save(() => res.redirect("/user-home"))
@@ -93,7 +96,7 @@ exports.commentOnPost = function (req, res) {
   let post = new Post(req.body, req.username, req.postId, req.name)
   console.log(req.body, req.postId, req.username)
   post
-    .commentOnPost()
+    .commentOnPost(req.postUsername)
     .then(function () {
       req.flash("success", "New comment successfully added.")
       req.session.save(() => res.redirect("/user-home"))

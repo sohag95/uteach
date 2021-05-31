@@ -1,5 +1,5 @@
 const postsCollection = require("../db").db().collection("posts")
-
+const Notification=require("../models/Notification")
 const ObjectID = require("mongodb").ObjectID
 const sanitizeHTML = require("sanitize-html")
 const fs = require("fs")
@@ -126,17 +126,17 @@ Post.findById = function (postId) {
   })
 }
 
-Post.prototype.like = function () {
+Post.prototype.like = function (postUsername) {
   return new Promise((resolve, reject) => {
     this.likedByCheck()
-      .then(() => {
+      .then(async() => {
         if (!this.errors.length) {
           let likedBy = {
             username: this.username,
             name:this.likedBy
           }
 
-          postsCollection
+          await postsCollection
             .updateOne(
               { _id: new ObjectID(this.postId) },
               {
@@ -145,14 +145,19 @@ Post.prototype.like = function () {
                 }
               }
             )
-            .then(() => {
-              resolve()
-            })
-            .catch(() => {
-              console.log("executed")
-              this.errors.push("Please try again later.")
-              reject(this.errors)
-            })
+            if(this.username!=postUsername){
+              let notification = {
+                type:"likePost",
+                data:{
+                  username:this.username,
+                  name:this.likedBy,
+                  id:this.postId
+                },
+                createdDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+              } 
+              await Notification.sentNotification(postUsername,notification)
+            }
+            resolve()
         } else {
           reject(this.errors)
         }
@@ -221,8 +226,9 @@ Post.prototype.disLike = function () {
       })
   })
 }
-Post.prototype.comment = function () {
-  return new Promise((resolve, reject) => {
+Post.prototype.comment = function (postUsername) {
+  return new Promise(async(resolve, reject) => {
+    try{
     if (typeof this.data.comment != "string") {
       this.data.comment = ""
     }
@@ -237,7 +243,7 @@ Post.prototype.comment = function () {
     }
     if (!this.errors.length) {
       // save post into database
-      postsCollection
+      await postsCollection
         .updateOne(
           { _id: new ObjectID(this.postId) },
           {
@@ -246,23 +252,32 @@ Post.prototype.comment = function () {
             }
           }
         )
-        .then(() => {
-          resolve()
-        })
-        .catch(() => {
-          console.log("executed")
-          this.errors.push("Please try again later.")
-          reject(this.errors)
-        })
+        if(this.username!=postUsername){
+          let notification = {
+            type:"commentPost",
+            data:{
+              username:this.username,
+              name:this.author,
+              id:this.postId
+            },
+            createdDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+          }
+          await Notification.sentNotification(postUsername,notification)
+        }  
+        resolve()
     } else {
       reject(this.errors)
     }
+  }catch{
+    this.errors.push("There is some problem")
+    reject(this.errors)
+  }
   })
 }
 
-Post.prototype.commentOnPost = function () {
+Post.prototype.commentOnPost = function (postUsername) {
   return new Promise((resolve, reject) => {
-    this.comment()
+    this.comment(postUsername)
       .then(() => {
         resolve()
       })

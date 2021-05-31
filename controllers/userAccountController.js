@@ -6,11 +6,15 @@ exports.ifUserStudent = function (req, res, next) {
       next()
     })
     .catch(function () {
-      console.log("You are not a student")
-      res.render("404")
+        res.render("404")
     })
 }
-
+exports.getUpgradeAccountForm=function(req,res){
+  res.render("upgrade-account-form",{
+    unseenMessages:req.unseenMessages,
+    unseenNotifications:req.unseenNotifications,
+  })
+}
 exports.upgradeAccount = function (req, res) {
   let userAccount = new UserAccount(req.body)
   userAccount
@@ -28,7 +32,7 @@ exports.upgradeAccount = function (req, res) {
         req.flash("errors", error)
       })
       req.session.save(function () {
-        res.redirect(`/profile/${req.username}`)
+        res.redirect("/upgradeAccount-form")
       })
     })
 }

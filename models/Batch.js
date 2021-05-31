@@ -2,7 +2,7 @@ const batchCollection = require("../db").db().collection("batches")
 const usersCollection = require("../db").db().collection("users")
 const ObjectID = require("mongodb").ObjectID
 const sanitizeHTML = require("sanitize-html")
-
+const Notification=require("../models/Notification")
 let Batch = function (data, username, batchId, teacherName) {
   this.data = data
   this.errors = []
@@ -23,6 +23,9 @@ Batch.prototype.cleanUp = function () {
   }
   if (typeof this.data.subjects != "string") {
     this.data.subjects = ""
+  }
+  if (typeof this.data.expirationDate != "string") {
+    this.data.expirationDate = ""
   }
   if (typeof this.data.session != "string") {
     this.data.session = ""
@@ -56,6 +59,7 @@ Batch.prototype.cleanUp = function () {
     days: sanitizeHTML(this.data.days.trim(), { allowedTags: [], allowedAttributes: {} }),
     classTime: sanitizeHTML(this.data.classTime.trim(), { allowedTags: [], allowedAttributes: {} }),
     session: sanitizeHTML(this.data.session.trim(), { allowedTags: [], allowedAttributes: {} }),
+    expirationDate: sanitizeHTML(this.data.expirationDate.trim(), { allowedTags: [], allowedAttributes: {} }),
     studentsQuentity: this.data.studentsQuentity,
     address:{
       district: sanitizeHTML(this.data.district.trim(), { allowedTags: [], allowedAttributes: {} }),
@@ -95,6 +99,9 @@ Batch.prototype.validate = function () {
   }
   if (this.data.subjects == "") {
     this.errors.push("You must provide subject name.")
+  }
+  if (this.data.expirationDate == "") {
+    this.errors.push("You must provide expiratio date of the batch.")
   }
   if (this.data.class == "") {
     this.errors.push("You must provide select class.")
@@ -148,6 +155,45 @@ Batch.prototype.batchCreate = function () {
   })
 }
 
+
+Batch.prototype.editBatch = function (batchId) {
+  return new Promise(async(resolve, reject) => {
+    try{
+    this.cleanUp()
+    this.validate()
+    if (!this.errors.length) {
+      // save batch into database
+     let address={
+        district: this.data.address.district,
+        policeStation: this.data.address.policeStation,
+        postOffice: this.data.address.postOffice,  
+      }
+      await batchCollection.findOneAndUpdate(
+        { _id: new ObjectID(batchId) },
+        {$set: {
+          stream: this.data.stream,
+          class: this.data.class,
+          subjects: this.data.subjects,
+          days: this.data.days,
+          classTime: this.data.classTime,
+          session: this.data.session,
+          expirationDate: this.data.expirationDate,
+          studentsQuentity: this.data.studentsQuentity,
+          address:address,
+          nearBy: this.data.nearBy,
+          batchMood:this.data.batchMood
+        }
+      })
+      resolve()
+    } else {
+      reject()
+    }
+  }catch{
+    reject()
+  }
+  })
+}
+
 Batch.findSingleBatchById = function (batchId) {
   return new Promise(function (resolve, reject) {
     if (typeof batchId != "string") {
@@ -168,7 +214,6 @@ Batch.findSingleBatchById = function (batchId) {
 Batch.getBatches = function (batchesId) {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("Batches here ids:", batchesId)
       let batches = await batchCollection.find({ _id: { $in: batchesId } }).toArray()
       resolve(batches)
     } catch {
@@ -196,23 +241,18 @@ Batch.sentRequest = function (studentUsername, id, teacherUsername, studentName)
           }
         }
       )
-
-      let news = "One request came from " + studentName + ".He wants to get admission to your batch."
-      console.log(news)
+      //notification sending
       let notification = {
-        seen: false,
-        message: news,
-        batchId: id,
-        createdDate: new Date()
+        type:"sentBatchRequest",
+        data:{
+          username:studentUsername,
+          name:studentName,
+          id:id
+        },
+        createdDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
       }
-      await usersCollection.updateOne(
-        { username: teacherUsername },
-        {
-          $push: {
-            notifications: notification
-          }
-        }
-      )
+      await Notification.sentNotification(teacherUsername,notification)
+      
       resolve()
     } catch {
       reject()
@@ -236,12 +276,15 @@ Batch.prototype.acceptRequest = function (batch, studentUsername, studentName,re
       }
 
       let notification = {
-        type:"requestAccepted",
-        seen: false,
-        message: batch.teacherName + " sir has accepted your request.Now you are a student of that batch.You have find new friends.check the batch details....",
-        batchId: batch._id,
-        createdDate: new Date()
+        type:"acceptBatchRequest",
+        data:{
+          username:batch.username,
+          name:batch.teacherName,
+          id:batch._id
+        },
+        createdDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
       }
+      
       let batchId = {
         batchId: batch._id
       }
@@ -270,16 +313,8 @@ Batch.prototype.acceptRequest = function (batch, studentUsername, studentName,re
           }
         }
       )
-
-      await usersCollection.updateOne(
-        { username: studentUsername },
-        {
-          $push: {
-            notifications: notification
-          }
-        }
-      )
-
+      await Notification.sentNotification(studentUsername,notification)
+    
       resolve()
     } catch {
       reject("There was some problem")
@@ -297,10 +332,13 @@ Batch.prototype.deleteRequest = function (batch, studentUsername, studentName,re
       }
 
       let notification = {
-        seen: false,
-        message: batch.teacherName + "sir has deleted your request.",
-        batchId: batch._id,
-        createdDate: new Date()
+        type:"deleteBatchRequest",
+        data:{
+          username:batch.username,
+          name:batch.teacherName,
+          id:batch._id
+        },
+        createdDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
       }
 
       await batchCollection.updateOne(
@@ -311,15 +349,8 @@ Batch.prototype.deleteRequest = function (batch, studentUsername, studentName,re
           }
         }
       )
-
-      await usersCollection.updateOne(
-        { username: studentUsername },
-        {
-          $push: {
-            notifications: notification
-          }
-        }
-      )
+      await Notification.sentNotification(studentUsername,notification)
+    
 
       resolve()
     } catch {
@@ -338,11 +369,15 @@ Batch.prototype.deleteStudentFromBatch = function (batch, studentUsername, stude
       }
 
       let notification = {
-        seen: false,
-        message: batch.teacherName + " sir has deleted you from his batch.check the batch details....",
-        batchId: batch._id,
-        createdDate: new Date()
+        type:"deleteFromBatch",
+        data:{
+          username:batch.username,
+          name:batch.teacherName,
+          id:batch._id
+        },
+        createdDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
       }
+
       let batchId = {
         batchId: batch._id
       }
@@ -363,15 +398,8 @@ Batch.prototype.deleteStudentFromBatch = function (batch, studentUsername, stude
           }
         }
       )
-
-      await usersCollection.updateOne(
-        { username: studentUsername },
-        {
-          $push: {
-            notifications: notification
-          }
-        }
-      )
+      await Notification.sentNotification(studentUsername,notification)
+    
 
       resolve()
     } catch {

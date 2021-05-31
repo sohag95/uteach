@@ -1,6 +1,4 @@
          
-
-  
 <%if(!allFeeds.length){%>
   <button class="btn btn-lg btn-primary btn-block">No posts available!!</button>
 <%}%>
@@ -29,6 +27,7 @@
           <div class="dropdown-menu dropdown-menu-right">
             <%if(user.username==post.username){%>
               <form onsubmit="return deletePost(this);" class="inlineContainer " action="" method="POST">
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                 <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
               </form>
            <% }else{%>
@@ -63,12 +62,14 @@
       <div class="text-center" style="width: 50%;">
         <%  if(liked){%> 
           <form class="inlineContainer" action="/disLike/<%=post._id%>" method="POST">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>">
             <button class="btn  btn-block text-primary" style="border: 0px;background: #fff;" type="submit">
                 <i class="far fa-thumbs-up"></i> Liked
             </button>
           </form>
         <%}else{%> 
           <form class="inlineContainer" action="/like/<%=post._id%>" method="POST">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>">
             <button class="btn  btn-block " style="border: 0px;background: #fff;" type="submit">
                 <i class="far fa-thumbs-up"></i> Like 
             </button>
@@ -113,6 +114,7 @@
         </div>
         <div class="post-form-container" style="padding: 4px;">
           <form action="/comment/<%= post._id %>/post" method="post" style="display: flex;">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>">
             <input type="text" name="comment" class="post-input-field" placeholder="Write your comment here." required>
             <button class="post-button" type="submit">Comment</button>
           </form>

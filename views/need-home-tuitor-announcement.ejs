@@ -1,0 +1,69 @@
+<%- include('includes/header') %>
+<div class="mt-2" style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg"></div>
+  <div class="col-lg-7">
+    <div class="single-batch-container">
+      <div class="single-batch-data">
+        <div style="position: relative;">
+          <img class="single-batch-image"  src="/images/profile/profile-<%=announcementData.username%>.jpg" alt="">
+          <div class="batch-no">Need Home-tuitor</div>
+        </div>
+        <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Student :</strong>
+           <%=announcementData.studentName%>
+          <%if(studentData.gender=="male"){%>
+            <i class="fas fa-male"></i>
+          <%}else{%>
+            <i class="fas fa-female"></i>
+          <%}%>
+          </div>
+        <strong class="text-primary ml-2">Announcement Details:</strong>
+        <div class="row m-2" >
+          <div class="col-md-6">
+            <span class="d-block"><strong>Stream : </strong> <%=announcementData.stream%></span>
+            <span class="d-block"><strong>Class : </strong> <%=announcementData.class%></span>
+          </div>
+          <div class="col-md-6">
+            <span class="d-block"><strong>Days per week : </strong> <%=announcementData.daysPerWeek%></span>
+            <span class="d-block"><strong>Salery per month : </strong> <%=announcementData.salery%>/-</span>
+          </div>
+        </div>
+        <strong class="text-primary ml-2">Student Area Details:</strong>
+          <div class="col">
+            <span class="d-block"><strong>District : </strong> <%=announcementData.address.district%></span>
+            <span class="d-block"><strong>Police Station : </strong><%=announcementData.address.policeStation%></span>
+            <span class="d-block"><strong>Post Office : </strong> <%=announcementData.address.postOffice%></span>
+          </div>
+          <strong class="text-primary ml-2">Views :</strong>
+        <div class="ml-2">
+          <span class="d-block"><strong>Announcement Viewed : </strong> <%=announcementData.announcementViewed%></span>
+        </div>
+        <hr>
+        <strong class="text-primary ml-2">Contact details:</strong>
+        <div class="col m-2">
+          <span class="d-block"><strong>Phone number : </strong> <%=studentData.phone%></span>
+          <span class="d-block"><strong>Email id : </strong> <%=studentData.email%></span>
+        </div>  
+        <%if(user.username!=announcementData.username){%>
+          <a href="/profile/<%=announcementData.username%>">
+            <div class="text-center">
+              <div class="btn btn-sm  btn-success ">View Student's profile</div>
+            </div>
+          </a>
+        <%}else{%>
+          <div class="text-center">
+            <div class="btn btn-sm  btn-warning ">This Is Your Announcement</div>
+            <form action="/delete/announcement/<%=announcementData._id%>/needTuitor" method="POST" class="d-inline">
+              <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+              <button class="btn  btn-danger btn-sm m-2"><i class="fas fa-trash"></i> Delete Announcement </button>
+            </form>
+          </div>
+        <%}%>
+        <hr>
+        <hr>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg"></div>
+</div>
+
+  <%- include('includes/footer') %>

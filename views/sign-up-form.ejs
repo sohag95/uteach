@@ -1,6 +1,7 @@
 <%- include('includes/header') %>
 <%- include('includes/flash') %>
 
+
 <div class="row">
   <div class="col" ></div>
   <div class="col-lg-8 " style="margin-bottom: 2rem;" >
@@ -70,6 +71,7 @@
             <label for="re-password-register" class="text-muted"><small>Confirm Password </small></label>
             <input name="rePassword" required id="re-password-register" class="form-control form-control-lg " type="password" placeholder="Confirm password" autocomplete="off" />
           </div>
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
         <div style="text-align: center;">
           <button class="btn btn-success btn-lg ">Sign up account</button>
         </div>

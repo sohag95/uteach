@@ -30,36 +30,9 @@
             <label for="password-register" class="text-muted mb-1"><small>Password</small></label>
             <input name="password" id="password-register" class="form-control" type="password" placeholder="Create a password" />
           </div>
-
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Sign up Account</button>
         </form>
       </div>
   </div>
 
-<!-- <div class="form-group">
-  <label for="gender-register" class="text-muted mb-1"><small>Select your gender</small></label>
-  <select id="gender-register" class="form-control" name="gender" form="accountCreate-form">
-    <option value="male">Male</option>
-    <option value="female">Female</option>
-    <option value="others">Others</option>
-  </select>
-</div>
-
-<div class="form-group">
-  <label for="dob-register" class="text-muted mb-1"><small>Date of birth</small></label>
-  <input name="dob" id="dob-register" class="form-control" type="date" placeholder="Enter date of birth" autocomplete="off" required />
-</div>
-
-<div class="form-group">
-  <label for="address-register" class="text-muted mb-1"><small>Your Address</small></label>
-  <input name="address" id="address-register" class="form-control" type="text" placeholder="Enter your address" autocomplete="off" />
-</div>
-
-<div class="form-group">
-  <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
-  <input name="phone" id="phone-register" class="form-control" type="text" placeholder="Enter your phone number" autocomplete="off" />
-</div>
-
-
-<hr />
-<h4>[ You will able to switch your account student to teacher but from teacher account you will not able to switch to student account.]</h4> -->

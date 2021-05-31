@@ -1,59 +1,92 @@
 <%- include('includes/header') %>
-<div class="container">
-<div class="list-group shadow-sm">
-  <div class="list-group-item active"><strong>Search Results (<%=batches.length%>)</strong> </div>
-  <%if(!batches.length){%>
-    <p class="text-center"><strong>No running batches found according to your search data!!</strong></p>
-  <%}%>
-  <div class="container">
+
+<div style="display: flex;flex-wrap: wrap;">
+  <div class="col-lg-1"></div>
+  <div class="col-lg-10">
+    <h4 class="bolder mt-3"><%=batches.length%> <%=batches.length<2?"result":"results"%> from "<%=area%>"</h4> 
+    <h5 style="color: #0f7c90;font-weight: 600;">Get a good teacher, build a great career!!</h5>
+    <hr>
     <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10 shadow">
-         <% batches.forEach(function(batch){ %>
-        <a class="list-group-item list-group-item-action" data-toggle="collapse" href="#collapse<%= batch._id %>" role="button" aria-expanded="false" aria-controls="collapseExample">
-          <img class="avatar-tiny" src="/images/profile/profile-<%=batch.username%>.jpg" />
-          By-<strong class=""> <%= batch.teacherName %> </strong>
-          <div class="float-right"><strong>Stream : </strong><%= batch.stream %></div>
+      <div class="col-md-3" >
+        <div class="mb-2">
+          <h5 class="bolder text-primary">Suggessions :</h5>
+        </div>
+        <a href="/search-home-tuitor-form">
+          <div class="btn btn-success btn-block mb-1"><i class="fas fa-search"></i> Search for home-tuitor </div>
         </a>
-        <div class="collapse" id="collapse<%= batch._id %>">
-          <div class="card card-body">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-1"></div>
-                <div class="col-md-10">
-                  <div class="text-center">
-                    <img class="batchPictureAvatar" src="/images/profile/profile-<%=batch.username%>.jpg" class="rounded" alt="...">
-                  </div>
-                  <% let presentStudents=batch.admittedStudents.length %>
-                  <div class="container mb-4">
-                    <p><strong>Teacher Name : </strong><%= batch.teacherName %></p>
-                    <p><strong>Stream : </strong><%= batch.stream %></p>
-                    <p><strong>Subject : </strong><%= batch.subjects %></p>
-                    <p><strong>Class : </strong><%= batch.class %></p>
-                    <p><strong>Batch Time : </strong><%= batch.classTime %></p>
-                    <p><strong>Teaching Days : </strong><%= batch.days %></p>
-                    <p><strong>Address : </strong><%= batch.address %></p>
-                    <hr />
-                    <p><strong>Total sits : </strong><%= batch.studentsQuentity %></p>
-                    <p><strong>Admitted students : </strong><%= batch.admittedStudents.length %></p>
-                    <p><strong>Available sits : </strong><%= batch.studentsQuentity-presentStudents %></p>
-                  </div>
-                  <form action="/requestForAdmission/<%=batch._id%>" method="POST">
-                    <span class="pt-2">
-                      <button type="submit" class="py-3 mt-4 btn btn-primary btn-color btn-block btnText">Sent Request For Admition</button>
-                    </span>
-                  </form>
-                </div>
-  
-                <div class="col-md-1"></div>
+        <div class="notVisibleOnCollapse mb-3">
+          <div class="mb-2">
+            <strong class="bolder text-primary">Search from near by areas :</strong>
+          </div>
+          <div class="btn btn-outline-secondary btn-block">Siliguri</div>
+          <div class="btn btn-outline-secondary btn-block">Jalpaiguri</div>
+          <div class="btn btn-outline-secondary btn-block">Darjeeling</div>
+          <div class="btn btn-outline-secondary btn-block">Maldha</div>
+      </div>
+        <div class="visibleItemsOnCollapse">
+          <div id="accordion">
+            <div class="card">
+              <div class="" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-secondary btn-block" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Search from near by areas <i class="fas fa-caret-square-down"></i>
+                  </button>
+                </h5>
+              </div>
+          
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body" style="background-color: #f0f2f5;">
+                  <div class="btn btn-outline-secondary btn-block">Siliguri</div>
+                  <div class="btn btn-outline-secondary btn-block">Jalpaiguri</div>
+                  <div class="btn btn-outline-secondary btn-block">Darjeeling</div>
+                  <div class="btn btn-outline-secondary btn-block">Maldha</div>
+              </div>
               </div>
             </div>
           </div>
+          <hr>
         </div>
-        <% }) %>
+      </div>
+      <div class="col-md-9 mb-2" >
+        <h5><strong class=" bolder text-primary">Results :</strong></h5>
+        <%if(!batches.length){%>
+          <div class="path text-center" style="padding: 1rem;">
+            <div class="col" style="width: 100%; color: #fff;">
+                <div>
+                  <strong class="text-center">No running batches found according to your search data!!</strong>
+                </div>
+            </div>
+          </div>
+        <%}%>
+        <% batches.forEach(function(batch){ %>
+        <div class="mt-2" style="display: flex;border-bottom: 1px solid gray;border-radius: 5px;background-color: #fff;">
+          <div class="text-center" style="position: relative;">
+            <img class="search-batch-image"  src="/images/cover/cover-<%= batch.username %>.jpg" alt="">
+            <div class="batch-no notVisibleOnCollapse"><%= batch.batchMood %></div>
+          </div>
+            <div>
+                <div class="ml-2" style="color: #3c3b37;font-weight: 400;">
+                  <span class="d-block" style="color: #3c3b37;font-weight: 700;"><strong>Teacher name : </strong> <%= batch.teacherName %></span>
+                  <div class="d-block">
+                    <span ><strong>Stream : </strong> <%= batch.stream %> ,</span>
+                    <span ><strong>Subject : </strong> <%= batch.subjects %>, </span>
+                    <span ><strong>Class : </strong> <%= batch.class %> </span>           
+                  </div>
+                  <span class="d-block"><strong>Address : </strong> <%= batch.address.policeStation %> ,<%= batch.address.postOffice %> ,Near by - <%= batch.nearBy %></span>
+                </div>             
+                <div class="ml-2">
+                  <a href="/viewSingleBatch/<%=batch._id%>">
+                    <div class="btn btn-info btn-sm mr-1">Batch Details</div>
+                  </a> 
+                </div>
+            </div>
+        </div> 
+        <%})%>
+        
       </div>
     </div>
   </div>
-
+  <div class="col-lg-1"></div>
 </div>
+
 <%- include('includes/footer') %>

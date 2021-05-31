@@ -6,8 +6,8 @@ let UserAccount = function (data) {
 }
 
 UserAccount.prototype.cleanUp = function () {
-  if (typeof this.data.qualification != "string") {
-    this.data.qualification = ""
+  if (typeof this.data.highestQualification != "string") {
+    this.data.highestQualification = ""
   }
   if (typeof this.data.stream != "string") {
     this.data.stream = ""
@@ -15,11 +15,25 @@ UserAccount.prototype.cleanUp = function () {
   if (typeof this.data.subject != "string") {
     this.data.subject = ""
   }
+  if (typeof this.data.secondaryPercentage != "string") {
+    this.data.secondaryPercentage = ""
+  }
+  if (typeof this.data.higherSecondaryPercentage != "string") {
+    this.data.higherSecondaryPercentage = ""
+  }
+  if(this.data.secondaryPercentage == ""){
+    this.data.secondaryPercentage = "Not-qualified"
+  }
+  if(this.data.higherSecondaryPercentage == ""){
+    this.data.higherSecondaryPercentage = "Not-qualified"
+  }
 
   this.data = {
-    qualification: this.data.qualification,
-    streamTeach: this.data.stream,
-    subject: this.data.subject,
+    highestQualification: this.data.highestQualification,
+    stream: this.data.stream,
+    favouriteSubject:this.data.favouriteSubject,
+    secondaryPercentage:this.data.secondaryPercentage,
+    higherSecondaryPercentage:this.data.higherSecondaryPercentage,
     allBatchesTeach: [],
     homeTuitionAnnouncements:[],
     varifiedAccount: false,
@@ -27,14 +41,30 @@ UserAccount.prototype.cleanUp = function () {
   }
 }
 UserAccount.prototype.validate = function () {
-  if (this.data.qualification == "") {
+  if (this.data.highestQualification == "") {
     this.errors.push("You must select valid qualification.")
   }
   if (this.data.stream == "") {
-    this.errors.push("You must select stream.")
+    this.errors.push("You must select a stream.")
   }
-  if (this.data.subject == "") {
+  if (this.data.favouriteSubject == "") {
     this.errors.push("You must provide subject name.")
+  }
+
+  if ((this.data.highestQualification == "secondary" ||
+      this.data.highestQualification == "higher-secondary" ||
+      this.data.highestQualification == "under-graduation" ||
+      this.data.highestQualification == "post-graduation" ||
+      this.data.highestQualification == "phd-graduation" )&&
+      this.data.secondaryPercentage=="Not-qualified") {
+    this.errors.push("You have passed class-10.So you must give your secondary parcentage.")
+  }
+  if ((this.data.highestQualification == "higher-secondary" ||
+  this.data.highestQualification == "under-graduation" ||
+  this.data.highestQualification == "post-graduation" ||
+  this.data.highestQualification == "phd-graduation" )&&
+  this.data.higherSecondaryPercentage=="Not-qualified") {
+    this.errors.push("You have passed class-12.So you must give your higher-secondary parcentage.")
   }
 }
 
@@ -80,6 +110,30 @@ UserAccount.ifUserStudent = function (username) {
         console.log("there is some problem.")
         reject()
       })
+  })
+}
+
+UserAccount.prototype.updateTeacherData = function (username) {
+  return new Promise(async(resolve, reject)=> {
+    this.cleanUp()
+    this.validate()
+    if (!this.errors.length) {
+      await usersCollection.findOneAndUpdate(
+        { username: username },
+        {
+          $set: {
+            "teacherData.highestQualification":this.data.highestQualification,
+            "teacherData.stream":this.data.stream,
+            "teacherData.favouriteSubject":this.data.favouriteSubject,
+            "teacherData.secondaryPercentage":this.data.secondaryPercentage,
+            "teacherData.higherSecondaryPercentage":this.data.higherSecondaryPercentage
+          }
+        }
+      )
+      resolve()
+    } else {
+      reject()
+    }
   })
 }
 module.exports = UserAccount

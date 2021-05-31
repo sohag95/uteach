@@ -4,9 +4,10 @@
 <div class="mt-2 mb-2" style="display: flex;flex-wrap: wrap;">
 <div class="col-lg"></div>
 <div class="col-lg-7">
-  <h4 class="bolder text-primary"><strong>Edit Your Profile</strong></h4>
+  <a class="small font-weight-bold" href="/profile/<%= user.username %>">&laquo; Back to profile permalink</a>
+  <h5 class="bolder text-primary"><strong>Edit Your Profile</strong></h5>
   <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
-    <h5 class="bolder m-2">Update Cover Photo</h5>
+    <strong class="bolder m-2">Update Cover Photo</strong>
     <form class="m-2" action="/coverPictureUpload" method="POST" id="fileUpload-form1" enctype="multipart/form-data">
       <label class="text-center" for="FormControlFile1">Choose cover picture</label> 
       <div class="input-group post-form-container" style="margin-bottom: 2px;">
@@ -18,12 +19,13 @@
           <label class="custom-file-label" for="inputGroupFile01">Choose file(.jpg formated)</label>
         </div>
       </div>
+      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
       <button type="submit" class=" btn btn-sm btn-secondary btn-block">Submit</button>
     </form>
   </div>
 
   <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
-    <h5 class="bolder m-2">Update Profile Photo</h5>
+    <strong class="bolder m-2">Update Profile Photo</strong>
     <form class="m-2" action="/profilePictureUpload" method="POST" id="fileUpload-form2" enctype="multipart/form-data">
       <label class="text-center" for="FormControlFile2">Choose profile picture</label> 
       <div class="input-group post-form-container" style="margin-bottom: 2px;">
@@ -35,48 +37,103 @@
           <label class="custom-file-label" for="inputGroupFile02">Choose file (.jpg formated)</label>
         </div>
       </div>
+      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
       <button type="submit" class=" btn btn-sm btn-secondary btn-block">Submit</button>
     </form>
   </div>
-
+<hr>
   <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
-    <h5 class="bolder m-2">Edit address data</h5>
+    <strong class="bolder m-2">Update address details <span class="text-warning"><i class="fas fa-star"></i><i class="fas fa-star"></i></span></strong>
     <form class="m-2" action="/present-address/<%=user.username%>/update" method="POST" id="presentAddress-form">
         <strong class="text-primary"> Present address</strong>
-        <div class="form-group">
-          <label for="district" class="text-muted mb-1"><small>Select Your District</small></label>
-          <select id="district" class="form-control form-control-lg" name="district" form="presentAddress-form">
-            <option value="darjeeling">Darjeeling</option>
-            <option value="jalpaiguri">Jalpaiguri</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="policeStation" class="text-muted mb-1"><small>Select Police Station</small></label>
-          <select id="policeStation" class="form-control form-control-lg" name="policeStation" form="presentAddress-form">
-            <option value="siliguri">Siliguri</option>
-            <option value="pradhan nagar">Pradhan Nagar</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="postOffice" class="text-muted mb-1"><small>Select Post Office</small></label>
-          <select id="postOffice" class="form-control form-control-lg" name="postOffice" form="presentAddress-form">
-            <option value="champasari">Champasari</option>
-            <option value="siliguri">Siliguri</option>
-          </select>
+        <div id="address-part">
+          <div class="form-group">
+            <label for="districtPart" class="text-muted mb-1"><small>Select Your District</small></label>
+            <select id="districtPart" class="form-control form-control-lg" name="district" form="presentAddress-form">
+              <option value="<%=editableData.address.district%>"><%=editableData.address.district%></option>
+              <option value="">--Select your district--</option>
+              <option value="Darjeeling">Darjeeling</option>
+              <option value="Jalpaiguri">Jalpaiguri</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="policeStationPart" class="text-muted mb-1"><small>Select Police Station</small></label>
+            <select id="policeStationPart" class="form-control form-control-lg" name="policeStation" form="presentAddress-form">
+              <option value="<%=editableData.address.policeStation%>"><%=editableData.address.policeStation%></option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="postOfficePart" class="text-muted mb-1"><small>Select Post Office</small></label>
+            <select id="postOfficePart" class="form-control form-control-lg" name="postOffice" form="presentAddress-form">
+              <option value="<%=editableData.address.postOffice%>"><%=editableData.address.postOffice%></option>
+            </select>
+          </div>
         </div>
         <div class="form-group">
           <label for="address-register" class="text-muted mb-1"><small>Near By Place(optional)</small></label>
-          <input name="nearBy" id="address-register" class="form-control form-control-lg" type="text" placeholder="Exact location address." autocomplete="off" />
+          <input name="nearBy" value="<%=editableData.nearBy%>" id="address-register" class="form-control form-control-lg" type="text" placeholder="Exact location address." autocomplete="off" />
         </div>
       <div style="text-align: center;">
         <button class="btn btn-success btn-lg btn-block">Submit present address</button>
       </div>
+      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
     </form>
   </div>
-
+<hr>
+  <%if(user.accountType=="teacher" || user.accountType=="studentTeacher"){%>
   <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
-    <h5 class="bolder m-2">Edit profile data</h5>
-    <form class="m-2" action="/profile/<%= user.username %>/edit" method="POST" id="registration-form">
+    <strong class="bolder m-2">Edit qualification data</strong>
+    <form class="m-2" action="/teacherData/<%=user.username%>/update" method="POST" id="teacherDataUpdate-form">
+      <strong class="text-primary">Qualification data</strong>
+      <div class="row">
+        <div class="form-group col-sm-6">
+          <label for="qualification-register" class="text-muted mb-1"><small>Select your qualification</small></label>
+          <select id="qualification-register" class="form-control form-control-lg" name="highestQualification" form="teacherDataUpdate-form">
+            <option value="<%=teacherData.highestQualification%>"><%=teacherData.highestQualification%></option>
+            <option value="under-secondary">Under Secondary</option>
+            <option value="secondary">Secondary</option>
+            <option value="higher-secondary">Higher Secondary</option>
+            <option value="under-graduation">Under Graduation</option>
+            <option value="post-graduation">Post Graduation</option>
+            <option value="phd-graduation">PHD</option>
+          </select>
+        </div>
+        <div class="form-group col-sm-6">
+          <label for="stream-register" class="text-muted mb-1"><small>Select your stream</small></label>
+          <select id="stream-register" class="form-control form-control-lg" name="stream" form="teacherDataUpdate-form">
+            <option value="<%=teacherData.stream%>"><%=teacherData.stream%></option>
+            <option value="science">Science</option>
+            <option value="arts">Arts</option>
+            <option value="commerce">Commerce</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="subject-register" class="text-muted mb-1"><small>Subject name</small></label>
+        <input name="favouriteSubject" value="<%=teacherData.favouriteSubject%>" id="subject-register" class="form-control form-control-lg" type="text" placeholder="Stream/favourite subject name" autocomplete="off" />
+      </div>
+      <strong class="text-primary">Qualification percentage</strong>
+      <i class="text-danger d-block">(Ignore below fields if not qualified)</i>
+      <div class="form-group">
+        <label for="secondary-percentage-register" class="text-muted mb-1"><small>Class 10th percentage</small></label>
+        <input name="secondaryPercentage" value="<%=teacherData.secondaryPercentage%>" id="secondary-percentage-register" class="form-control form-control-lg" type="number" placeholder="Enter percentage" autocomplete="off" />
+      </div>
+      <div class="form-group">
+        <label for="higherSecondary-percentage-register" class="text-muted mb-1"><small>Class 12th percentage</small></label>
+        <input name="higherSecondaryPercentage" value="<%=teacherData.higherSecondaryPercentage%>" id="higherSecondary-percentage-register" class="form-control form-control-lg" type="number" placeholder="Enter percentage" autocomplete="off" />
+      </div>
+      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Update data</button>
+    </form>
+  </div>
+  <%}%>
+<hr>
+  <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
+    <strong class="bolder m-2">Edit profile data</strong>
+    <form class="m-2" action="/profile/<%= user.username %>/edit" method="POST" id="registrationEdit-form">
       
         <strong class="text-primary"> User related data</strong>
         <div class="form-group">
@@ -101,14 +158,15 @@
           <label for="email-register" class="text-muted"><small>Email Id</small></label>
           <input name="email" value="<%=editableData.email%>"  id="email-register" class="form-control form-control-lg " type="text" placeholder="Email id" autocomplete="off" />
         </div>
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
       <div style="text-align: center;">
         <button class="btn btn-success btn-lg btn-block">Submit profile data</button>
       </div>
     </form>
   </div>
-
+<hr>
   <div style="background-color: #fff;width: 100%;border-radius: 5px;margin-bottom: 1rem;">
-    <h5 class="bolder m-2">Change password</h5>
+    <strong class="bolder m-2">Change password</strong>
     <%- include('includes/passwordChangingForm') %>
   </div>
 
@@ -116,64 +174,4 @@
 <div class="col-lg"></div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-<h5 class="text-center mb-4"><strong>Edit Your Profile</strong></h5>
-<div style="margin-bottom: 9px;">
-<div class="container py-md-5 container--narrow">
-  <%- include('includes/flash') %>
-  <a class="small font-weight-bold" href="/profile/<%= user.username %>">&laquo; Back to profile permalink</a>
-  <div class=" py-md-5 container--narrow">
-    <form action="/profile/<%= user.username %>/edit" method="POST" id="accountCreate-form">
-    
-      <div class="form-group">
-        <label for="name-register" class="text-muted mb-1"><small>Your full name</small></label>
-        <input name="name" value="<%=editableData.name%>" id="name-register" class="form-control" type="text" placeholder="Enter your full name.[ This name will be shown on your account.]" autocomplete="off" />
-      </div>
-      <div class="form-group">
-        <label for="gender-register" class="text-muted mb-1"><small>Select your gender</small></label>
-        <select id="gender-register" class="form-control" name="gender" form="accountCreate-form">
-          <option value="<%=editableData.gender%>"><%=editableData.gender%></option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="others">Others</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="dob-register" class="text-muted mb-1"><small>Date of birth</small></label>
-        <input name="dob" value="<%=editableData.dob%>" id="dob-register" class="form-control" type="date" placeholder="Enter date of birth" autocomplete="off" required />
-      </div>
-
-      <div class="form-group">
-        <label for="address-register" class="text-muted mb-1"><small>Your Address</small></label>
-        <input name="address" value="<%=editableData.address%>" id="address-register" class="form-control" type="text" placeholder="Enter your address" autocomplete="off" />
-      </div>
-
-      <div class="form-group">
-        <label for="email-register" class="text-muted mb-1"><small>Email</small></label>
-        <input name="email" value="<%=editableData.email%>" id="email-register" class="form-control" type="text" placeholder="you@example.com" autocomplete="off" />
-      </div>
-      
-      <div class="form-group">
-        <label for="phone-register" class="text-muted mb-1"><small>Phone number</small></label>
-        <input name="phone" value="<%=editableData.phone%>" id="phon-register" class="form-control" type="text" placeholder="Enter your phone number" autocomplete="off" />
-      </div>
-        
-      <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Submit</button>
-    </form>
-    <hr>
-      <%- include('includes/passwordChangingForm') %>
-    </div>
-    </div>
-  </div>
-  
 <%- include('includes/footer') %>

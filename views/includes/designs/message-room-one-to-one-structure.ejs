@@ -2,11 +2,13 @@
   <div class="message-header sticky-top" style="display: flex; background-color: rgb(9, 71, 71);padding: 1rem; color: #fff;">
     <div style="display: flex;width: 100%;">
       <div style="padding-right: 5px;">
-        <i class="fas fa-arrow-left"></i>
+        <a href="/messages" style="text-decoration: none; color: #fff;">
+          <i class="fas fa-arrow-left"></i>
+        </a>
       </div>
       <div class="text-center" >
-        <img class="avatar-small"  src="/images/profile/profile-sohag.jpg" alt="">
-        <strong>Pranab Sinha</strong>
+        <img class="avatar-small"  src="/images/profile/profile-<%=messageTo.username%>.jpg" alt="">
+        <strong><%=messageTo.name%></strong>
       </div>
     </div>
     <div class="float-right">
@@ -17,68 +19,69 @@
   <div class="d-block text-center">
    <span style="background-color: rgb(19, 77, 77);color: rgb(231, 225, 225); border-radius: 5px;padding-left: 5px;padding-right: 5px;">Connected</span> 
   </div>
-    <div class="chat-self">
-      <div class="chat-message">
-        <div class="chat-message-inner" style="margin-top: 3px;">
-          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
-          <div class="float-right" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+  
+  <%let last="hcquwefcbqgwehcq"%>
+
+  <%messages.forEach(function(message){%>
+    <%if(message.from==user.username){%>
+      <%if(last!=message.from){%>
+        <div class="chat-self">
+          <div class="chat-message">
+            <div class="chat-message-inner" style="margin-top: 3px;">
+              <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+              <div class="float-right" style="font-size: 9px;"><%=message.sendDate%></div>
+            </div>
+          </div>
+        </div>
+        <%last=message.from%>
+        <%}else{%>
+        <div class="chat-self" >
+          <div class="chat-message">
+            <div class="chat-message-inner" style="border-radius: 8px;">
+              <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+              <div class="float-right" style="font-size: 9px;"><%=message.sendDate%></div>
+            </div>
+          </div>
+        </div>
+        <%last=message.from%>
+        <%}%>
+    <%}else{%>
+      <%if(last!=message.from){%>
+      <div class="chat-other">
+        <div class="chat-message">
+          <div class="chat-message-inner" style="margin-top: 3px;">
+            <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+            <div class="float-left" style="font-size: 9px;"><%=message.sendDate%></div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="chat-self" >
-      <div class="chat-message">
-        <div class="chat-message-inner" style="border-radius: 8px;">
-          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
-          <div class="float-right" style="font-size: 9px;">12/04/2021 at 10:00am</div>
+      <%last=message.from%>
+      <%}else{%>
+      <div class="chat-other">
+        <div class="chat-message">
+          <div class="chat-message-inner" style="border-radius: 8px;">
+            <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+            <div class="float-left" style="font-size: 9px;"><%=message.sendDate%></div>
+          </div>
         </div>
       </div>
-    </div>
-    
-    <div class="chat-other">
-      <div class="chat-message">
-        <div class="chat-message-inner" style="margin-top: 3px;">
-          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
-          <div class="float-left" style="font-size: 9px;">12/04/2021 at 10:00am</div>
-        </div>
-      </div>
-    </div>
-    <div class="chat-other">
-      <div class="chat-message">
-        <div class="chat-message-inner" style="border-radius: 8px;">
-          <div style="font-size: 14px;">this is message i am happy this is message i am happthis is message i am happthis is message i am happs to be here&nbsp;</div> 
-          <div class="float-left" style="font-size: 9px;">12/04/2021 at 10:00am</div>
-        </div>
-      </div>
-    </div>
-    <div class="chat-self">
-      <div class="chat-message">
-        <div class="chat-message-inner" style="margin-top: 3px;">
-          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
-          <div class="float-right" style="font-size: 9px;">12/04/2021 at 10:00am</div>
-        </div>
-      </div>
-    </div>
-    <div class="chat-other">
-      <div class="chat-message">
-        <div class="chat-message-inner" style="margin-top: 3px;">
-          <div style="font-size: 14px;">this is message i am happy to be here&nbsp;</div> 
-          <div class="float-left" style="font-size: 9px;">12/04/2021 at 10:00am</div>
-        </div>
-      </div>
-    </div>
+      <%last=message.from%>
+      <%}%>
+    <%}%>
+  <%})%>
   </div>
   <div>
     <div style="display: flex;">
       <div class="text-center">
-        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=user.username%>.jpg" alt="">
       </div>
       <div class="post-form-container">
-        <form action="/" method="post" style="display: flex;">
-          <input type="text" class="post-input-field" placeholder="Write your message here." required>
+        <form action="/sendMessage/<%=messageTo.username%>" method="post" style="display: flex;">
+          <input name="message" type="text" class="post-input-field" placeholder="Write your message here." required>
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button class="post-button text-primary"><i class="fas fa-paper-plane"></i></button>
         </form>
       </div>
     </div>
-  </div>
-  
+  </div> 
 </div>

@@ -114,9 +114,17 @@ export default class Search {
         <span class="close-live-search"><i class="fas fa-times-circle"></i></span>
       </div>
     </div>
-    <div class="text-center">
-      <a href="/search-home-tuitor-page" type="button" class="btn btn-primary">Search Home-tuitor</a>
-      <a href="/search-batch-page" type="button" class="btn btn-primary">Search Batches</a>
+    <div class="container mb-2" style="padding: 0px;">
+      <div class="path text-center" style="padding: 1rem;">
+        <div class="row">
+          <div class="col-sm-6" style="width: 100%;">
+          <a href="/search-home-tuitor-form" type="button" class="btn btn-info btn-block mb-1"><i class="fas fa-search"></i> Search Home-tuitor</a>
+          </div>
+          <div class="col-sm-6" style="width: 100%;">
+          <a href="/search-batch-form" type="button" class="btn btn-secondary btn-block"><i class="fas fa-search"></i> Search Batches</a>
+          </div>
+        </div>  
+      </div>
     </div>
     <div class="search-overlay-bottom">
       <div class="container container--narrow py-3">
@@ -124,7 +132,7 @@ export default class Search {
         <div class="live-search-results"></div>
       </div>
     </div>
-   
+    
   </div>`
     )
   }

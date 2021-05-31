@@ -1,61 +1,73 @@
 <div class=" mb-2">
   <h5 class="bolder">Your Message Rooms</h5>
   <div class="item-container" >
-    <a href="/">
-      <div class="message-room" style="display: flex;">
-        <div class="text-center" >
-          <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
-          <span  class="badge badge-pill badge-success message-badge">2</span>
-        </div>
-        <div class="message-room-container">
-          <div style="display: flex;">
-            <div style="width: 100%;">
-              <strong class="d-block">Sohag Roy</strong>
-              <span class="d-block">Hello how are you</span>
+    <%if(!rooms.length){%>
+      <span class="m-2">
+        <p class="btn btn-primary btn-block">You have no message room.</p>
+      </span>
+    <%}%>
+    <%rooms.forEach((room)=>{%>
+      <%if(room.user1!=user.username){%>
+        <a href="/single-chat/<%=room.user1%>">
+          <div class="message-room" style="display: flex;">
+            <div class="text-center" >
+              <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=room.user1%>.jpg" alt="">
+              <%if(room.user2unseen!=0){%>
+                <span  class="badge badge-pill badge-success message-badge">
+                  <%if(room.user2unseen<10){%>
+                    <%=room.user2unseen%>
+                  <%}else{%>
+                    9+
+                  <%}%>
+                </span>
+              <%}%>
             </div>
-            <div class="post-button">
-              <strong class="d-block" style="color:#495057 ;">02/03/2021</strong>
-              <span class="d-block">10:10am</span>
+            <div class="message-room-container">
+              <div style="display: flex;">
+                <div style="width: 100%;">
+                  <strong class="d-block"><%=room.user1name%></strong>
+                  <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user1?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message%></span>
+                </div>
+                <div class="post-button">
+                  <strong class="d-block" style="color:#495057 ;"><%=room.messages[room.messages.length-1].sendDate%></strong>
+                  <!-- <span class="d-block">10:10am</span> -->
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </a>
-    <div class="message-room" style="display: flex;">
-      <div class="text-center">
-        <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
-        <span class="badge badge-pill badge-success message-badge">2</span>
-      </div>
-      <div class="message-room-container">
-        <div style="display: flex;">
-          <div style="width: 100%;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block">You : Hello how are you</span>
+        </a>
+      <%}%>
+      <%if(room.user2!=user.username){%>
+        <a href="/single-chat/<%=room.user2%>">
+          <div class="message-room" style="display: flex;">
+            <div class="text-center" >
+              <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=room.user2%>.jpg" alt="">
+              <%if(room.user1unseen!=0){%>
+                <span  class="badge badge-pill badge-success message-badge">
+                  <%if(room.user1unseen<10){%>
+                    <%=room.user1unseen%>
+                  <%}else{%>
+                    9+
+                  <%}%>
+                </span>
+              <%}%>
+            </div>
+            <div class="message-room-container">
+              <div style="display: flex;">
+                <div style="width: 100%;">
+                  <strong class="d-block"><%=room.user2name%></strong>
+                  <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user2?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message%></span>
+                </div>
+                <div class="post-button">
+                  <strong class="d-block" style="color:#495057 ;"><%=room.messages[room.messages.length-1].sendDate%></strong>
+                  <!-- <span class="d-block">10:10am</span> -->
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="post-button">
-            <strong class="d-block" style="color:#495057 ;">02/03/2021</strong>
-            <span class="d-block">10:10am</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="message-room" style="display: flex;">
-      <div class="text-center">
-        <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
-        <span  class="badge badge-pill badge-success message-badge">2</span>
-      </div>
-      <div class="message-room-container">
-        <div style="display: flex;">
-          <div style="width: 100%;">
-            <strong class="d-block">Sohag Roy</strong>
-            <span class="d-block">Hello how are you</span>
-          </div>
-          <div class="post-button">
-            <strong class="d-block" style="color:#495057 ;">02/03/2021</strong>
-            <span class="d-block">10:10am</span>
-          </div>
-        </div>
-      </div>
-    </div>
+        </a>
+      <%}%>
+    <%})%>
+    
   </div>
 </div>

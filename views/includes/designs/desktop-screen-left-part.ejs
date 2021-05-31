@@ -41,6 +41,15 @@
           <strong>Notes</strong>
         </div>
       </a>
+      <%if(user.accountType=="student" || user.accountType=="studentTeacher"){%>
+        <hr>
+        <a href="/need-home-tuitor">
+          <div class="side-item">
+            <i class="fas fa-bullhorn"></i>
+            <strong>Need home-tuitor</strong>
+          </div>
+        </a>
+      <%}%>
         <hr>
         <a href="/about-us">
         <div class="side-item">
@@ -64,6 +73,7 @@
         <a href="">
           <div class="side-item">
               <form action="/logout" method="POST" class="d-inline">
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                 <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out </button>
               </form>
           </div>

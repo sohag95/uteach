@@ -9,12 +9,11 @@
       <form action="/userLogin" method="POST" class="">
         <input name="username" class="form-control form-control-lg space" type="text" placeholder="Username:" autocomplete="off">
         <input name="password" class="form-control form-control-lg space" type="password" placeholder="Password">
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
         <button class="btn btn-primary btn-block btn-lg">Log in</button>
       </form>
       <hr>
-      
-      <a href="/sign-up"><button class="btn btn-success  btn-lg">Create a new account</button></a>
-      
+      <a href="/sign-up"><button class="btn btn-success  btn-lg">Create a new account</button></a> 
     </div>
   </div>
   <div class="col" ></div>

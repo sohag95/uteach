@@ -5,8 +5,7 @@ exports.sentMessage = function(req, res) {
     let message = new BatchMessage(req.body,req.username,req.name,req.batch)
     console.log("executed")
     message.sentMessage().then(()=> {
-      req.flash("success", "successfully send your message!!.")
-      req.session.save(() => res.redirect(`/group-chat/${req.batch._id}`))
+       res.redirect(`/group-chat/${req.batch._id}`)
     }).catch(function(errors) {
       errors.forEach(error => req.flash("errors", error))
       req.session.save(() => res.redirect(`/group-chat/${req.batch._id}`))
@@ -16,7 +15,12 @@ exports.sentMessage = function(req, res) {
   exports.getMessages=function(req,res){
      let groupMessages=req.batch.groupMessages
      console.log("GroupMessages:",groupMessages)
-     res.render('group-chat',{messages:groupMessages,batchData:req.batch})
+     res.render('group-chat',{
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
+       messages:groupMessages,
+       batchData:req.batch
+      })
   }
 
   exports.ifBatchStudent = function (req, res, next) {

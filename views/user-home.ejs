@@ -4,6 +4,17 @@
 <div style="display: flex;flex-wrap: wrap;">
   <%- include('includes/designs/desktop-screen-left-part') %>
   <div class="col-lg-6 pt-2 "  >
+    <%if(!allFeeds.length){%>
+      <div class="path text-center mb-2" style="padding: 1rem;">
+        <div class="col" style="width: 100%;">
+          <h5>Please give your address details to get some important notifications.Also upload your profile picture and cover picture.</h5>
+          <a href="/profile/<%= user.username %>/edit">
+            <div class="btn btn-primary btn-block">Update address details <i class="fas fa-arrow-right"></i></div>
+          </a>
+          <h6><i>(If you have updated address, ignore this banner.To remove this banner post something.)</i></h6>
+        </div>
+    </div>
+    <%}%>
   <%- include('includes/post-form') %>
   <%- include('includes/designs/post-structure') %>
   </div>

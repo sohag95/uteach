@@ -1,39 +1,33 @@
 <%- include('includes/header') %> <%- include('includes/flash') %>
-<div class="text-center">
-  <h2><strong>Library item edit screen</strong></h2>
+
+<div style="display: flex;flex-wrap: wrap;">
+<div class="col"></div>
+<div class="col-sm-8">
+<p><%=itemData.noteType%></p>
+    <h4 class="bolder">Edit Note</h4>
+    <form action="/library/item/<%=itemData.index%>/edit" method="POST" id="library-form">
+      
+        <label for="noteType" class="text-muted mb-1"><small>Note Type</small></label>
+        <select name="noteType" id="noteType" class="form-control form-control-lg"  form="library-form">
+          <option value="<%=itemData.noteType%>"><%=itemData.noteType%></option>
+          <option value="text">Text</option>
+          <option value="webLink">Web Site Link</option>
+        </select>
+      
+      <label for="about-register" class="text-muted"><small>About</small></label>
+      <input required id="about-register" name="about" value="<%=itemData.about%>" class="form-control form-control-lg space" type="text" placeholder="Heading of the note">
+      <label for="body-register" class="text-muted"><small>Note body-content/link</small></label>
+      <textarea required name="content" id="body-register" cols="10" rows="5" class="form-control form-control-lg space" type="text"><%=itemData.content%></textarea>
+      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+      <button class="btn btn-primary btn-block btn-lg">Submit note</button>
+    </form>
+  
 </div>
-<hr>
-<div class="container " >
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <form action="/library/item/<%=itemData.index%>/edit" method="POST" id="library-form">
-        <br>
-        <h2 class="text-center bold-font">Edit library item</h2>
-        <div class="form-group">
-          <label for="noteType" class="text-muted mb-1"><small>Select Note Type</small></label>
-          <select id="noteType" class="form-control" name="noteType" form="library-form">
-            <option value="<%=itemData.noteType%>"><%=itemData.noteType%></option>
-            <option value="text">Text</option>
-            <option value="webLink">Web Site Link</option>
-          </select>
-        </div>
-        <div>
-          <label for="about" class="text-muted mb-1"><small>About</small></label>
-          <input required name="about" value="<%=itemData.about%>" id="about" class="body-content form-control" placeholder="Write key-points about the note."  type="text"/>
-        </div>
-        <div >
-          <label for="content" class="text-muted mb-1"><small>Content</small></label>
-          <textarea required name="content"  id="content" class="body-content form-control" placeholder="Write the content/link here."  type="text"><%=itemData.content%></textarea>
-        </div>
-        <button type="submit" class="btn btn-lg btn-success btn-block">Submit</button>
-      </form>
-      <hr>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-  </div>
+<div class="col">
+
 </div>
-<hr>
+</div>
+
+
 
 <%- include('includes/footer') %>

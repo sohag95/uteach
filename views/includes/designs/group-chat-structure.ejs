@@ -94,6 +94,7 @@
       <div class="post-form-container">
         <form action="/" method="post" style="display: flex;">
           <input type="text" class="post-input-field" placeholder="Write your message here." required>
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button class="post-button text-primary"><i class="fas fa-paper-plane"></i></button>
         </form>
       </div>

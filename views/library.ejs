@@ -9,79 +9,8 @@
   <%- include('includes/designs/desktop-screen-right-part') %>
 </div>
 
+
+
+
 <%- include('includes/footer') %>
-
-
-
-<div class="text-center">
-  <h2>This is <strong><%= user.name %>'s</strong> Library</h2>
-</div>
-<hr>
-<div class="container " >
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-      <form action="/add-library-item" method="POST" id="library-form">
-        <br>
-        <h2 class="text-center bold-font">Add library item</h2>
-        <div class="form-group">
-          <label for="noteType" class="text-muted mb-1"><small>Select Note Type</small></label>
-          <select id="noteType" class="form-control" name="noteType" form="library-form">
-            <option value="text">Text</option>
-            <option value="webLink">Web Site Link</option>
-          </select>
-        </div>
-        <div>
-          <label for="about" class="text-muted mb-1"><small>About</small></label>
-          <input required name="about" id="about" class="body-content form-control" placeholder="Write key-points about the note."  type="text"/>
-        </div>
-        <div >
-          <label for="content" class="text-muted mb-1"><small>Content</small></label>
-          <textarea required name="content" id="content" class="body-content form-control" placeholder="Write the content/link here."  type="text"></textarea>
-        </div>
-        <button type="submit" class="btn btn-lg btn-success btn-block">Submit</button>
-      </form>
-      <hr>
-      <h3 class="text-center"><strong>All text notes</strong></h3>
-      <%if(!textNotes.length){%>
-        <button class="btn btn-primary btn-block">No text notes created</button>
-      <%}%>
-      <%textNotes.forEach((note)=>{%>
-      <div class="text-muted small mb-4 shadow">  
-         <div style="font-style: italic;">
-         <h5><strong> About : </strong><%= note.about%></h5> 
-         <span class="pt-2 flex-right">
-          <a href="/library/item/<%=note.index%>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-        </span>
-        </div>
-        <div class="body-content">
-          <%=note.content%>
-        </div>
-      </div>
-      <%})%>
-      
-      <h3 class="text-center"><strong>All web-link notes</strong></h3>
-      <%if(!webLinkNotes.length){%>
-        <button class="btn btn-primary btn-block">No web-link notes created</button>
-      <%}%>
-      <%webLinkNotes.forEach((note)=>{%>
-      <div class="text-muted small mb-4 shadow">  
-         <div style="font-style: italic;">
-         <h5><strong> About : </strong><%= note.about%></h5>
-         <span class="pt-2 flex-right">
-          <a href="/library/item/<%=note.index%>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-edit"></i></a>
-        </span> 
-        </div>
-        <div class="body-content">
-          <a href="<%=note.content%>" target="blank"><%=note.content%></a>
-        </div>
-      </div>
-      <%})%>
-      </div>
-      <div class="col-md-2"></div>
-    </div>
-  </div>
-</div>
-<hr>
-
 

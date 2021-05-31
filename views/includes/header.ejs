@@ -16,17 +16,18 @@
     
     <nav class="navbar navbar-expand-lg navbar-light bg-light navShadow">
       <a class="navbar-brand" href="/">
-        <img src="/images/logo.svg" width="110" height="32" alt="">
+        <img src="/images/sohag-logo1.png" width="110" height="32" alt="">
       </a>
-      <!-- <div class="d-flax justify-content-between visibleItemsOnCollapse">
-        <div class="p-1">
-          <div class="form-control" style="border-radius: 4rem;">Search here</div>
-        </div>
-      </div> -->
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      
+      <div style="display: flex;align-items: center;">
+        <!-- <div class=" visibleItemsOnCollapse" >
+          <div>
+            <div class="header-search-icon searchButton" > <i class="fas fa-search"></i></div>
+          </div>
+        </div> -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <div class="text-center notVisibleOnCollapse">
         <div class="d-flex justify-content-between">
@@ -41,11 +42,13 @@
       <div class="visibleItemsOnCollapse">
         <hr>
           <div>
-            <div class="mt-2 mb-2">
+            <!-- <div class="mt-2 mb-2 ">
               <div class="form-control header-search-icon" style="border-radius: 4rem; ">
                 <i class="fas fa-search"></i> Search here
               </div>
-            </div>
+            </div> -->
+
+            
             <%if(user){%>
               <a href="/profile/<%= user.username %>">
                 <div class="">
@@ -87,8 +90,19 @@
                   <strong>Notes</strong>
                 </div>
               </a>
+              <hr>
+              <%if(user.accountType=="student" || user.accountType=="studentTeacher"){%>
+                <a href="/need-home-tuitor">
+                  <div class="side-item">
+                    <i class="fas fa-bullhorn"></i>
+                    <strong>Need home-tuitor</strong>
+                  </div>
+                </a>
+                <hr>
+              <%}%>
             <%}%>
-            <hr>
+            
+            
             <a href="/about-us">
             <div class="side-item">
               <i class="far fa-address-card fa-lg"></i>
@@ -107,11 +121,13 @@
               <strong>Help</strong>
             </div>
           </a>
+          
             <hr>
             <%if(user){%>
             <div class="side-item">
-              <form action="/logout" method="POST" class="d-inline">
+              
                 <form action="/logout" method="POST" class="d-inline">
+                  <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                   <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out </button>
                 </form>
             </div>
@@ -145,6 +161,7 @@
           </button>
         </a>
           <form action="/logout" method="POST" class="d-inline">
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>">
             <button class="btn  btn-primary"><i class="fas fa-sign-out-alt fa-lg"></i> Sign Out</button>
           </form>
         <%}else{%>
@@ -166,13 +183,40 @@
                 <a class="p-2" href="/user-home"><i class="fas fa-home fa-lg"></i></a>
               </div>
               <div>
-                <a class="p-2" href="/notifications"><i class="fas fa-bell fa-lg"></i></a>
+                <a class="p-2" href="/notifications">
+                  <i class="fas fa-bell fa-lg"></i>
+                  
+                  <%if(typeof unseenNotifications != "undefined"){%>
+                  <%if(unseenNotifications!=0){%>
+                    <span  class="badge badge-pill badge-success message-icon-badge">
+                      <%if(unseenNotifications<10){%>
+                        <%=unseenNotifications%>
+                      <%}else{%>
+                        9+
+                      <%}%>
+                    </span>
+                  <%}%>
+                  <%}%>
+                </a>
               </div>
               <div>
                 <a class="p-2" href="/library"><i class="fas fa-address-book fa-lg"></i></a>
               </div>
               <div>
-                <a class="p-2" href="/messages"><i class="fas fa-comment fa-lg"></i></a>
+                <a class="p-2" href="/messages">
+                  <i class="fas fa-comment fa-lg"></i>
+                  <%if(typeof unseenMessages != "undefined"){%>
+                  <%if(unseenMessages!=0){%>
+                    <span  class="badge badge-pill badge-success message-icon-badge">
+                      <%if(unseenMessages<10){%>
+                        <%=unseenMessages%>
+                      <%}else{%>
+                        9+
+                      <%}%>
+                    </span>
+                  <%}%>
+                  <%}%>
+                </a>
               </div>
               <div>
                 <a class="p-2" href="/batches"><i class="fas fa-plus-square fa-lg"></i></a>

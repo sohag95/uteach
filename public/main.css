@@ -676,7 +676,11 @@ label.star:before {
   border-radius: 4px;
   color: #FFF;
  }
-
+ @media (max-width: 720.98px) {
+  .path{
+    padding: .75rem;
+  }
+}
 
  /* message rooms css */
  .message-room-container,.student-room-container,.notification-container{
@@ -695,7 +699,10 @@ label.star:before {
   margin-left: -12px;
   border-bottom-left-radius: 0rem;
  }
-
+ .message-icon-badge {
+  position: absolute;
+  margin-left: -8px;
+ }
 
  /* one-to-one message room */
  .message-container{
@@ -904,4 +911,12 @@ label.star:before {
 .footer-icon{
   color:#0f7c90 ;
   margin-right: .50rem;
+}
+.searchButton {
+  border-radius: 5px;
+  top: 0px;
+  padding: .45rem;
+  margin-right: 2px;
+  color: rgba(0,0,0,.5);
+  border: 1px solid rgba(0,0,0,.1);
 }

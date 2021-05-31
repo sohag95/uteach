@@ -19,18 +19,17 @@ exports.getLibraryData =async function (req, res) {
       }
       if(note.noteType=="text"){
         textNotes.push(note)
-      }else{
+      }else if(note.noteType=="webLink"){
         webLinkNotes.push(note)
       }
       index+=1
     })
   }
-    console.log("Libraryes:",library)
-    console.log("Textnotes:",textNotes)
-    console.log("webLinknotes:",webLinkNotes)
-
+   
     res.render("library",{
       myActiveConnections:req.myActiveConnections,
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       textNotes:textNotes,
       webLinkNotes:webLinkNotes
     })
@@ -77,7 +76,7 @@ exports.getEditNotePage =async function (req, res) {
 }
 
 exports.updateItem =function (req, res) {
-  
+  console.log("Note :",req.body)
   let library=new Library(req.body,req.username)
     library.updateItem(req.params.index).then(()=>{
       req.flash("success", "Successfully updated note data.")

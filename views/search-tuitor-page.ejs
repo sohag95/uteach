@@ -1,43 +1,44 @@
 <%- include('includes/header') %>
-<div class="container py-md-5 container--narrow">
 
-          <div class="container" style="background-color: #fff">
-            <div class="row">
-              <div class="col-md-1"></div>
-              <div class="col-md-10 shadow">
-                <h2 class="bold-font text-center">Search home-tuitor on your area</h2>
-                <form action="/search-home-tuitor" method="POST" class="mb-0 pt-2 pt-md-0" id="searchHomeTuitor">
-                 
-                    <div class="form-group">
-                      <label for="district" class="text-muted mb-1"><small>Select Your District</small></label>
-                      <select id="district" class="form-control" name="district" form="searchHomeTuitor">
-                        <option value="darjeeling">Darjeeling</option>
-                        <option value="jalpaiguri">Jalpaiguri</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="policeStation" class="text-muted mb-1"><small>Select Police Station</small></label>
-                      <select id="policeStation" class="form-control" name="policeStation" form="searchHomeTuitor">
-                        <option value="siliguri">Siliguri</option>
-                        <option value="pradhan nagar">Pradhan Nagar</option>
-                      </select>
-                    </div>
-                    <div class="form-group">
-                      <label for="postOffice" class="text-muted mb-1"><small>Select Post Office</small></label>
-                      <select id="postOffice" class="form-control" name="postOffice" form="searchHomeTuitor">
-                        <option value="champasari">Champasari</option>
-                        <option value="siliguri">Siliguri</option>
-                      </select>
-                    </div>
-          
-                      <button class="btn btn-primary btn-block">Search tuitor</button>
-                    
-                  </div>
-                </form>
-              </div>
-              <div class="col-md-1"></div>
-            </div>
+<div class="row mt-2">
+  <div class="col" ></div>
+  <div class="col-lg-8 " style="margin-bottom: 2rem;" >
+    <div class="signUp-form-container ">   
+      <h4 class="bolder text-left">Search home-tuitor</h4>
+      <form action="/home-tuitor-search-results" method="POST" id="createBatch-form">
+       
+        <h6><strong class="text-primary"><i class="fas fa-map-marker-alt"></i> Select the area in which you want home-tuitors.</strong></h6>
+        <div id="address-part">
+          <div class="form-group">
+            <label for="districtPart" class="text-muted mb-1"><small>Select Your District</small></label>
+            <select id="districtPart" class="form-control form-control-lg" name="district" form="createBatch-form">
+              <option value="">--Select your district--</option>
+              <option value="Darjeeling">Darjeeling</option>
+              <option value="Jalpaiguri">Jalpaiguri</option>
+            </select>
           </div>
+
+          <div class="form-group">
+            <label for="policeStationPart" class="text-muted mb-1"><small>Select Police Station</small></label>
+            <select id="policeStationPart" class="form-control form-control-lg" name="policeStation" form="createBatch-form">
+              
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="postOfficePart" class="text-muted mb-1"><small>Select Post Office</small></label>
+            <select id="postOfficePart" class="form-control form-control-lg" name="postOffice" form="createBatch-form">
+              
+            </select>
+          </div>
+        </div>
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+        <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Search Home-tuitor</button>
+      </form>
+    </div>
+  </div>
+  <div class="col" ></div>
 </div>
+
 
   <%- include('includes/footer') %>

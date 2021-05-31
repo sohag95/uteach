@@ -1,4 +1,6 @@
 const bcrypt = require("bcryptjs")
+// const addressCollection = require("../db").db().collection("addressHierarchy")
+const notificationCollection = require("../db").db().collection("notifications")
 const usersCollection = require("../db").db().collection("users")
 const homeTuitionCollection = require("../db").db().collection("homeTuition")
 const batchCollection = require("../db").db().collection("batches")
@@ -44,17 +46,20 @@ User.prototype.cleanUp = function () {
       phone:this.data.phone,
       email:"Not given",
       accountType: this.data.accountType,
-      address:null,
+      address:{
+        district:"",
+        policeStation:"",
+        postOffice:""
+      },
       nearBy:"",
       studentData: {
         currentClass: "",
         Institution: "",
+        favouriteSubject:"",
         allBatchesTaken: [],
         toppedBatches: []
       },
-      notifications: [],
       password: this.data.password,
-      allDataGiven:false,
       createdDate: new Date()
     }
   } else if (this.data.accountType == "teacher") {
@@ -69,21 +74,21 @@ User.prototype.cleanUp = function () {
       accountType: this.data.accountType,
       address:{
         district:"",
-        area:"",
+        policeStation:"",
         postOffice:""
       },
       nearBy:"",
       teacherData: {
-        qualification: "",
-        stream: "",
-        subject: "",
+        highestQualification: "Not given",
+        stream: "Not given",
+        favouriteSubject: "Not given",
+        secondaryParcentage:"Not given",
+        higherSecondaryPercentage:"Not given",
         allBatchesTeach: [],
         homeTuitionAnnouncements:[],
         varifiedAccount: false,
       },
       rating:{givenBy:[]},
-      notifications: [],
-      allDataGiven:false,
       password: this.data.password,
       createdDate: new Date()
     }
@@ -160,13 +165,20 @@ User.prototype.userRegister = function () {
     // Step #1: Validate user data
     this.cleanUp()
     await this.validate()
+    
     // Step #2: Only if there are no validation errors
     // then save the user data into a database
     if (!this.errors.length) {
+      let notification={
+        username:this.data.username,
+        unseenNotificationNumber:0,
+        notifications:[]
+      }
       // hash user password
       let salt = bcrypt.genSaltSync(10)
       this.data.password = bcrypt.hashSync(this.data.password, salt)
       await usersCollection.insertOne(this.data)
+      await notificationCollection.insertOne(notification)
       resolve()
     } else {
       reject(this.errors)
@@ -211,6 +223,7 @@ User.findByUsername = function (username) {
             dob: userDocument.dob,
             gender: userDocument.gender,
             address: userDocument.address,
+            nearBy: userDocument.nearBy,
             email: userDocument.email,
             phone: userDocument.phone,
             accountType: userDocument.accountType,
@@ -226,6 +239,7 @@ User.findByUsername = function (username) {
             dob: userDocument.dob,
             gender: userDocument.gender,
             address: userDocument.address,
+            nearBy: userDocument.nearBy,
             email: userDocument.email,
             phone: userDocument.phone,
             accountType: userDocument.accountType,
@@ -242,6 +256,7 @@ User.findByUsername = function (username) {
             dob: userDocument.dob,
             gender: userDocument.gender,
             address: userDocument.address,
+            nearBy: userDocument.nearBy,
             email: userDocument.email,
             phone: userDocument.phone,
             accountType: userDocument.accountType,
@@ -250,7 +265,6 @@ User.findByUsername = function (username) {
             rating:userDocument.rating,
             createdDate: userDocument.createdDate
           }
-          console.log("User owner :")
           resolve(userDocument)
         } else {
           reject()
@@ -311,6 +325,8 @@ User.prototype.validateEditableData = function () {
       }
     }
 }
+
+
 User.prototype.updateProfile = function(username, updateUsername) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -328,6 +344,8 @@ User.prototype.updateProfile = function(username, updateUsername) {
     }
   })
 }
+
+
 User.prototype.actuallyUpdate = function(updateUsername) {
   return new Promise(async (resolve, reject) => {
     this.cleanUpEditableData()
@@ -346,6 +364,8 @@ User.prototype.actuallyUpdate = function(updateUsername) {
     }
   })
 }
+
+
 User.findUserProfile = function(username, updateUsername) {
   return new Promise(async function(resolve, reject) {
     if (typeof(updateUsername) != "string") {
@@ -361,6 +381,8 @@ User.findUserProfile = function(username, updateUsername) {
     }
   })
 }
+
+
 User.prototype.addressCleanUp=function(req,res){
   if (typeof this.data.district != "string") {
     this.data.district = ""
@@ -385,6 +407,8 @@ User.prototype.addressCleanUp=function(req,res){
   }
   
 }
+
+
 User.prototype.addressValidate=function(req,res){
   if (this.data.district == "") {
     this.errors.push("You must provide your district.")
@@ -396,6 +420,8 @@ User.prototype.addressValidate=function(req,res){
     this.errors.push("You must provide your post office.")
   }
 }
+
+
 User.prototype.updatePresentAddress = function(username) {
   return new Promise(async (resolve, reject) => {
     try {
@@ -419,18 +445,7 @@ User.prototype.updatePresentAddress = function(username) {
   })
 }
 
-User.getNotifications = function (username) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      // Step #1: Validate user data
-      let userData = await usersCollection.findOne({ username: username })
-      let notifications = userData.notifications
-      resolve(notifications)
-    } catch {
-      reject()
-    }
-  })
-}
+
 
 User.search = function (searchTerm) {
   return new Promise(async (resolve, reject) => {
@@ -450,10 +465,17 @@ User.search = function (searchTerm) {
     }
   })
 }
+
+
 User.searchHomeTuitor=function(data){
   return new Promise(async (resolve, reject) => {
     try{
-      let tuitorsAnnouncements = await homeTuitionCollection.aggregate([{ $match:{$and:[{district:data.district},{policeStation:data.policeStation},{postOffice:data.postOffice}]} }]).toArray()
+      let address={
+        district:data.district,
+        policeStation:data.policeStation,
+        postOffice:data.postOffice
+      }
+      let tuitorsAnnouncements = await homeTuitionCollection.find({address:address}).toArray()
       
       console.log("results:",tuitorsAnnouncements)
       resolve(tuitorsAnnouncements)
@@ -462,10 +484,17 @@ User.searchHomeTuitor=function(data){
     }
   })
 }
+
+
 User.searchBatch=function(data){
   return new Promise(async (resolve, reject) => {
     try{
-      let batches = await batchCollection.aggregate([{ $match:{$and:[{district:data.district},{policeStation:data.policeStation},{postOffice:data.postOffice},{class:data.class}]} }]).toArray()
+      let address={
+        district:data.district,
+        policeStation:data.policeStation,
+        postOffice:data.postOffice
+      }
+      let batches = await batchCollection.aggregate([{ $match:{$and:[{address:address},{class:data.class}]} }]).toArray()
       
       console.log("results:",batches)
       resolve(batches)
@@ -474,7 +503,6 @@ User.searchBatch=function(data){
     }
   })
 }
-
 
 
 User.uploadingProfilePicture = function (filePath, file) {
@@ -550,6 +578,7 @@ User.uploadingCoverPicture = function (filePath, file) {
     }
   })
 }
+
 User.prototype.updateBioStatus=function(username){
   return new Promise(async (resolve, reject) => {
     try{
@@ -580,4 +609,34 @@ User.prototype.updateBioStatus=function(username){
     }
   })
 }
+
+//#########ADDRESS RELATED FUNCTIONS#################
+
+// User.policeStations = function (district) {
+//   return new Promise(async (resolve, reject) => {
+//     if (typeof district == "string") {
+//       let allPoliceStations = await addressCollection.findOne({type:"policeStations"})
+//       let districts=allPoliceStations.districts
+//       let policeStations=districts
+//       console.log("Police Stations:",policeStations)
+//       resolve(policeStations)
+//     } else {
+//       reject()
+//     }
+//   })
+// }
+
+// User.postOffices = function (policeStation) {
+//   return new Promise(async (resolve, reject) => {
+//     if (typeof policeStation == "string") {
+//       let allpostOffices = await addressCollection.findOne({type:"postOffices"})
+//       let policeStations=allpostOffices.policeStations
+//       let postOffices=policeStations.policeStation
+//       console.log("Post offices:",postOffices)
+//       resolve(postOffices)
+//     } else {
+//       reject()
+//     }
+//   })
+// }
 module.exports = User

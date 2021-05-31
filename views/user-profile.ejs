@@ -26,7 +26,7 @@
             <%}else{%>
               <p><i class="fas fa-female"></i><strong> Gender - </strong> Custom</p>
             <%}%>
-            <p><i class="fas fa-clock"></i><strong> Joined on - </strong> 5 may 2021</p>
+            <p><i class="fas fa-clock"></i><strong> Joined on - </strong><%= profileUser.createdDate.getMonth() + 1 %>/<%= profileUser.createdDate.getDate() %>/<%= profileUser.createdDate.getFullYear() %></p>
             
             <%if(isVisitorsProfile){ %> 
             <a href="/profile/<%= profileUser.username %>/edit">
@@ -35,9 +35,22 @@
             <%}%>
             <hr>
             <%if(profileUser.accountType=="student" && isVisitorsProfile){ %> 
-            <div class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Upgrate account as a teacher</div>
-            <%}%>
+              <a href="/upgradeAccount-form">
+                <div class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Upgrate account as a teacher</div>
+              </a>
+             <%}%>
           </div>
+          <%if(profileUser.accountType=="teacher" || profileUser.accountType=="studentTeacher"){ %>  
+          <div class="item-container mb-2">
+            <strong><p>Qualification as a teacher</p></strong>
+            <hr style="margin-bottom: .25rem;margin-top: 0rem;">
+            <p><i class="fas fa-crown"></i> <strong> Highest qualification - </strong> <span class="text-capitalize"><%=profileUser.teacherData.highestQualification%>.</span></p>
+            <p><i class="fas fa-book"></i></i><strong> Stream - </strong> <%=profileUser.teacherData.stream%></p>
+            <p><i class="fas fa-heart"></i><strong> Favourite subject - </strong> <span class="text-capitalize"><%=profileUser.teacherData.favouriteSubject%></span></p>
+            <p><i class="fas fa-marker"></i><strong> Secondary percentage - </strong> <span class="text-capitalize"><%=profileUser.teacherData.secondaryPercentage%>%</span></p>
+            <p><i class="fas fa-marker"></i><strong> Higher Secondary percentage - </strong> <span class="text-capitalize"><%=profileUser.teacherData.higherSecondaryPercentage%>%</span></p>
+          </div>
+          <%}%>
           <div class="item-container mb-2">
             <a href="/running-batches/<%=profileUser.username%>">
               <div class="btn btn-success btn-block">All running batches <i class="fas fa-arrow-right"></i></div>
@@ -66,7 +79,7 @@
                 <div class="item-container mb-2 text-center">
                   <strong class="d-block bolder ">Your given rating</strong>
                   <span class="text-warning">
-                    <%- include('includes/rating-stars') %> <strong>(<%=rating%>)</strong>
+                    <%- include('includes/designs/rating-stars') %> <strong>(<%=rating%>)</strong>
                   </span>
                   <div><strong>Comment : </strong><%=myRating.comment%></div>
                   <div><strong>Date : </strong><%=myRating.createdDate%></div>
@@ -86,13 +99,13 @@
                   <p class="btn btn-primary btn-block">User has no friend!</p>
                 <%}%>
               <%}else{%>
-                <div class="row mb-2">
+                <div class="row m-1">
                   <%let range1=3%>
                   <%if(connections.studentConnections.allFriends.length<3){%>
                     <%range1=connections.studentConnections.allFriends.length%>
                   <%}%>
                   <%for(let i=0;i<range1;i++){%>
-                    <div class="col-4 text-center" >
+                    <div  style="max-width: 33%;padding: 5px;">
                       <img style="height: 100px;width: 95%;border-radius: 5px;" src="/images/profile/profile-<%=connections.studentConnections.allFriends[i].username%>.jpg" alt="">
                       <a href="/profile/<%=connections.studentConnections.allFriends[i].username%>">
                         <span class="d-block text-left"><%=connections.studentConnections.allFriends[i].name%></span>
@@ -113,13 +126,13 @@
                   <p class="btn btn-primary btn-block">User has no teacher!</p>
                 <%}%>
               <%}else{%>
-                <div class="row mb-2">
+                <div class="row m-1">
                   <%let range2=3%>
                   <%if(connections.studentConnections.allTeachers.length<3){%>
                     <%range2=connections.studentConnections.allTeachers.length%>
                   <%}%>
                   <%for(let i=0;i<range2;i++){%>
-                    <div class="col-4 text-center" >
+                    <div style="max-width: 33%;padding: 5px;">
                       <img style="height: 100px;width: 95%;border-radius: 5px;" src="/images/profile/profile-<%=connections.studentConnections.allTeachers[i].username%>.jpg" alt="">
                       <a href="/profile/<%=connections.studentConnections.allTeachers[i].username%>">
                         <span class="d-block text-left"><%=connections.studentConnections.allTeachers[i].name%></span>
@@ -143,13 +156,13 @@
                   <p class="btn btn-primary btn-block">User has no student!</p>
                 <%}%>
               <%}else{%>
-                <div class="row mb-2">
+                <div class="row m-1">
                   <%let range3=3%>
                   <%if(connections.teacherConnections.allStudents.length<3){%>
                     <%range3=connections.teacherConnections.allStudents.length%>
                   <%}%>
                   <%for(let i=0;i<range3;i++){%>
-                    <div class="col-4 text-center" >
+                    <div  style="max-width: 33%;padding: 5px;" >
                       <img style="height: 100px;width: 95%;border-radius: 5px;" src="/images/profile/profile-<%=connections.teacherConnections.allStudents[i].username%>.jpg" alt="">
                       <a href="/profile/<%=connections.teacherConnections.allStudents[i].username%>">
                         <span class="d-block text-left"><%=connections.teacherConnections.allStudents[i].name%></span>

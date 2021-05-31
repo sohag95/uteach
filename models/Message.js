@@ -16,7 +16,22 @@ Message.prototype.sendMessage = function (user1, user2) {
         from: user1,
         to: user2,
         message: this.message,
-        sendDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+        sendDate:  new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+      }
+      let room=await messageCollection
+      .findOne({
+        $or: [{ $and: [{ user1: user1 }, { user2: user2 }] }, { $and: [{ user1: user2 }, { user2: user1 }] }]
+      })
+      let unSeenBy
+      let unseenValue
+      let user1unseenValue=Number(room.user1unseen)
+      let user2unseenValue=Number(room.user2unseen)
+      if(room.user1==user1){
+        unSeenBy="user2unseen"
+        unseenValue=user2unseenValue+1
+      }else{
+        unSeenBy="user1unseen"
+        unseenValue=user1unseenValue+1
       }
 
       await messageCollection.findOneAndUpdate(
@@ -35,7 +50,8 @@ Message.prototype.sendMessage = function (user1, user2) {
         },
         {
           $set: {
-            lastDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+            [unSeenBy]:unseenValue,
+            lastDate: new Date()
           }
         }
       )
@@ -60,26 +76,60 @@ Message.getExistsRoom = function (user1, user2) {
       })
   })
 }
-Message.createRoom = function (user1, user2) {
-  return new Promise((resolve, reject) => {
-    let message = [
-      {
-        from: user1,
-        to: user2,
-        message: "you are connected",
-        sendDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+
+Message.messageSeenBy = function (user1, user2) {
+  
+  return new Promise(async(resolve, reject) => {
+    try{
+    let room=await messageCollection
+      .findOne({
+        $or: [{ $and: [{ user1: user1 }, { user2: user2 }] }, { $and: [{ user1: user2 }, { user2: user1 }] }]
+      })
+      let seenBy
+      if(room.user1==user1){
+        seenBy="user1unseen"
+      }else{
+        seenBy="user2unseen"
       }
-    ]
+      await messageCollection.findOneAndUpdate(
+        {
+          $or: [{ $and: [{ user1: user1 }, { user2: user2 }] }, { $and: [{ user1: user2 }, { user2: user1 }] }]
+        },
+        {
+          $set: {
+            [seenBy]:0
+          }
+        }
+      )
+      resolve()
+    }catch{
+      reject()
+    }
+  })
+
+}
+//new Date.toLocaleString([], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+Message.createRoom = function (user1,user1name,user2,user2name) {
+  return new Promise((resolve, reject) => {
+    let message = {
+      from: user1,
+      to: user2,
+      message: "hi",
+      sendDate:  new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+    }
     let room = {
       user1: user1,
+      user1name:user1name,
       user2: user2,
+      user2name:user2name,
+      user1unseen:0,
+      user2unseen:0,
       messages: message,
-      lastDate: new Date().toLocaleString([], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
+      lastDate: new Date()
     }
     messageCollection
       .insertOne(room)
       .then(info => {
-        console.log("info here:", info.ops[0])
         resolve(info.ops[0])
       })
       .catch(() => {
@@ -95,7 +145,6 @@ Message.getRooms = function (username) {
         .find({ $or: [{ user1: username }, { user2: username }] })
         .sort({ lastDate: -1 })
         .toArray()
-      console.log("roomes are:", rooms)
       resolve(rooms)
     } catch {
       reject()

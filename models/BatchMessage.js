@@ -19,7 +19,7 @@ BatchMessage.prototype.cleanUp = function() {
     username:this.username,
     name:this.name,
     message: sanitizeHTML(this.data.message.trim(), {allowedTags: [], allowedAttributes: {}}),
-    createdDate:new Date().toLocaleString([], {day:'2-digit',month:'2-digit',hour: '2-digit', minute:'2-digit',timeZone: "Asia/Kolkata"})
+    createdDate:new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
      //new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}),   
   }
 }

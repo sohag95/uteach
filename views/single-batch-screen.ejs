@@ -28,12 +28,17 @@
       <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Teacher :</strong> <%=batch.teacherName%></div>
       <div class="text-center">
         <a href="/profile/<%=batch.username%>">
-          <div class="btn btn-sm  btn-success ">View teacher's profile</div>
+          <div class="btn btn-sm  btn-primary ">View teacher's profile</div>
         </a>
-        <%if(batchStudent){%>
+        <%if(batchStudent || batch.username==user.username){%>
           <a href="/group-chat/<%=batch._id%>">
             <div class="btn btn-sm  btn-success "><i class="fas fa-comment"></i> Group chatting</div>
           </a>
+          <%if(batch.username==user.username){%>
+          <a href="/batch/<%=batch._id%>/edit">
+            <div class="btn btn-sm  btn-info "><i class="fas fa-edit"></i> Edit</div>
+          </a>
+          <%}%>
         <%}%>
       </div>
       
@@ -67,6 +72,7 @@
         <%}else{%>
           <div class="text-center">
             <form action="/requestForAdmission/<%=batch._id%>" method="post">
+              <input type="hidden" name="_csrf" value="<%=csrfToken%>">
               <button class="btn btn-lg btn-primary btn-block" type="submit">Sent request for admition</button>
             </form>
           </div>
@@ -102,12 +108,14 @@
                       <input type="hidden" name="studentUsername" value="<%=student.username%>" />
                       <input type="hidden" name="studentName" value="<%=student.name%>" />
                       <input type="hidden" name="requestedOn" value="<%=student.requestedOn%>" />
+                      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                       <button type="submit" class="btn btn-danger btn-sm mr-1">Delete</button>
                     </form>
                     <form class="d-inline-block" action="/acceptRequest/<%=batch._id%>/batch" method="POST">
                       <input type="hidden" name="studentUsername" value="<%=student.username%>" />
                       <input type="hidden" name="studentName" value="<%=student.name%>" />
                       <input type="hidden" name="requestedOn" value="<%=student.requestedOn%>" />
+                      <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                       <button type="submit" class="btn btn-success btn-sm">Accept</button>
                     </form>
                   </div>
@@ -148,6 +156,7 @@
                           <input type="hidden" name="studentUsername" value="<%=student.username%>" />
                           <input type="hidden" name="studentName" value="<%=student.name%>" />
                           <input type="hidden" name="joinedOn" value="<%=student.joinedOn%>" />
+                          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                           <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete student</button>
                         </form>
                       <%}else{%>
@@ -161,9 +170,11 @@
                     <a href="/profile/<%=student.username%>">
                       <div class="btn btn-primary btn-sm mr-1">View profile</div>
                     </a>
+                    <%if(student.username!=user.username){%>
                     <a href="/single-chat/<%=student.username%>">
                       <div class="btn btn-primary btn-sm "><i class="fas fa-comment"></i> Message</div>
                     </a>
+                    <%}%>
                   </div>
                 </div>
               </div>

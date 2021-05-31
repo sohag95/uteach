@@ -4,7 +4,10 @@ const batchCollection = require("../db").db().collection("batches")
 const homeTuitionCollection = require("../db").db().collection("homeTuition")
 
 exports.getBatchCreationForm=function(req,res){
-  res.render("batch-creation-form")
+  res.render("batch-creation-form",{
+    unseenMessages:req.unseenMessages,
+    unseenNotifications:req.unseenNotifications,
+  })
 }
 
 exports.getAllBatches = async function (req, res) {
@@ -57,9 +60,10 @@ exports.getAllBatches = async function (req, res) {
           announcements:homeTuitionAnnouncements
         }
     }
-    console.log("Present batches:", batches)
       res.render("batches", {
         myActiveConnections:req.myActiveConnections,
+        unseenMessages:req.unseenMessages,
+        unseenNotifications:req.unseenNotifications,
         accountType: req.accountType,
         batches:batches
       })
@@ -70,7 +74,6 @@ exports.getAllBatches = async function (req, res) {
 }
 
 exports.batchCreate = function (req, res) {
-  console.log(req.body)
   let batch = new Batch(req.body, req.username, undefined, req.name)
   batch
     .batchCreate()
@@ -84,6 +87,54 @@ exports.batchCreate = function (req, res) {
     })
 }
 
+exports.getBatchEditForm = function (req, res) {
+  if(req.batch.username==req.username){
+    let editableData={
+      batchId:req.batch._id,
+      stream:req.batch.stream,
+      class:req.batch.class,
+      subjects:req.batch.subjects,
+      days:req.batch.days,
+      classTime:req.batch.classTime,
+      session:req.batch.session,
+      studentsQuentity:req.batch.studentsQuentity,
+      address:req.batch.address,
+      nearBy:req.batch.nearBy,
+      expirationDate:req.batch.expirationDate,
+      batchMood:req.batch.batchMood,
+      nearBy:req.batch.nearBy
+    }
+    res.render("batch-edit-form",{
+      editableData:editableData
+    })
+  }else{
+    req.flash("errors", "You have no permission to visite that page!!")
+    req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
+  }
+}
+
+
+exports.editBatch = function (req, res) {
+  if(req.batch.username==req.username){
+  let batch = new Batch(req.body)
+  batch
+    .editBatch(req.batch._id)
+    .then(function () {
+      req.flash("success", "Batch data successfully updated.")
+      req.session.save(() => res.redirect(`/batch/${req.batch._id}/edit`))
+    })
+    .catch(function () {
+      batch.errors.forEach(function(error) {
+        req.flash("errors", error)
+      })
+      req.session.save(() => res.redirect(`/batch/${req.batch._id}/edit`))
+    })
+  }else{
+    req.flash("errors", "You have no permission to perform that action!!")
+    req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
+  }
+}
+
 exports.ifBatchExists = function (req, res, next) {
   Batch.findSingleBatchById(req.params._id)
     .then(function (batch) {
@@ -91,6 +142,7 @@ exports.ifBatchExists = function (req, res, next) {
       next()
     })
     .catch(function () {
+      console.log("i am here")
       res.render("404")
     })
 }
@@ -137,17 +189,18 @@ exports.sentRequest = async function (req, res) {
 
 exports.getSingleBatch = async function (req, res) {
   try {
-    console.log("Matching username:", req.batch.username, req.username)
     let batchOwner = false
     if (req.batch.username == req.username) {
       batchOwner = true
     }
     res.render("single-batch-screen", { 
+      unseenMessages:req.unseenMessages,
+      unseenNotifications:req.unseenNotifications,
       batch: req.batch, 
       batchOwner: batchOwner 
     })
   } catch {
-    console.log("Executed here")
+   
     res.render("404")
   }
 }

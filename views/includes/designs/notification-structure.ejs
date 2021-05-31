@@ -1,155 +1,199 @@
 <h4 class="bolder ml-1"><strong>Notifications</strong></h4>
 <div class="item-container">
   <div class="ml-2 mr-2">
-    <div class="notification-container mb-1 not-viewed">
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
-        </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><a href=""><strong>Sohag Roy</strong></a> just visited one of your home-tuition announcement.He/she may interested to get a home tuitor.</span> 
-               </div>
+    <%let count=0%>
+    <%notifications.forEach((notification)=>{%>
+      <%if(unseenNotifications!=0 && count==0){%>
+        <h6><strong class="bolder text-success">New notifications:</strong></h6>
+      <%}%>
+      <%if(notification.type=="viewAnnouncement"){%>
+        <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>">
+          <div style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
             </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col"  style="width: 100%;">
+                  <div style="width: 100%;">
+                    <span><a href="/profile/<%=notification.data.username%>"><strong><%=notification.data.name%></strong></a> just visited one of your home-tuition announcement.He/she may interested to get a home tuitor.</span> 
+                  </div>
+                </div>
+              </div>
           </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;margin: auto;" >
-        <a class="d-inline mr-3" href=""> Visited announcement</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div>
-    <div class="notification-container mb-1 not-viewed" >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+          <hr style="padding: 0;margin: 0;">
+          <div style="padding-left: 2.7rem;margin: auto;" >
+            <a class="d-inline mr-3" href="/homeTuitionAnnouncement/<%=notification.data.id%>/details"> Announcement</a>
+            <span class="float-right"><i><%=notification.createdDate%></i></span> 
+          </div>
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><a href=""><strong>Sohag Roy</strong></a> wants to admit one of your running tuition-batch.Accept his/her request to make him/her your student.</span> 
-               </div>
-            </div>
+      <%}else if(notification.type=="sentBatchRequest"){%>
+      <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+        <div style="display: flex;width: 100%;">
+          <div class="mr-2" >
+            <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
           </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href=""> Batch details</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div>
-    <hr>
-    <div class="notification-container mb-1" >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+            <div class="row"  style="width: 100%;">
+              <div class="col"  style="width: 100%;">
+                <div style="width: 100%;">
+                  <span><a href="/profile/<%=notification.data.username%>"><strong><%=notification.data.name%></strong></a> wants to admit one of your running tuition-batch.Accept his/her request to make him/her your student.</span> 
+                </div>
+              </div>
+            </div>
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><a href=""><strong>Sohag Roy</strong></a> just post an announcement to get a teacher in your area.If you are interested, contect with the student.</span> 
-               </div>
-            </div>
-          </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href="">Announcement</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div><div class="notification-container mb-1" >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        <hr style="padding: 0;margin: 0;">
+        <div style="padding-left: 2.7rem;" >
+          <a class="d-inline mr-3" href="/viewSingleBatch/<%=notification.data.id%>"> Batch details</a>
+          <span class="float-right"><i><%=notification.createdDate%></i></span> 
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><strong>Sohag Roy</strong> just likes one of your posts.</span> 
-               </div>
-            </div>
+      </div>
+      <%}else if(notification.type=="needHomeTuitor"){%>
+      <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+        <div style="display: flex;width: 100%;">
+          <div class="mr-2" >
+            <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
           </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href="">Profile</a>
-        <a class="d-inline mr-3" href="">Post</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div><div class="notification-container mb-1" >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+            <div class="row"  style="width: 100%;">
+              <div class="col"  style="width: 100%;">
+                <div style="width: 100%;">
+                  <span><a href="/profile/<%=notification.data.username%>"><strong><%=notification.data.name%></strong></a> just post an announcement to get a teacher in your area.If you are interested, contect with the student.</span> 
+                </div>
+              </div>
+            </div>
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><strong>Sohag Roy</strong> just comment one of your posts.</span> 
-               </div>
-            </div>
-          </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href="">Profile</a>
-        <a class="d-inline mr-3" href="">Post</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div><div class="notification-container mb-1" >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        <hr style="padding: 0;margin: 0;">
+        <div style="padding-left: 2.7rem;" >
+          <a class="d-inline mr-3" href="">Announcement</a>
+          <span class="float-right"><i><%=notification.createdDate%></i></span> 
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><strong>Sohag Roy</strong> visited your profile.</span> 
-               </div>
-            </div>
+      </div>
+      <%}else if(notification.type=="likePost"){%>
+      <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+        <div style="display: flex;width: 100%;">
+          <div class="mr-2" >
+            <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
           </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href="">View his/her profile</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div><div class="notification-container mb-1" >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+            <div class="row"  style="width: 100%;">
+              <div class="col"  style="width: 100%;">
+                <div style="width: 100%;">
+                  <span><strong><%=notification.data.name%></strong> just likes one of your posts.</span> 
+                </div>
+              </div>
+            </div>
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><strong>Sohag Roy</strong> sir/ma'am accepted you batch-request.You got many new friends.Check it out!!</span> 
-               </div>
-            </div>
-          </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href="">View batch details</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div><div class="notification-container mb-1"  >
-      <div style="display: flex;width: 100%;">
-        <div class="mr-2" >
-          <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-sohag.jpg" alt="">
+        <hr style="padding: 0;margin: 0;">
+        <div style="padding-left: 2.7rem;" >
+          <a class="d-inline mr-3" href="/profile/<%=notification.data.username%>">Profile</a>
+          <!-- <a class="d-inline mr-3" style="display: none;" href="">Post</a> -->
+          <span class="float-right"><i><%=notification.createdDate%></i></span> 
         </div>
-          <div class="row"  style="width: 100%;">
-            <div class="col"  style="width: 100%;">
-              <div style="width: 100%;">
-                <span><strong>Sohag Roy</strong> sir/ma'am delete you from one of his/her running batches.Check it out!!</span> 
-               </div>
+      </div>
+      <%}else if(notification.type=="commentPost"){%>
+        <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+          <div style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
             </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col"  style="width: 100%;">
+                  <div style="width: 100%;">
+                    <span><strong><%=notification.data.name%></strong> just comment one of your posts.</span> 
+                  </div>
+                </div>
+              </div>
           </div>
-      </div>
-      <hr style="padding: 0;margin: 0;">
-      <div style="padding-left: 2.7rem;" >
-        <a class="d-inline mr-3" href="">View batch details</a>
-        <span class="float-right"><strong>Date :</strong> 20/02/2021</span> 
-      </div>
-    </div>
+          <hr style="padding: 0;margin: 0;">
+          <div style="padding-left: 2.7rem;" >
+            <a class="d-inline mr-3" href="/profile/<%=notification.data.username%>">Profile</a>
+            <!-- <a class="d-inline mr-3" style="display: none;" href="">Post</a> -->
+            <span class="float-right"><i><%=notification.createdDate%></i></span> 
+          </div>
+        </div>
+      <%}else if(notification.type=="visitedProfile"){%>
+        <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+          <div style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
+            </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col"  style="width: 100%;">
+                  <div style="width: 100%;">
+                    <span><strong><%=notification.data.name%></strong> visited your profile.</span> 
+                  </div>
+                </div>
+              </div>
+          </div>
+          <hr style="padding: 0;margin: 0;">
+          <div style="padding-left: 2.7rem;" >
+            <a class="d-inline mr-3" href="/profile/<%=notification.data.username%>">View profile</a>
+            <span class="float-right"><i><%=notification.createdDate%></i></span> 
+          </div>
+        </div>
+      <%}else if(notification.type=="acceptBatchRequest"){%>
+        <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+          <div style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
+            </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col"  style="width: 100%;">
+                  <div style="width: 100%;">
+                    <span><a href="/profile/<%=notification.data.username%>"><strong><%=notification.data.name%></strong></a> sir/ma'am accepted you batch-request.You got many new friends.Check it out!!</span> 
+                  </div>
+                </div>
+              </div>
+          </div>
+          <hr style="padding: 0;margin: 0;">
+          <div style="padding-left: 2.7rem;" >
+            <a class="d-inline mr-3" href="/viewSingleBatch/<%=notification.data.id%>">Batch details</a>
+            <span class="float-right"><i><%=notification.createdDate%></i></span> 
+          </div>
+        </div>
+      <%}else if(notification.type=="deleteBatchRequest"){%>
+        <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>" >
+          <div style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
+            </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col"  style="width: 100%;">
+                  <div style="width: 100%;">
+                    <span><a href="/profile/<%=notification.data.username%>"><strong><%=notification.data.name%></strong></a> sir/ma'am deleted your batch-request.May be the batch vecancy is already filled up!!</span> 
+                  </div>
+                </div>
+              </div>
+          </div>
+          <hr style="padding: 0;margin: 0;">
+          <div style="padding-left: 2.7rem;" >
+            <a class="d-inline mr-3" href="/viewSingleBatch/<%=notification.data.id%>">Batch details</a>
+            <span class="float-right"><i><%=notification.createdDate%></i></span> 
+          </div>
+        </div>
+      <%}else if(notification.type=="deleteFromBatch"){%>
+        <div class="notification-container mb-1 <%=unseenNotifications>count ? "not-viewed" :" " %>"  >
+          <div style="display: flex;width: 100%;">
+            <div class="mr-2" >
+              <img class="avatar-small" style="top:2px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=notification.data.username%>.jpg" alt="">
+            </div>
+              <div class="row"  style="width: 100%;">
+                <div class="col"  style="width: 100%;">
+                  <div style="width: 100%;">
+                    <span><a href="/profile/<%=notification.data.username%>"><strong><%=notification.data.name%></strong></a> sir/ma'am delete you from one of his/her running batches.Check it out!!</span> 
+                  </div>
+                </div>
+              </div>
+          </div>
+          <hr style="padding: 0;margin: 0;">
+          <div style="padding-left: 2.7rem;" >
+            <a class="d-inline mr-3" href="/viewSingleBatch/<%=notification.data.id%>">Batch details</a>
+            <span class="float-right"><i><%=notification.createdDate%></i></span> 
+          </div>
+        </div>
+      <%}%>
+      <%if(unseenNotifications==count+1){%>
+        <hr>
+        <h6><strong class="bolder text-primary">Old notifications:</strong></h6>
+      <%}%>
+      <%count+=1%>
+    <%})%>
   </div>
 </div>

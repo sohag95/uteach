@@ -2,6 +2,7 @@ const express = require("express")
 const session = require("express-session")
 const MongoStore = require("connect-mongo")(session)
 const flash = require("connect-flash")
+const csrf=require('csurf')
 const app = express()
 const sanitizeHTML = require("sanitize-html")
 const fileUpload = require("express-fileupload")
@@ -30,11 +31,7 @@ app.use(function (req, res, next) {
   res.locals.success = req.flash("success")
 
   // make current user id available on the req object
-  // if (req.session.user) {
-  //   req.visitorId = req.session.user._id
-  // } else {
-  //   req.visitorId = 0
-  // }
+  
   if (req.session.user) {
     req.accountType = req.session.user.accountType
     req.name = req.session.user.name
@@ -59,6 +56,21 @@ app.use(express.static("public"))
 app.set("views", "views")
 app.set("view engine", "ejs")
 
-app.use("/", router)
+app.use(csrf())
 
+app.use(function(req,res,next){
+  res.locals.csrfToken=req.csrfToken()
+  next()
+})
+app.use("/", router)
+// app.use(function(err,req,res,next){
+//   if(err){
+//     if(err.code=="EBADCSRFTOKEN"){
+//       req.flash('errors',"Cross site request forgery detected. ")
+//       req.session.save(()=>res.redirect('/'))
+//     }else{
+//       res.render('404')
+//     }
+//   }
+// })
 module.exports = app

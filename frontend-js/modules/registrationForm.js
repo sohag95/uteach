@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default class RegistrationForm {
   constructor() {
-    // this._csrf=document.querySelector('[name="_csrf"]').value
+    this._csrf=document.querySelector('[name="_csrf"]').value
     this.form = document.querySelector("#registration-form")
     this.allFields = document.querySelectorAll("#registration-form .form-control")
     this.insertValidationElements() 
@@ -210,10 +210,11 @@ export default class RegistrationForm {
     if (this.username.value.length < 3) {
       this.showValidationError(this.username, "Username must be at least 3 characters.")
     }
-    //_csrf:this._csrf,
+    
     if (!this.username.errors) {
-      axios.post('/doesUsernameExist', { username: this.username.value}).then((response) => {
+      axios.post('/doesUsernameExist', { _csrf:this._csrf,username: this.username.value}).then((response) => {
         if (response.data) {
+          console.log("data",response.data)
           this.showValidationError(this.username, "That username is already taken.")
           this.username.isUnique = false
         } else {
