@@ -111,19 +111,19 @@ Message.messageSeenBy = function (user1, user2) {
 //new Date.toLocaleString([], { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
 Message.createRoom = function (user1,user1name,user2,user2name) {
   return new Promise((resolve, reject) => {
-    let message = {
+    let message =[ {
       from: user1,
       to: user2,
       message: "hi",
       sendDate:  new Date().toLocaleString([], { day: "2-digit", month: "2-digit", year: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata" })
-    }
+    }]
     let room = {
       user1: user1,
       user1name:user1name,
       user2: user2,
       user2name:user2name,
       user1unseen:0,
-      user2unseen:0,
+      user2unseen:1,
       messages: message,
       lastDate: new Date()
     }
