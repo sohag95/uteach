@@ -19,6 +19,7 @@ exports.userMustBeLoggedIn = function (req, res, next) {
     })
   }
 }
+
 exports.userMustBeLoggedInAsTeacher = function (req, res, next) {
   if (req.session.user) {
     if (req.session.user.accountType == "teacher" || req.session.user.accountType == "studentTeacher") {
@@ -247,13 +248,18 @@ exports.ifUserExists = function (req, res, next) {
           givenNumber:givenNumber
         }
       }
+      let varifiedAccount=false
+      if(req.profileUser.accountType=="teacher" || req.accountType=="studentTeacher"){
+        varifiedAccount=req.profileUser.teacherData.varifiedAccount
+      }
       req.profileHeaderData={
         username:userDocument.username,
         name:userDocument.name,
         bioStatus:userDocument.bioStatus,
         isVisitorsProfile:req.isVisitorsProfile,
         accountType:req.profileUser.accountType,
-        rating:rating
+        rating:rating,
+        varifiedAccount:varifiedAccount
       }
       next()
     })
@@ -518,6 +524,7 @@ exports.getConnectionsForHome =function (req, res, next) {
 }
  exports.getActiveContacts =async function (req, res, next) {
  try{
+   let operations=new Operations()
     let activeUsers=await sessionsCollection.find().toArray()
     let activeUsersName=[]
     activeUsers.forEach((user)=>{
@@ -538,8 +545,8 @@ exports.getConnectionsForHome =function (req, res, next) {
         myActiveConnections.push(user)
       }
     })
-    req.myActiveConnections=myActiveConnections
-  next()
+    req.myActiveConnections = operations.removeDuplicates(myActiveConnections, "username")         
+    next()
  }catch{
   console.log("I am on active contacts!")
   res.render("404")

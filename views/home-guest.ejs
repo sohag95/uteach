@@ -14,9 +14,13 @@
         <div class="row ">
           <div class="col-md-6" style="width: 100%;">
             <h5>Become a tuitor and make an impact on society.</h5>
+            <%if(!user){%>
             <a href="/sign-up">
               <div class="btn btn-primary"><i class="fas fa-user-plus"></i>&nbsp; Sign up an account</div>
             </a>
+            <%}else{%>
+              <div class="btn btn-success">Welcome to uteach community</div>
+            <%}%>
             <hr style="margin: 8px;" class="visibleItemsOnCollapse">
           </div>
           

@@ -7,11 +7,21 @@
       </span>
     <%}%>
     <%rooms.forEach((room)=>{%>
+      <%let active=false%>
       <%if(room.user1!=user.username){%>
+        <%myActiveConnections.forEach((user)=>{%>
+          <%if(user.username==room.user1){%>
+           <% active=true%>
+          <%}%>
+        <%})%>
         <a href="/single-chat/<%=room.user1%>">
           <div class="message-room" style="display: flex;">
             <div class="text-center" >
               <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=room.user1%>.jpg" alt="">
+              <%if(active){%>
+              <span  class="badge active-signal" style="margin-left: -10px;margin-top: 34px;">.</span>
+              <%}%>              
+              
               <%if(room.user2unseen!=0){%>
                 <span  class="badge badge-pill badge-success message-badge">
                   <%if(room.user2unseen<10){%>
@@ -38,10 +48,18 @@
         </a>
       <%}%>
       <%if(room.user2!=user.username){%>
+        <%myActiveConnections.forEach((user)=>{%>
+          <%if(user.username==room.user2){%>
+           <% active=true%>
+          <%}%>
+        <%})%>
         <a href="/single-chat/<%=room.user2%>">
           <div class="message-room" style="display: flex;">
             <div class="text-center" >
               <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=room.user2%>.jpg" alt="">
+              <%if(active){%>
+                <span  class="badge active-signal" style="margin-left: -10px;margin-top: 34px;">.</span>
+                <%}%> 
               <%if(room.user1unseen!=0){%>
                 <span  class="badge badge-pill badge-success message-badge">
                   <%if(room.user1unseen<10){%>

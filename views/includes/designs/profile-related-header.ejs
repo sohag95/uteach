@@ -7,7 +7,16 @@
         <img class="cover-image" src="/images/cover/cover-<%=profileHeaderData.username%>.jpg" width="1000" height="250"/>
         <div class="text-center">
           <img class="profile-image" src="/images/profile/profile-<%=profileHeaderData.username%>.jpg" />
-          <h5><strong><%=profileHeaderData.name%></strong></h5>
+          <h5><strong>
+            <%=profileHeaderData.name%>
+            <%if(profileHeaderData.accountType=="teacher" || profileHeaderData.accountType=="studentTeacher"){%>
+              <%if(profileHeaderData.varifiedAccount){%>
+                <span class="text-primary" > <i class="fas fa-check-circle"></i></span>
+              <%}else{%>
+                <span class="text-danger"> <i class="fas fa-times-circle"></i></span>
+              <%}%>
+            <%}%>
+            </strong></h5>
           <span>
             <span ><%=profileHeaderData.bioStatus%></span>
             <%if(profileHeaderData.isVisitorsProfile){%>

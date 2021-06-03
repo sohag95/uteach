@@ -26,7 +26,7 @@
           </p>
           <div class="dropdown-menu dropdown-menu-right">
             <%if(user.username==post.username){%>
-              <form onsubmit="return deletePost(this);" class="inlineContainer " action="" method="POST">
+              <form onsubmit="return deletePost(this);" class="inlineContainer " action="/post/<%=post._id%>/delete" method="POST">
                 <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                 <button class="dropdown-item text-danger" type="submit" ><i class="fas fa-trash-alt "></i> Delete Post</button>
               </form>
@@ -93,8 +93,8 @@
             <!-- comments loop will be here -->
             <% post.comments.forEach(function(comment) { %>
               <div class="text-muted small list-group-item">
-                  <a href="/images/profile/profile-<%=comment.username%>.jpg">
-                    <img class="avatar-tiny" src="/images/profile/profile-sohag.jpg">
+                  <a href="/profile/<%=comment.username%>">
+                    <img class="avatar-tiny" src="/images/profile/profile-<%=comment.username%>.jpg">
                     <strong>By<a href="/profile/<%=comment.username%>"> <%=comment.commentBy %></a> </strong>
                   </a>
                 <div >

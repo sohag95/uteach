@@ -20,12 +20,16 @@ HomeTuition.prototype.cleanUp = function (from) {
   if (typeof this.data.class != "string") {
     this.data.class = ""
   }
-  if (typeof this.data.daysPerWeek != "string") {
-    this.data.daysPerWeek = ""
+  if (typeof this.data.subjectName != "string") {
+    this.data.subjectName = ""
   }
   if(from=="teacher"){
-    if (typeof this.data.subjectName != "string") {
-      this.data.subjectName = ""
+    
+    if (typeof this.data.daysPerWeek != "string") {
+      this.data.daysPerWeek = ""
+    }
+    if (typeof this.data.salery != "string") {
+      this.data.salery = ""
     }
   }
   if (typeof this.data.district != "string") {
@@ -34,12 +38,12 @@ HomeTuition.prototype.cleanUp = function (from) {
   if (typeof this.data.policeStation != "string") {
     this.data.policeStation = ""
   }
-  if (typeof this.data.salery != "string") {
-    this.data.salery = ""
-  }
+  
   if (typeof this.data.postOffice != "string") {
     this.data.postOffice = ""
   }
+
+
   if(from=="teacher"){
     this.data = {
       username: this.username,
@@ -60,18 +64,21 @@ HomeTuition.prototype.cleanUp = function (from) {
     }
   }
   if(from=="student"){
+    if (typeof this.data.nearBy != "string") {
+      this.data.nearBy = ""
+    }
     this.data = {
       username: this.username,
       studentName: this.teacher,
       stream: sanitizeHTML(this.data.stream.trim(), { allowedTags: [], allowedAttributes: {} }),
       class: sanitizeHTML(this.data.class.trim(), { allowedTags: [], allowedAttributes: {} }),
-      daysPerWeek: sanitizeHTML(this.data.daysPerWeek.trim(), { allowedTags: [], allowedAttributes: {} }),
-      salery:sanitizeHTML(this.data.salery.trim(), { allowedTags: [], allowedAttributes: {} }),
+      subjectName: sanitizeHTML(this.data.subjectName.trim(), { allowedTags: [], allowedAttributes: {} }),
       address:{
         district: sanitizeHTML(this.data.district.trim(), { allowedTags: [], allowedAttributes: {} }),
         policeStation: sanitizeHTML(this.data.policeStation.trim(), { allowedTags: [], allowedAttributes: {} }),
         postOffice: sanitizeHTML(this.data.postOffice.trim(), { allowedTags: [], allowedAttributes: {} }),
       },
+      nearBy:sanitizeHTML(this.data.nearBy.trim(), { allowedTags: [], allowedAttributes: {} }),
       announcementViewed:0,
       presentAnnouncement: true,
       createdDate: new Date()
@@ -85,19 +92,21 @@ HomeTuition.prototype.validate =async function (from) {
   if (this.data.stream == "") {
     this.errors.push("You must select stream.")
   }
+  if (this.data.subjectName == "") {
+    this.errors.push("You must provide subject name.")
+  }
+
   if(from=="teacher"){
-    if (this.data.subjectName == "") {
-      this.errors.push("You must provide subject name.")
+    if (this.data.daysPerWeek == "") {
+      this.errors.push("You must give days/week.")
+    }
+    if (this.data.salery == "") {
+      this.errors.push("You must provide your expeced salery amount.")
     }
   }
+
   if (this.data.class == "") {
     this.errors.push("You must select class.")
-  }
-  if (this.data.daysPerWeek == "") {
-    this.errors.push("You must give days/week.")
-  }
-  if (this.data.salery == "") {
-    this.errors.push("You must provide your expeced salery amount.")
   }
   if (this.data.district == "") {
     this.errors.push("You must select district name.")
@@ -110,6 +119,9 @@ HomeTuition.prototype.validate =async function (from) {
   }
 
   if(from=="student"){
+    if (this.data.nearBy == "") {
+      this.errors.push("You must give near by area name.")
+    }
     let studentAnnouncements=await needHomeTuitorCollection.find({username:this.username}).toArray()
     if(studentAnnouncements.length>4){
       this.errors.push("You can create only four announcements.To create new one, you have to delete one of your previous announcements.")

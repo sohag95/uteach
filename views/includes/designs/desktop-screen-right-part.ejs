@@ -15,8 +15,8 @@
       <div class="m-2 btn btn-primary btn-block">Active contacts not available.</div>
     <%}%>
       <%myActiveConnections.forEach((connection)=>{%>
-        <a href="/single-chat/<%=connection.username%>">
-          <div style="display: flex;">
+        <a  href="/single-chat/<%=connection.username%>">
+          <div class="mb-2" style="display: flex;">
             <div >
               <img class="avatar-small active-avatar"  src="/images/profile/profile-<%=connection.username%>.jpg" alt="">
               <span  class="badge active-signal">.</span>

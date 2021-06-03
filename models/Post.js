@@ -174,10 +174,8 @@ Post.prototype.likedByCheck = function () {
     try {
       let post = await postsCollection.findOne({ _id: new ObjectID(this.postId) })
       let likedBy = post.likedBy
-      console.log("liked by:", likedBy)
       likedBy.forEach(username => {
         if (username.username == this.username) {
-          console.log("on check:", username.username, this.username)
           this.present = true
           this.errors.push("You have liked this post already!!")
           resolve()
@@ -291,12 +289,13 @@ Post.deletePost = function (postIdToDelete, currentUserUsername) {
   return new Promise(async (resolve, reject) => {
     try {
       let post = await postsCollection.findOne({ _id: new ObjectID(postIdToDelete) })
-      console.log("executed post:", post, postIdToDelete, currentUserUsername)
-      
+     
       if(post.postType=="photo"){
         let filePath="public"+post.link
-        console.log("file path:",filePath)
-        fs.unlinkSync(filePath)
+        if (fs.existsSync(filePath)) {
+            //file exists
+            fs.unlinkSync(filePath)
+          }
       }
       if (post.username == currentUserUsername) {
         await postsCollection.deleteOne({ _id: new ObjectID(postIdToDelete) })

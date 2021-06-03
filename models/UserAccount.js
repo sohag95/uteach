@@ -53,16 +53,16 @@ UserAccount.prototype.validate = function () {
 
   if ((this.data.highestQualification == "secondary" ||
       this.data.highestQualification == "higher-secondary" ||
-      this.data.highestQualification == "under-graduation" ||
-      this.data.highestQualification == "post-graduation" ||
-      this.data.highestQualification == "phd-graduation" )&&
+      this.data.highestQualification == "under-graduated" ||
+      this.data.highestQualification == "post-graduated" ||
+      this.data.highestQualification == "phd-graduated" )&&
       this.data.secondaryPercentage=="Not-qualified") {
     this.errors.push("You have passed class-10.So you must give your secondary parcentage.")
   }
   if ((this.data.highestQualification == "higher-secondary" ||
-  this.data.highestQualification == "under-graduation" ||
-  this.data.highestQualification == "post-graduation" ||
-  this.data.highestQualification == "phd-graduation" )&&
+  this.data.highestQualification == "under-graduated" ||
+  this.data.highestQualification == "post-graduated" ||
+  this.data.highestQualification == "phd-graduated" )&&
   this.data.higherSecondaryPercentage=="Not-qualified") {
     this.errors.push("You have passed class-12.So you must give your higher-secondary parcentage.")
   }

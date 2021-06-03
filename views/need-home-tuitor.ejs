@@ -14,7 +14,7 @@
           <select id="stream" class="form-control " name="stream" form="createAnnouncement-form">
             <option value="science">Science</option>
             <option value="arts">Arts</option>
-            <option value="commerce">Commarts</option>
+            <option value="commerce">Commerce</option>
             <option value="all-subjects">All subjects</option>
             <option value="music">Music</option>
             <option value="dance">Dance</option>
@@ -41,20 +41,14 @@
           </select>
         </div>
       </div>
-      <div class="row">
-        <div class="form-group col-sm-6">
+      
+        <div class="form-group">
           <div class="form-group">
-            <label for="daysPerWeek" class="text-muted mb-1"><small>Days/Week</small></label>
-            <input name="daysPerWeek" id="daysPerWeek" class="form-control " type="number" required placeholder="Teaching days/week" autocomplete="off" />
+            <label for="subjectName" class="text-muted mb-1"><small>Subject name</small></label>
+            <input name="subjectName" id="subjectName" class="form-control " type="text" required placeholder="Subjet name" autocomplete="off" />
           </div>
         </div>
-        <div class="form-group col-sm-6">
-          <div class="form-group">
-            <label for="salery" class="text-muted mb-1"><small>Salery/month </small></label>
-            <input name="salery" id="salery" class="form-control " type="number" placeholder="Salery/month could give" required autocomplete="off" />
-          </div>
-        </div>
-      </div>
+        
       
       <strong class="text-primary"><i class="fas fa-map-marker-alt"></i> Select the address in which you want home-tuitor.</strong>
       <div id="address-part">
@@ -81,6 +75,10 @@
           </select>
         </div>
       </div>
+      <div class="form-group">
+        <label for="address-register" class="text-muted mb-1"><small>Near By Place</small></label>
+        <input name="nearBy" id="address-register" required class="form-control form-control-lg" type="text" placeholder="Exact location address." autocomplete="off" />
+      </div>
       <input type="hidden" name="_csrf" value="<%=csrfToken%>">
       <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">Create Announcement</button>
     </form>
@@ -102,9 +100,8 @@
           </div>
           <div class="text-left batch-data-container" >
             <span class="d-block"><strong>Stream : </strong> <%=announcement.stream%></span>
-            <span class="d-block"><strong>Class : </strong> <%=announcement.class%></span>
-            <span class="d-block"><strong>Salery : </strong> <%=announcement.salery%>/-per month</span>
-            <span class="d-block"><strong>Address : </strong><%=announcement.address.district%>, <%=announcement.address.policeStation%>, <%=announcement.address.postOffice%>.</span>
+            <span class="d-block"><strong>Subject : </strong> <%=announcement.subjectName%></span>
+            <span class="d-block"><strong>Address : </strong> <%=announcement.address.policeStation%>, <%=announcement.address.postOffice%> ,Near by- <%=announcement.nearBy%></span>
             <a href="/homeTuitorNeedAnnouncement/<%=announcement._id%>/details">
               <div class="class btn btn-primary btn-sm">
                 Get details
