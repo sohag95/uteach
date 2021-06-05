@@ -119,7 +119,7 @@ export default class Search {
       <div class="path text-center" style="padding: 1rem;">
         <div class="row">
           <div class="col-sm-6" style="width: 100%;">
-          <a href="/search-home-tuitor-form" type="button" class="btn btn-info btn-block mb-1"><i class="fas fa-search"></i> Search Home-tuitor</a>
+          <a href="/search-home-tuitor-form" type="button" class="btn btn-info btn-block mb-1"><i class="fas fa-search"></i> Search Home-tutor</a>
           </div>
           <div class="col-sm-6" style="width: 100%;">
           <a href="/search-batch-form" type="button" class="btn btn-secondary btn-block"><i class="fas fa-search"></i> Search Batches</a>

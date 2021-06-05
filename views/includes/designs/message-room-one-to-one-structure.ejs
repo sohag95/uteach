@@ -21,15 +21,30 @@
   </div>
   
   <%let last="hcquwefcbqgwehcq"%>
+  <%let unseenMessages%>
+  <%if(messageRoom.user1==user.username){%>
+    <%unseenMessages=messageRoom.user2unseen%>
+  <%}else{%>
+    <%unseenMessages=messageRoom.user1unseen%>
+  <%}%>
+  <%let firstUnseenIndex=messageRoom.messages.length-unseenMessages%>
+  <%let index=0%>
 
-  <%messages.forEach(function(message){%>
+  <%messageRoom.messages.forEach(function(message){%>
     <%if(message.from==user.username){%>
       <%if(last!=message.from){%>
         <div class="chat-self">
           <div class="chat-message">
             <div class="chat-message-inner" style="margin-top: 3px;">
-              <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
-              <div class="float-right" style="font-size: 9px;"><%=message.sendDate%></div>
+              <div class="text-left" style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+              <div class="float-right" style="font-size: 9px;">
+              <%=message.sendDate%> 
+              <%if(index>=firstUnseenIndex){%> 
+              <span ><i class="fas fa-check-double"></i>unseen</span>
+              <%}else{%>
+              <span class="text-warning"> <i class="fas fa-check-double"></i></span>
+              <%}%>
+              </div>
             </div>
           </div>
         </div>
@@ -38,8 +53,15 @@
         <div class="chat-self" >
           <div class="chat-message">
             <div class="chat-message-inner" style="border-radius: 8px;">
-              <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
-              <div class="float-right" style="font-size: 9px;"><%=message.sendDate%></div>
+              <div class="text-left" style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+              <div class="float-right" style="font-size: 9px;">
+              <%=message.sendDate%> 
+              <%if(index>=firstUnseenIndex){%> 
+              <span ><i class="fas fa-check-double"></i>unseen</span>
+              <%}else{%>
+              <span class="text-warning"> <i class="fas fa-check-double"></i></span>
+              <%}%>
+              </div>
             </div>
           </div>
         </div>
@@ -50,7 +72,7 @@
       <div class="chat-other">
         <div class="chat-message">
           <div class="chat-message-inner" style="margin-top: 3px;">
-            <div style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
+            <div class="text-left" style="font-size: 14px;"><%=message.message%>&nbsp;</div> 
             <div class="float-left" style="font-size: 9px;"><%=message.sendDate%></div>
           </div>
         </div>
@@ -68,6 +90,7 @@
       <%last=message.from%>
       <%}%>
     <%}%>
+    <%index+=1%>
   <%})%>
   </div>
   <div>
@@ -77,7 +100,7 @@
       </div>
       <div class="post-form-container">
         <form action="/sendMessage/<%=messageTo.username%>" method="post" style="display: flex;">
-          <input name="message" type="text" class="post-input-field" placeholder="Write your message here." required>
+          <input name="message" type="text" class="post-input-field" placeholder="Write your message here." required autocomplete="off">
           <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button class="post-button text-primary"><i class="fas fa-paper-plane"></i></button>
         </form>

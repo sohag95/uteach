@@ -115,7 +115,7 @@
         <div class="post-form-container" style="padding: 4px;">
           <form action="/comment/<%= post._id %>/post" method="post" style="display: flex;">
             <input type="hidden" name="_csrf" value="<%=csrfToken%>">
-            <input type="text" name="comment" class="post-input-field" placeholder="Write your comment here." required>
+            <input type="text" name="comment" class="post-input-field" placeholder="Write your comment here." required autocomplete="off">
             <button class="post-button" type="submit" style="background-color: #f0f2f5;">Comment</button>
           </form>
         </div>

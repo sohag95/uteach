@@ -5,7 +5,7 @@
   <div class="col-lg-6 pt-2 "  >
   <!-- file upload form -->
    <div class="item-container mb-2" >
-     <h3 class="bolder text-center"><strong >Need home-tuitor announcement</strong></h3>
+     <h3 class="bolder text-center"><strong >Need home-tutor announcement</strong></h3>
      <form action="/needHomeTuitor" method="POST" id="createAnnouncement-form">
       <strong class="text-primary">Requirment details</strong> 
       <div class="row">
@@ -50,7 +50,7 @@
         </div>
         
       
-      <strong class="text-primary"><i class="fas fa-map-marker-alt"></i> Select the address in which you want home-tuitor.</strong>
+      <strong class="text-primary"><i class="fas fa-map-marker-alt"></i> Select the address in which you want home-tutor.</strong>
       <div id="address-part">
         <div class="form-group">
           <label for="districtPart" class="text-muted mb-1"><small>Select Your District</small></label>
@@ -89,7 +89,7 @@
     <h5 class="bolder"><strong>Your all announcements</strong></h5>
     <div style="display: flex;flex-wrap: wrap;">
       <%if(!studentAnnouncements.length){%>
-        <div class=" btn btn-primary btn-block m-2">You have no announcement to get home-tuitor.</div>
+        <div class=" btn btn-primary btn-block m-2">You have no announcement to get home-tutor.</div>
       <%}%>
       
       <%studentAnnouncements.forEach((announcement)=>{%>

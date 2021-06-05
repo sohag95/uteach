@@ -47,7 +47,7 @@ exports.getSingleRoom = async function (req, res) {
       let room = await Message.getExistsRoom(req.username, req.params.username)
       if (room) {
         await Message.messageSeenBy(req.username,req.params.username)
-        messages = room.messages
+        messageRoom = room
       } else {
         let createRoom = await Message.createRoom(req.username,req.name, req.params.username,req.profileUser.name)
         messages = createRoom.messages
@@ -60,7 +60,7 @@ exports.getSingleRoom = async function (req, res) {
         myActiveConnections:req.myActiveConnections,
         unseenMessages:req.unseenMessages,
         unseenNotifications:req.unseenNotifications,
-        messages: messages,
+        messageRoom: messageRoom,
         messageTo: messageTo,
       })
     }else{

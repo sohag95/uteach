@@ -30,11 +30,11 @@
         <a href="/profile/<%=batch.username%>">
           <div class="btn btn-sm  btn-primary ">View teacher's profile</div>
         </a>
-        <%if(batchStudent || batch.username==user.username){%>
+        <%if(batchStudent || batchOwner){%>
           <a href="/group-chat/<%=batch._id%>">
             <div class="btn btn-sm  btn-success "><i class="fas fa-comment"></i> Group chatting</div>
           </a>
-          <%if(batch.username==user.username){%>
+          <%if(batchOwner){%>
           <a href="/batch/<%=batch._id%>/edit">
             <div class="btn btn-sm  btn-info "><i class="fas fa-edit"></i> Edit</div>
           </a>
@@ -57,11 +57,65 @@
         </div>
       </div>
       <strong class="text-primary ml-2">Vacancy details:</strong>
-      <div class="col m-2">
-        <span class="d-block"><strong>Total Sits : </strong> <%= batch.studentsQuentity %></span>
-        <span class="d-block"><strong>Total Present Students : </strong> <%= batch.admittedStudents.length %></span>
-        <span class="d-block"><strong>Sits Available : </strong> <%= batch.studentsQuentity-presentStudents %></span>
+       <div class="row m-2" >
+        <div class="col-md-6">
+           <span class="d-block"><strong>Total Sits : </strong> <%= batch.studentsQuentity %></span>
+          <span class="d-block"><strong>Total Present Students : </strong> <%= batch.admittedStudents.length %></span>
+          <span class="d-block"><strong>Sits Available : </strong> <%= batch.studentsQuentity-presentStudents %></span>
+        </div>
+      <%if(batch.batchMood=="online" && (batchStudent || batchOwner)){%>
+        <div class="col-md-6" style="background-color:#f0f2f5; border-radius:5px">
+          <span class="d-block text-center bolder"><strong>Online Class Details</strong></span>
+          <span class="d-block"><strong>Class Date : </strong> 03/05/2021</span>
+          <span class="d-block"><strong>Class Time: </strong> 10:00am</span>
+          <a href="#">
+            <span class="btn btn-block btn-warning mb-1">Go to the class <i class="fas fa-arrow-right"></i></span>
+          </a>
+          <%if(batchOwner){%>
+          <div class="text-center">
+            <span class="btn btn-sm btn-block btn-info" data-toggle="modal" data-target="#onlineDataEdit"><i class="fas fa-edit"></i> Update next class details</span>
+          </div>
+              <!-- Modal -->
+              <div class="modal fade" id="onlineDataEdit" tabindex="-1" role="dialog" aria-labelledby="onlineDataEditTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Update next class details</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/updateOnlineClassDetailsRouter" method="post">
+                        <div class="form-group" style="text-align: left;">
+                          <label for="classDate" class="text-muted" ><small>Class Date </small></label>
+                          <input name="OnlineClassDate"  id="classDate" class="form-control form-control-sm " type="date" placeholder="status" autocomplete="off" />
+                        </div>
+                        <div class="form-group" style="text-align: left;">
+                          <label for="OnlineClassTime" class="text-muted" ><small>Class Time </small></label>
+                          <input name="OnlineClassTime"  id="OnlineClassTime" class="form-control form-control-sm " type="text" placeholder="Class time" autocomplete="off" />
+                        </div>
+                        <div class="form-group" style="text-align: left;">
+                          <label for="classLink" class="text-muted" ><small>Class room link </small></label>
+                          <input name="OnlineClassLink"  id="classLink" class="form-control form-control-sm " type="text" placeholder="Paste class link (Google meet)" autocomplete="off" />
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+                        <div style="text-align: left;">
+                          <button class="btn btn-success btn-sm ">Submit</button>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <%}%>
+        </div>
+      <%}%>
       </div>
+     
       <hr>
       
       <%if(!batchOwner && !batchStudent && (user.accountType!="teacher")){%>

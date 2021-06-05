@@ -36,12 +36,14 @@
               <div style="display: flex;">
                 <div style="width: 100%;">
                   <strong class="d-block"><%=room.user1name%></strong>
-                  <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user1?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message%></span>
                 </div>
                 <div class="post-button">
-                  <strong class="d-block" style="color:#495057 ;"><%=room.messages[room.messages.length-1].sendDate%></strong>
+                  <i class="d-block" style="color:#495057 ;"><%=room.messages[room.messages.length-1].sendDate.split(",")[0]%></i>
                   <!-- <span class="d-block">10:10am</span> -->
                 </div>
+              </div>
+              <div>
+                <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user1?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message.slice(0,30)%>...</span>  
               </div>
             </div>
           </div>
@@ -74,12 +76,14 @@
               <div style="display: flex;">
                 <div style="width: 100%;">
                   <strong class="d-block"><%=room.user2name%></strong>
-                  <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user2?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message%></span>
                 </div>
                 <div class="post-button">
-                  <strong class="d-block" style="color:#495057 ;"><%=room.messages[room.messages.length-1].sendDate%></strong>
+                  <i class="d-block" style="color:#495057 ;"><%=room.messages[room.messages.length-1].sendDate.split(",")[0]%></i>
                   <!-- <span class="d-block">10:10am</span> -->
                 </div>
+              </div>
+              <div>
+                <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user2?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message.slice(0,30)%>...</span>
               </div>
             </div>
           </div>

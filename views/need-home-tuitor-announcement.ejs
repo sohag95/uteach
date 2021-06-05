@@ -6,7 +6,7 @@
       <div class="single-batch-data">
         <div style="position: relative;">
           <img class="single-batch-image"  src="/images/profile/profile-<%=announcementData.username%>.jpg" alt="">
-          <div class="batch-no">Need Home-tuitor</div>
+          <div class="batch-no">Need Home-tutor</div>
         </div>
         <div class="bolder text-center text-primary" style="padding-top: 3px;"><strong>Student :</strong>
            <%=announcementData.studentName%>
@@ -53,7 +53,7 @@
         <%}else{%>
           <div class="text-center">
             <div class="btn btn-sm  btn-warning ">This Is Your Announcement</div>
-            <form action="/delete/announcement/<%=announcementData._id%>/needTuitor" method="POST" class="d-inline">
+            <form action="/delete/announcement/<%=announcementData._id%>/needTutor" method="POST" class="d-inline">
               <input type="hidden" name="_csrf" value="<%=csrfToken%>">
               <button class="btn  btn-danger btn-sm m-2"><i class="fas fa-trash"></i> Delete Announcement </button>
             </form>
