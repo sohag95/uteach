@@ -11,11 +11,16 @@ const passwordController=require("./controllers/passwordController")
 const libraryController=require("./controllers/libraryController")
 const ratingController=require("./controllers/ratingController")
 const notificationController=require("./controllers/notificationController")
+const feedbackController=require("./controllers/feedbackController")
 
 //guest user
 router.get("/",messageController.unseenMessageNumber,notificationController.unseenNotificationNumber, userController.guestHome)
 router.get("/sign-up", userController.signUp)
 router.get("/log-in", userController.logIn)
+
+//feedback related router
+router.get("/feedback", userController.userMustBeLoggedIn, userController.getConnectionsForHome,userController.getActiveContacts,messageController.unseenMessageNumber,notificationController.unseenNotificationNumber,feedbackController.getFeedbackForm)
+router.post("/getFeedback", userController.userMustBeLoggedIn,feedbackController.getFeedback)
 
 //user related router
 router.post('/doesUsernameExist', userController.doesUsernameExist)

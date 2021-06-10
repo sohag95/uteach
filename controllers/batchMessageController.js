@@ -3,7 +3,6 @@ const BatchMessage = require('../models/BatchMessage')
 
 exports.sentMessage = function(req, res) {
     let message = new BatchMessage(req.body,req.username,req.name,req.batch)
-    console.log("executed")
     message.sentMessage().then(()=> {
        res.redirect(`/group-chat/${req.batch._id}`)
     }).catch(function(errors) {
@@ -14,7 +13,6 @@ exports.sentMessage = function(req, res) {
 
   exports.getMessages=function(req,res){
      let groupMessages=req.batch.groupMessages
-     console.log("GroupMessages:",groupMessages)
      res.render('group-chat',{
       unseenMessages:req.unseenMessages,
       unseenNotifications:req.unseenNotifications,

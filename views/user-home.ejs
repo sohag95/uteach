@@ -13,7 +13,36 @@
           </a>
           <h6><i>(If you have updated address, ignore this banner.To remove this banner post something.)</i></h6>
         </div>
-    </div>
+      </div>
+
+      <%if(user.accountType=="student" || user.accountType=="studentTeacher"){%>
+      <div class="text-center mb-2 bg-warning" style="padding: 1rem;">
+        <div class="col" style="width: 100%;">
+          <i class="d-block bolder">(It is important to test all functionalities)</i>
+          <h5>Please visite one of the following batches and send an admission request.It will help you to find out new friends and you will get better experience of our app.</h5>
+          
+          <div class="row ">
+              <div class="col-sm-4 mb-1">
+                <a href="/viewSingleBatch/60b514866005a233ccd28c61">
+                  <div class="btn btn-primary">Sohag's batch <i class="fas fa-arrow-right"></i></div>
+                </a>
+              </div>
+              <div class="col-sm-4 mb-1">
+                <a href="/viewSingleBatch/60b552426d32cc2354a68a77">
+                  <div class="btn btn-primary">Debarati's batch <i class="fas fa-arrow-right"></i></div>
+                </a>
+              </div>
+              <div class="col-sm-4 mb-1">
+                <a href="/viewSingleBatch/60b5cfe2413a98000456109c">
+                  <div class="btn btn-primary">Pranab's batch <i class="fas fa-arrow-right"></i></div>
+                </a>
+              </div>
+          </div>
+
+          <h6><i>(If you have send batch admission request, ignore this banner.To remove this banner post something.)</i></h6>
+        </div>
+      </div>
+      <%}%>
     <%}%>
   <%- include('includes/post-form') %>
   <%- include('includes/designs/post-structure') %>

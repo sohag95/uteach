@@ -1,0 +1,107 @@
+<%- include('includes/header') %>
+<%- include('includes/flash') %>
+
+
+<div class="row mt-2">
+  <div class="col" ></div>
+  <div class="col-lg-8 " style="margin-bottom: 2rem;" >
+    <div class="signUp-form-container "> 
+      <%if(!feedbackGiven){%>
+      <h4 class="bolder">Feedback form</h4>
+      <form action="/getFeedback" method="POST" id="feedback-form">
+        <% regErrors.forEach(function(message) { %>
+          <div class="alert alert-danger small"><%= message %></div>
+          <% }) %>
+          <strong class="text-primary">Please give your feedback by answering following questions.</strong>
+          <hr>
+          <div class="form-group">
+            <label for="std-register" class="text-muted">1. Will the system helpful for students?</label>
+            <div id="std-register" class="text-center" style="display: flex;">
+              <div class="col-6 form-control form-control-sm ">
+              Yes <input name="stdHelpful" value="yes" type="radio" required autocomplete="off" />
+              </div>
+              <div class="col-6 form-control form-control-sm ">
+              No <input name="stdHelpful" value="no"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tec-register" class="text-muted">2. Will the system helpful for tutors/teachers?</label>
+            <div id="tec-register" class="text-center" style="display: flex;">
+              <div class="col-6 form-control form-control-sm ">
+              Yes <input name="tecHelpful" value="yes" type="radio" required autocomplete="off" />
+              </div>
+              <div class="col-6 form-control form-control-sm ">
+              No <input name="tecHelpful" value="no"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="error-register" class="text-muted">3. Did you get any error?</label>
+            <div id="error-register" class="text-center" style="display: flex;">
+              <div class="col-6 form-control form-control-sm ">
+              Yes <input name="hasError" value="yes" type="radio" required autocomplete="off" />
+              </div>
+              <div class="col-6 form-control form-control-sm ">
+              No <input name="hasError" value="no"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="userfriendly-register" class="text-muted">4. Does the website user-friendly?</label>
+            <div id="userfriendly-register" class="text-center" style="display: flex;">
+              <div class="col-4 form-control form-control-sm ">
+              Yes <input name="userFriendly" value="yes" type="radio" required autocomplete="off" />
+              </div>
+              <div class="col-4 form-control form-control-sm ">
+              So-so <input name="userFriendly" value="so-so"  type="radio"  autocomplete="off" />
+              </div>
+              <div class="col-4 form-control form-control-sm ">
+              No <input name="userFriendly" value="no"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="experiance-register" class="text-muted">5. How was your experience with the system?</label>
+            <div id="experiance-register" class="text-center" style="display: flex;">
+              <div class="col-4 form-control form-control-sm ">
+              Good <input name="experiance" value="good" type="radio" required autocomplete="off" />
+              </div>
+              <div class="col-4 form-control form-control-sm ">
+              So-so <input name="experiance" value="so-so"  type="radio"  autocomplete="off" />
+              </div>
+              <div class="col-4 form-control form-control-sm ">
+              Bad <input name="experiance" value="bad"  type="radio"  autocomplete="off" />
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="suggession-register" class="text-muted">6. Give your suggessions/comment</label>
+            <textarea required name="suggession" id="suggession-register" class="form-control form-control-sm " placeholder="Write your suggessions here..."  type="text"></textarea>
+          </div>
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+        <div style="text-align: center;">
+          <button class="btn btn-success btn-lg ">Submit feedback</button>
+        </div>
+      </form>
+
+    <%}else{%>
+      <div class="path text-center mb-2" style="padding: 1rem;">
+        <div class="col" style="width: 100%;">
+          <h5>You have given your valuable feedback.</h5>
+          <h4>Thank you so much for your feedback.</h4>
+          
+        </div>
+      </div>
+    <%}%>
+      </div>
+    </div>
+  <div class="col" ></div>
+</div>
+
+  <%- include('includes/footer') %>

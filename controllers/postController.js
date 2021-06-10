@@ -26,7 +26,6 @@ exports.getPhotoUploadForm=async function(req,res){
 }
 
 exports.createPost = function (req, res) {
-  console.log(req.body)
   if(req.body.postType=="photo"){
     let file = req.files.postFile
     let id=Operations.makeid()
@@ -36,7 +35,6 @@ exports.createPost = function (req, res) {
     req.body.filePath=filePath
     req.body.file=file
   }
-  console.log(req.body)
   let post = new Post(req.body, req.username, undefined, req.name)
   post
     .createPost()

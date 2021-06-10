@@ -120,14 +120,14 @@
       
       <%if(!batchOwner && !batchStudent && (user.accountType!="teacher")){%>
         <%if(applied){%>
-          <div class="text-center">
+          <div class="text-center p-2">
               <button class="btn btn-lg btn-warning btn-block">Request accepted,wait for response.</button>
           </div>
         <%}else{%>
-          <div class="text-center">
+          <div class="text-center p-2">
             <form action="/requestForAdmission/<%=batch._id%>" method="post">
               <input type="hidden" name="_csrf" value="<%=csrfToken%>">
-              <button class="btn btn-lg btn-primary btn-block" type="submit">Sent request for admission</button>
+              <button class="btn btn-lg btn-primary btn-block" type="submit">Sent request for admission <i class="fas fa-arrow-right"></i></button>
             </form>
           </div>
         <%}%>
