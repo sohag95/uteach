@@ -4,9 +4,9 @@
   <div class="col-lg-9 pt-1" >
     <div class="">
       <div style="width: 100%;position: relative;">
-        <img class="cover-image" src="/images/cover/cover-<%=profileHeaderData.username%>.jpg" width="1000" height="250"/>
+        <img class="cover-image" src="<%=profileHeaderData.coverPicLink%>" width="1000" height="250"/>
         <div class="text-center">
-          <img class="profile-image" src="/images/profile/profile-<%=profileHeaderData.username%>.jpg" />
+          <img class="profile-image" src="<%=profileHeaderData.profilePicLink%>" />
           <h5><strong>
             <%=profileHeaderData.name%>
             <%if(profileHeaderData.accountType=="teacher" || profileHeaderData.accountType=="studentTeacher"){%>

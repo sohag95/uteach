@@ -928,3 +928,16 @@ div.feedbackButton{
   color: #fff;
   font-size: 15px;
 }
+
+.coverPicUploadIcon{
+  position: relative;
+  margin-right: 18px;
+  top: -2rem;
+  float: right;
+}
+.profilePicUploadIcon{
+  position: relative;
+  margin-right: 18px;
+  top: -2rem;
+  float: right;
+}

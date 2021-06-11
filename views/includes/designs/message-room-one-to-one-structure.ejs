@@ -6,10 +6,12 @@
           <i class="fas fa-arrow-left"></i>
         </a>
       </div>
-      <div class="text-center" >
-        <img class="avatar-small"  src="/images/profile/profile-<%=messageTo.username%>.jpg" alt="">
-        <strong><%=messageTo.name%></strong>
-      </div>
+      <a href="/profile/<%=messageTo.username%>" style="text-decoration: none; color: #fff;">
+        <div class="text-center" >
+          <img class="avatar-small"  src="/images/profile/profile-<%=messageTo.username%>.jpg" alt="">
+          <strong><%=messageTo.name%></strong>
+        </div>
+      </a>
     </div>
     <div class="float-right">
       <i class="fas fa-ellipsis-v"></i>

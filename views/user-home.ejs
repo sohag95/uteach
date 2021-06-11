@@ -14,13 +14,11 @@
           <h6><i>(If you have updated address, ignore this banner.To remove this banner post something.)</i></h6>
         </div>
       </div>
-
       <%if(user.accountType=="student" || user.accountType=="studentTeacher"){%>
       <div class="text-center mb-2 bg-warning" style="padding: 1rem;">
         <div class="col" style="width: 100%;">
           <i class="d-block bolder">(It is important to test all functionalities)</i>
-          <h5>Please visite one of the following batches and send an admission request.It will help you to find out new friends and you will get better experience of our app.</h5>
-          
+          <h5>Please visite one of the following batches and sent an admission request.It will help you to find out new friends and you will get better experience of our app.</h5>
           <div class="row ">
               <div class="col-sm-4 mb-1">
                 <a href="/viewSingleBatch/60b514866005a233ccd28c61">
@@ -37,11 +35,23 @@
                   <div class="btn btn-primary">Pranab's batch <i class="fas fa-arrow-right"></i></div>
                 </a>
               </div>
-          </div>
-
+            </div>
           <h6><i>(If you have send batch admission request, ignore this banner.To remove this banner post something.)</i></h6>
         </div>
       </div>
+      <%}%>
+      <%if(user.accountType=="teacher" || user.accountType=="studentTeacher"){%>
+        <div class="text-center mb-2 bg-warning" style="padding: 1rem;">
+          <div class="col" style="width: 100%;">
+            <i class="d-block bolder">(It is important to test all functionalities)</i>
+            <h5>Please create a new batch.When students will sent request to admite on that batch then accept the request.Hence you will get your students.</h5>
+            <a href="/create-batch">
+              <div class="btn btn-primary btn-block"><i class="far fa-plus-square"></i>&nbsp; Create new batch</div>
+            </a>
+            <strong class="d-block">[It may take some time to get an admission request.Please visite frequently to the site.]</strong>
+            <h6><i>(If you have created batch and found students, ignore this banner.To remove this banner post something.)</i></h6>
+          </div>
+        </div>
       <%}%>
     <%}%>
   <%- include('includes/post-form') %>

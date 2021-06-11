@@ -190,8 +190,9 @@ User.prototype.userRegister = function () {
 User.prototype.userLogin = function () {
   return new Promise((resolve, reject) => {
     this.cleanUp()
+    let username=this.data.username.toLowerCase()
     usersCollection
-      .findOne({ username: this.data.username })
+      .findOne({ username:username })
       .then(attemptedUser => {
         if (attemptedUser && bcrypt.compareSync(this.data.password, attemptedUser.password)) {
           this.data = attemptedUser
@@ -244,6 +245,7 @@ User.findByUsername = function (username) {
             phone: userDocument.phone,
             accountType: userDocument.accountType,
             teacherData: userDocument.teacherData,
+            varifiedAccount:userDocument.teacherData.varifiedAccount,
             rating:userDocument.rating,
             createdDate: userDocument.createdDate
           }
@@ -262,6 +264,7 @@ User.findByUsername = function (username) {
             accountType: userDocument.accountType,
             studentData: userDocument.studentData,
             teacherData: userDocument.teacherData,
+            varifiedAccount:userDocument.teacherData.varifiedAccount,
             rating:userDocument.rating,
             createdDate: userDocument.createdDate
           }

@@ -96,7 +96,7 @@
       </div>
       <div class="post-form-container">
         <form action="/group-chat/<%=batchData._id%>" method="post" style="display: flex;">
-          <input name="message" type="text" class="post-input-field" placeholder="Write your message here." required>
+          <input name="message" type="text" class="post-input-field" placeholder="Write your message here." required autocomplete="off">
           <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button class="post-button text-primary"><i class="fas fa-paper-plane"></i></button>
         </form>

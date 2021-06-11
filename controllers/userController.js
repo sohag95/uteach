@@ -8,6 +8,7 @@ const batchCollection = require("../db").db().collection("batches")
 const homeTuitionCollection = require("../db").db().collection("homeTuition")
 const postsCollection = require("../db").db().collection("posts")
 const sessionsCollection = require("../db").db().collection("sessions")
+const fs = require("fs")
 
 exports.userMustBeLoggedIn = function (req, res, next) {
   if (req.session.user) {
@@ -219,7 +220,7 @@ exports.userLogin = function (req, res) {
     .catch(function (e) {
       req.flash("errors", e)
       req.session.save(function () {
-        res.redirect("/")
+        res.redirect("/log-in")
       })
     })
 }
@@ -250,7 +251,24 @@ exports.ifUserExists = function (req, res, next) {
       }
       let varifiedAccount=false
       if(req.profileUser.accountType=="teacher" || req.accountType=="studentTeacher"){
-        varifiedAccount=req.profileUser.teacherData.varifiedAccount
+        varifiedAccount=req.profileUser.varifiedAccount
+      }
+
+      let profilePic
+      let coverPic
+      let profilePicFile="profile-"+req.profileUser.username
+      let profileFilePath = "public/images/profile/" + profilePicFile + ".jpg"
+      let coverPicFIle="cover-"+req.profileUser.username
+      let coverFilePath = "public/images/cover/" + coverPicFIle + ".jpg"
+      if (fs.existsSync(profileFilePath)) {
+        profilePic="/images/profile/" + profilePicFile + ".jpg"
+      }else{
+        profilePic="/images/defaultImages/user.png"
+      }
+      if (fs.existsSync(coverFilePath)) {
+        coverPic="/images/cover/" + coverPicFIle + ".jpg"
+      }else{
+        coverPic="/images/defaultImages/coverImage.gif"
       }
       req.profileHeaderData={
         username:userDocument.username,
@@ -259,12 +277,14 @@ exports.ifUserExists = function (req, res, next) {
         isVisitorsProfile:req.isVisitorsProfile,
         accountType:req.profileUser.accountType,
         rating:rating,
+        profilePicLink:profilePic,
+        coverPicLink:coverPic,
         varifiedAccount:varifiedAccount
       }
       next()
     })
     .catch(function () {
-      console.log("executed here")
+      console.log("executed here...3")
       res.render("404")
     })
 }
@@ -285,6 +305,8 @@ exports.getConnectionsForProfile =async function (req, res, next) {
 }
 exports.getUserProfileData = async function (req, res) {
   try {
+    
+
     let allFeeds = await postsCollection.find({ username: req.profileUser.username}).toArray()
     
     if(req.username!=req.profileUser.username){
@@ -621,7 +643,7 @@ exports.logIn = function (req, res) {
     }else{
       req.flash("errors", "Please log out your account first to perform that action.")
       req.session.save(function() {
-        res.redirect("/")
+        res.redirect("/log-in")
       })
     } 
 }

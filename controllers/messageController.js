@@ -40,8 +40,7 @@ exports.getMessagesRoom = async function (req, res) {
 }
 exports.getSingleRoom = async function (req, res) {
   try {
-    
-    let messages = []
+    let messageRoom={}
     let isConnected=req.allConnections.includes(req.params.username)
     if(isConnected){
       let room = await Message.getExistsRoom(req.username, req.params.username)
@@ -50,7 +49,7 @@ exports.getSingleRoom = async function (req, res) {
         messageRoom = room
       } else {
         let createRoom = await Message.createRoom(req.username,req.name, req.params.username,req.profileUser.name)
-        messages = createRoom.messages
+        messageRoom = createRoom
       }
       let messageTo={
         username:req.profileUser.username,

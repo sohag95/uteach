@@ -1,9 +1,11 @@
 <div class=" mb-2">
   <div class="item-container" >
     <div style="display: flex;">
+      <a href="/profile/<%=user.username%>" style="text-decoration: none;">
       <div class="text-center">
         <img class="avatar-small" style="top:7px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=user.username%>.jpg" alt="">
       </div>
+    </a>
       <div class="post-form-container">
         <form action="/post-create" method="post" style="display: flex;">
           <textarea required name="body" id="post" class="post-input-field" placeholder="Write your thoughts here."  type="text"></textarea>
