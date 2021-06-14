@@ -2,7 +2,7 @@
 
 <div style="display: flex;flex-wrap: wrap;">
   <div class="col-lg"></div>
-  <div class="col-lg-7">
+  <div class="col-lg-7" >
 
     
   <h5 class="bolder text-prmary"><strong>Batch details</strong></h5>
@@ -66,10 +66,11 @@
       <%if(batch.batchMood=="online" && (batchStudent || batchOwner)){%>
         <div class="col-md-6" style="background-color:#f0f2f5; border-radius:5px">
           <span class="d-block text-center bolder"><strong>Online Class Details</strong></span>
-          <span class="d-block"><strong>Class Date : </strong> 03/05/2021</span>
-          <span class="d-block"><strong>Class Time: </strong> 10:00am</span>
-          <a href="#">
-            <span class="btn btn-block btn-warning mb-1">Go to the class <i class="fas fa-arrow-right"></i></span>
+          <span class="d-block"><strong>Class Date : </strong><%=batch.onlineClassDetails.classDate%> </span>
+          <span class="d-block"><strong>Class Time: </strong> <%=batch.onlineClassDetails.classTime%></span>
+          <div class="alert alert-danger  mb-0"><strong>Class Link :</strong><%=batch.onlineClassDetails.classLink%></div>
+          <a href="https://<%=batch.onlineClassDetails.classLink%>" target="blank">
+             <span class="btn btn-block btn-warning mb-1">Go to the class <i class="fas fa-arrow-right"></i></span>
           </a>
           <%if(batchOwner){%>
           <div class="text-center">
@@ -86,18 +87,18 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                      <form action="/updateOnlineClassDetailsRouter" method="post">
+                      <form action="/onlineBatch/<%=batch._id%>/update" method="post">
                         <div class="form-group" style="text-align: left;">
                           <label for="classDate" class="text-muted" ><small>Class Date </small></label>
-                          <input name="OnlineClassDate"  id="classDate" class="form-control form-control-sm " type="date" placeholder="status" autocomplete="off" />
+                          <input name="onlineClassDate" value="<%=batch.onlineClassDetails.classDate%>"  id="classDate" class="form-control form-control-sm " type="date" placeholder="status" autocomplete="off" />
                         </div>
                         <div class="form-group" style="text-align: left;">
                           <label for="OnlineClassTime" class="text-muted" ><small>Class Time </small></label>
-                          <input name="OnlineClassTime"  id="OnlineClassTime" class="form-control form-control-sm " type="text" placeholder="Class time" autocomplete="off" />
+                          <input name="onlineClassTime" value="<%=batch.onlineClassDetails.classTime%>"  id="OnlineClassTime" class="form-control form-control-sm " type="text" placeholder="Class time" autocomplete="off" />
                         </div>
                         <div class="form-group" style="text-align: left;">
                           <label for="classLink" class="text-muted" ><small>Class room link </small></label>
-                          <input name="OnlineClassLink"  id="classLink" class="form-control form-control-sm " type="text" placeholder="Paste class link (Google meet)" autocomplete="off" />
+                          <input name="onlineClassLink" value="<%=batch.onlineClassDetails.classLink%>"  id="classLink" class="form-control form-control-sm " type="text" placeholder="Paste class link (Google meet)" autocomplete="off" />
                         </div>
                         <input type="hidden" name="_csrf" value="<%=csrfToken%>">
                         <div style="text-align: left;">

@@ -2,9 +2,9 @@
 <%- include('includes/flash') %>
 
 
-<div class="row">
+<div style="display: flex;flex-wrap: wrap;">
   <div class="col" ></div>
-  <div class="col-lg-8 " style="margin-bottom: 2rem;" >
+  <div class="col-lg-8 " style="margin-bottom: 2rem;margin: 0;padding: 0;" >
     <h2 class="uteach text-primary mt-4 mb-2 text-center">Uteach</h2>
     <div class="signUp-form-container ">   
       <h2 class="bolder text-center">Create new account</h2>
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div class="form-group">
-            <label for="username-register" class="text-muted"><small>Username [Username will be used for log in]</small></label>
+            <label for="username-register" class="text-muted"><small>Username <i class="text-danger">[Username will be used for log in]</i></small></label>
             <input name="username" required id="username-register" class="form-control form-control-lg " type="text" placeholder="Choose an username" autocomplete="off" />
           </div>
           <div class="form-group">

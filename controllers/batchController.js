@@ -135,6 +135,33 @@ exports.editBatch = function (req, res) {
   }
 }
 
+
+exports.updateOnlineDetails = function (req, res) {
+  if(req.batch.username==req.username){
+    if(req.batch.batchMood=="online"){
+      let batch = new Batch(req.body)
+      batch
+        .editOnlineClassDetails(req.batch._id)
+        .then(function () {
+          req.flash("success", "Online class details successfully updated.")
+          req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
+        })
+        .catch(function () {
+          batch.errors.forEach(function(error) {
+            req.flash("errors", error)
+          })
+          req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
+        })
+    }else{
+      req.flash("errors", "This batch is in Offline-mode.First convert the batch into online mode!!")
+      req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
+    }
+  }else{
+    req.flash("errors", "You have no permission to perform that action!!")
+    req.session.save(() => res.redirect(`/viewSingleBatch/${req.batch._id}`))
+  }
+}
+
 exports.ifBatchExists = function (req, res, next) {
   Batch.findSingleBatchById(req.params._id)
     .then(function (batch) {

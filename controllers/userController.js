@@ -57,7 +57,8 @@ exports.userMustBeLoggedInAsStudent = function (req, res, next) {
 }
 // log in check end
 exports.doesUsernameExist = function(req, res) {
-  User.findByUsername(req.body.username).then(function() {
+  let username=req.body.username.toLowerCase()
+  User.findByUsername(username).then(function() {
     res.json(true)
   }).catch(function() {
     res.json(false)
@@ -580,7 +581,7 @@ exports.userHome =async function (req, res) {
     let allConnections=req.allConnections
     allConnections.push(req.username)
     let allFeeds = await postsCollection.find({ username: { $in: allConnections } }).toArray()
-    allFeeds=Operations.shuffle(allFeeds)
+    allFeeds=Operations.shuffle(allFeeds).slice(0,20)
      res.render("user-home",{
       myActiveConnections:req.myActiveConnections,
       unseenMessages:req.unseenMessages,
@@ -603,12 +604,12 @@ exports.guestHome = async function (req, res) {
     let shuffleHomeTuitions=Operations.shuffle(homeTuitions)
 
     // first five batches
-    let fiveBatches=shuffleBatches.slice(0,6)
-    let fiveHomeTuitions=shuffleHomeTuitions.slice(0,6)
+    let fiveBatches=shuffleBatches.slice(0,10)
+    let fiveHomeTuitions=shuffleHomeTuitions.slice(0,10)
     
     let teachersWithRating=await Rating.teachersRating()
-    let highestRatedBatchTeachers=teachersWithRating.batchTeachers.sort((a, b) => b.averageRating -a.averageRating);
-    let highestRatedTuitionTeachers=teachersWithRating.tuitionTeachers.sort((a, b) => b.averageRating -a.averageRating);
+    let highestRatedBatchTeachers=teachersWithRating.batchTeachers.sort((a, b) => b.averageRating -a.averageRating).slice(0,10);
+    let highestRatedTuitionTeachers=teachersWithRating.tuitionTeachers.sort((a, b) => b.averageRating -a.averageRating).slice(0,10);
    
     res.render("home-guest", {
       fiveBatches: fiveBatches,

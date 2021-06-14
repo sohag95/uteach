@@ -1,11 +1,13 @@
 <%- include('includes/header') %>
  <%- include('includes/flash') %>
 
-<div class="row">
+<div style="display: flex;flex-wrap: wrap;">
   <div class="col" ></div>
-  <div class="col-lg-8 mt-2 mb-2"  >
+  <div class="col-lg-8 mt-2 mb-2"  style="margin: 0;padding: 0;">
     <div class="signUp-form-container ">   
-      <h2 class="bolder text-left">Edit your batch data</h2>
+      <a class="small font-weight-bold" href="/viewSingleBatch/<%= editableData.batchId %>">&laquo; Back to batch details</a>
+  
+      <h4 class="bolder text-left">Edit your batch details</h4>
       <form action="/batch/<%=editableData.batchId%>/edit" method="POST" id="createBatch-form">
         <strong class="text-primary"> Batch related data</strong>
         <div class="row">
@@ -15,7 +17,7 @@
               <option value="<%=editableData.stream%>"><%=editableData.stream%></option>
               <option value="science">Science</option>
               <option value="arts">Arts</option>
-              <option value="commarts">Commarts</option>
+              <option value="commerce">Commerce</option>
               <option value="others">Others</option>
             </select>
           </div>

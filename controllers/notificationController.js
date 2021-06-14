@@ -23,7 +23,7 @@ exports.getNotifications = async function (req, res) {
             unseenNotificationNumber: 0
             }
       })
-    let notifications=notificationRoom.notifications.reverse()
+    let notifications=notificationRoom.notifications.reverse().slice(0,30)
     res.render("notifications", {
       myActiveConnections:req.myActiveConnections,
       unseenNotifications:req.unseenNotifications,

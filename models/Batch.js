@@ -66,6 +66,11 @@ Batch.prototype.cleanUp = function () {
       policeStation: sanitizeHTML(this.data.policeStation.trim(), { allowedTags: [], allowedAttributes: {} }),
       postOffice: sanitizeHTML(this.data.postOffice.trim(), { allowedTags: [], allowedAttributes: {} }),  
     },
+    onlineClassDetails:{
+      classDate:"",
+      classTime:"",
+      classLink:""
+    },
     nearBy: sanitizeHTML(this.data.nearBy.trim(), { allowedTags: [], allowedAttributes: {} }),
     batchMood:sanitizeHTML(this.data.batchMood.trim(), { allowedTags: [], allowedAttributes: {} }),
     appliedStudents: [],
@@ -182,6 +187,45 @@ Batch.prototype.editBatch = function (batchId) {
           address:address,
           nearBy: this.data.nearBy,
           batchMood:this.data.batchMood
+        }
+      })
+      resolve()
+    } else {
+      reject()
+    }
+  }catch{
+    reject()
+  }
+  })
+}
+
+Batch.prototype.editOnlineClassDetails = function (batchId) {
+  return new Promise(async(resolve, reject) => {
+    try{  
+    // clean up data
+
+    //validate data
+    if (this.data.onlineClassDate == "") {
+    this.errors.push("You must provide class date.")
+    }
+    if (this.data.onlineClassTime == "") {
+      this.errors.push("You must provide class time.")
+    }
+    if (this.data.onlineClassLink == "") {
+      this.errors.push("You must provide class link.")
+    }
+
+    if (!this.errors.length) {
+      // save batch into database
+     let onlineClassDetails={
+        classDate: this.data.onlineClassDate,
+        classTime: this.data.onlineClassTime,
+        classLink: this.data.onlineClassLink,  
+      }
+      await batchCollection.findOneAndUpdate(
+        { _id: new ObjectID(batchId) },
+        {$set: {
+          onlineClassDetails:onlineClassDetails
         }
       })
       resolve()

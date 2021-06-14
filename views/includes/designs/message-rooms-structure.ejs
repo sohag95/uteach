@@ -14,7 +14,7 @@
            <% active=true%>
           <%}%>
         <%})%>
-        <a href="/single-chat/<%=room.user1%>">
+        <a href="/single-chat/<%=room.user1%>" style="text-decoration: none;">
           <div class="message-room" style="display: flex;">
             <div class="text-center" >
               <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=room.user1%>.jpg" alt="">
@@ -43,7 +43,7 @@
                 </div>
               </div>
               <div>
-                <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user1?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message.slice(0,30)%>...</span>  
+                <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user1?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message.slice(0,40)%>...</span>  
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@
            <% active=true%>
           <%}%>
         <%})%>
-        <a href="/single-chat/<%=room.user2%>">
+        <a href="/single-chat/<%=room.user2%>" style="text-decoration: none;">
           <div class="message-room" style="display: flex;">
             <div class="text-center" >
               <img class="avatar-small" style="top:12px ;margin-left: 0rem;margin-right: 2px;" src="/images/profile/profile-<%=room.user2%>.jpg" alt="">
@@ -83,7 +83,7 @@
                 </div>
               </div>
               <div>
-                <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user2?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message.slice(0,30)%>...</span>
+                <span class="d-block"><strong><%=room.messages[room.messages.length-1].from==room.user2?" " : "You:"%> </strong><%=room.messages[room.messages.length-1].message.slice(0,40)%>...</span>
               </div>
             </div>
           </div>

@@ -42,7 +42,7 @@
             <img class="teacher-image"  src="/images/profile/profile-<%=teacher.username%>.jpg" alt="">
             <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
               <strong class="d-block"><%=teacher.name%></strong>
-              <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%></span>
+              <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%>.</span>
               <div class="text-warning">
                 <%rating=teacher.averageRating%>
                 <%- include('includes/designs/rating-stars') %>
@@ -67,7 +67,7 @@
             <img class="teacher-image"  src="/images/profile/profile-<%=teacher.username%>.jpg" alt="">
             <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
               <strong class="d-block"><%=teacher.name%></strong>
-              <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%></span>
+              <span class="d-block"><strong>Address : </strong> <%=teacher.address.district%> ,<%=teacher.address.policeStation%> ,<%=teacher.address.postOffice%>.</span>
               <div class="text-warning">
                 <%rating=teacher.averageRating%>
                 <%- include('includes/designs/rating-stars') %>
@@ -105,7 +105,7 @@
             <div class="text-left" style="padding-bottom: 5px;padding-left: 2px;">
               <span class="d-block"><strong>Class : </strong> <%=batch.class%></span>
               <span class="d-block"><strong>Subject : </strong> <%=batch.subjects%></span>
-              <span class="d-block"><strong>Address : </strong> <%=batch.address.district%> ,<%=batch.address.policeStation%> ,<%=batch.address.postOffice%>, Near by-<%=batch.nearBy%> </span>
+              <span class="d-block"><strong>Address : </strong> <%=batch.address.district%> ,<%=batch.address.policeStation%> ,<%=batch.address.postOffice%>, Near by-<%=batch.nearBy%> .</span>
               <a href="/viewSingleBatch/<%=batch._id%>">
                 <div class="class btn btn-primary btn-sm">
                 Batch details

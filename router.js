@@ -73,6 +73,7 @@ router.post("/requestForAdmission/:_id", userController.userMustBeLoggedInAsStud
 router.get("/viewSingleBatch/:_id", userController.userMustBeLoggedIn, batchController.ifBatchExists,messageController.unseenMessageNumber,notificationController.unseenNotificationNumber, batchController.getSingleBatch)
 router.get("/batch/:_id/edit", userController.userMustBeLoggedInAsTeacher, batchController.ifBatchExists,messageController.unseenMessageNumber,notificationController.unseenNotificationNumber, batchController.getBatchEditForm)
 router.post("/batch/:_id/edit", userController.userMustBeLoggedInAsTeacher,batchController.ifBatchExists, batchController.editBatch)
+router.post("/onlineBatch/:_id/update", userController.userMustBeLoggedInAsTeacher,batchController.ifBatchExists, batchController.updateOnlineDetails)
 
 router.post("/acceptRequest/:_id/batch", userController.userMustBeLoggedInAsTeacher, batchController.ifBatchExists, batchController.acceptRequest)
 router.post("/deleteRequest/:_id/batch", userController.userMustBeLoggedInAsTeacher, batchController.ifBatchExists, batchController.deleteRequest)
